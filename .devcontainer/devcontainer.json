@@ -1,0 +1,31 @@
+{
+  "name": "Nx Medusa Workspace Environment",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest",
+      "ppa": "false"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh"
+      },
+      "extensions": [
+        "nrwl.angular-console",
+        "angular.ng-template",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "mtxr.sqltools",
+        "mtxr.sqltools-driver-pg",
+        "eamodio.gitlens"
+      ]
+    }
+  },
+  "forwardPorts": [9000, 7001, 8000, 8100, 4200, 5432, 6379],
+  "postCreateCommand": "pnpm install",
+  "remoteUser": "node"
+}

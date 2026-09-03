@@ -6,6 +6,7 @@ loadEnv(process.env.NODE_ENV || 'development', process.cwd())
 module.exports = defineConfig({
   projectConfig: {
     databaseUrl: process.env.DATABASE_URL,
+    redisUrl: process.env.REDIS_URL,
     http: {
       storeCors: process.env.STORE_CORS!,
       adminCors: process.env.ADMIN_CORS!,
@@ -44,13 +45,6 @@ module.exports = defineConfig({
         document_language: process.env.DOCUMENT_LANGUAGE || "en"
       }
     },
-    // {
-    //   resolve: "@devx-commerce/strapi",
-    //   options: {
-    //     base_url: process.env.STRAPI_URL,
-    //     api_key: process.env.STRAPI_API_KEY,
-    //   },
-    // },
   ],
   modules: {
     auth: {
@@ -58,20 +52,23 @@ module.exports = defineConfig({
       dependencies: [Modules.CACHE, ContainerRegistrationKeys.LOGGER],
       options: {
         providers: [
-          // other providers...
           {
             resolve: "@medusajs/medusa/auth-emailpass",
             id: "emailpass",
           },
-          {
-            resolve: "@medusajs/medusa/auth-google",
-            id: "google",
-            options: {
-              clientId: process.env.GOOGLE_CLIENT_ID,
-              clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-              callbackUrl: process.env.GOOGLE_CALLBACK_URL,
-            },
-          },
+          ...(process.env.GOOGLE_CLIENT_ID
+            ? [
+                {
+                  resolve: "@medusajs/medusa/auth-google",
+                  id: "google",
+                  options: {
+                    clientId: process.env.GOOGLE_CLIENT_ID,
+                    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+                    callbackUrl: process.env.GOOGLE_CALLBACK_URL,
+                  },
+                },
+              ]
+            : []),
         ],
       },
     },
@@ -129,13 +126,17 @@ module.exports = defineConfig({
       resolve: "@medusajs/medusa/payment",
       options: {
         providers: [
-          {
-            resolve: "@medusajs/payment-stripe",
-            id: "stripe",
-            options: {
-              apiKey: process.env.STRIPE_API_KEY,
-            },
-          },
+          ...(process.env.STRIPE_API_KEY
+            ? [
+                {
+                  resolve: "@medusajs/payment-stripe",
+                  id: "stripe",
+                  options: {
+                    apiKey: process.env.STRIPE_API_KEY,
+                  },
+                },
+              ]
+            : []),
         ],
       },
     },

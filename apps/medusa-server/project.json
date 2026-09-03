@@ -41,6 +41,30 @@
       },
       "cache": false
     },
+    "docker:up": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker compose up -d",
+        "cwd": "."
+      },
+      "cache": false
+    },
+    "docker:down": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker compose down",
+        "cwd": "."
+      },
+      "cache": false
+    },
+    "docker:logs": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker compose logs -f",
+        "cwd": "."
+      },
+      "cache": false
+    },
     "migrate": {
       "executor": "nx:run-commands",
       "options": {

@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "docker:up": "nx run medusa-server:docker:up",
+    "docker:down": "nx run medusa-server:docker:down",
+    "docker:logs": "nx run medusa-server:docker:logs",
     "medusa:dev": "nx serve medusa-server",
     "medusa:tunel": "nx tunel medusa-server",
     "medusa:build": "nx build medusa-server",
