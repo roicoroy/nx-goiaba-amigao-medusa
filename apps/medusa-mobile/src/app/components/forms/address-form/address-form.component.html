@@ -1,0 +1,213 @@
+<form [formGroup]="addressForm" class="w-full max-w-[600px] mx-auto">
+  <!-- Email Field (conditional) -->
+  @if (showEmail) {
+  <div class="space-y-1 mb-4">
+    <ion-item [class.border-error-500]="isFieldInvalid('email')"
+              class="rounded-lg shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200">
+      <ion-label position="floating" class="text-neutral-700 font-medium">{{ 'delivery.email' | translate }} *</ion-label>
+      <ion-input
+        formControlName="email"
+        type="email"
+        [placeholder]="'address.placeholders.email' | translate"
+        [clearInput]="true"
+        class="text-neutral-900 placeholder:text-neutral-500">
+      </ion-input>
+    </ion-item>
+    @if (isFieldInvalid('email')) {
+    <div class="text-error-500 text-xs px-3 a ">
+      <small>{{ getFieldError('email') }}</small>
+    </div>
+    }
+  </div>
+  }
+
+  <!-- Name Fields -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+    <div class="space-y-1">
+      <ion-item [class.border-error-500]="isFieldInvalid('first_name')"
+                class="rounded-lg shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200">
+        <ion-label position="floating" class="text-neutral-700 font-medium">{{ 'address.first_name' | translate }} *</ion-label>
+        <ion-input
+          formControlName="first_name"
+          type="text"
+          placeholder="First name"
+          [clearInput]="true"
+          class="text-neutral-900 placeholder:text-neutral-500">
+        </ion-input>
+      </ion-item>
+      @if (isFieldInvalid('first_name')) {
+      <div class="text-error-500 text-xs px-3 a ">
+        <small>{{ getFieldError('first_name') }}</small>
+      </div>
+      }
+    </div>
+
+    <div class="space-y-1">
+      <ion-item [class.border-error-500]="isFieldInvalid('last_name')"
+                class="rounded-lg shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200">
+        <ion-label position="floating" class="text-neutral-700 font-medium">{{ 'address.last_name' | translate }} *</ion-label>
+        <ion-input
+          formControlName="last_name"
+          type="text"
+          [placeholder]="'address.placeholders.last_name' | translate"
+          [clearInput]="true"
+          class="text-neutral-900 placeholder:text-neutral-500">
+        </ion-input>
+      </ion-item>
+      @if (isFieldInvalid('last_name')) {
+      <div class="text-error-500 text-xs px-3 a ">
+        <small>{{ getFieldError('last_name') }}</small>
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- Company Field (conditional) -->
+  @if (showCompany) {
+  <div class="mb-4">
+    <ion-item class="rounded-lg shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200">
+      <ion-label position="floating" class="text-neutral-700 font-medium">{{ 'address.company' | translate }}</ion-label>
+      <ion-input
+        formControlName="company"
+        type="text"
+        [placeholder]="'address.placeholders.company' | translate"
+        [clearInput]="true"
+        class="text-neutral-900 placeholder:text-neutral-500">
+      </ion-input>
+    </ion-item>
+  </div>
+  }
+
+  <!-- Address Fields -->
+  <div class="space-y-1 mb-4">
+    <ion-item [class.border-error-500]="isFieldInvalid('address_1')"
+              class="rounded-lg shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200">
+      <ion-label position="floating" class="text-neutral-700 font-medium">{{ 'address.address_line_1' | translate }} *</ion-label>
+      <ion-input
+        formControlName="address_1"
+        type="text"
+        [placeholder]="'address.placeholders.address_line_1' | translate"
+        [clearInput]="true"
+        class="text-neutral-900 placeholder:text-neutral-500">
+      </ion-input>
+    </ion-item>
+    @if (isFieldInvalid('address_1')) {
+    <div class="text-error-500 text-xs px-3 a ">
+      <small>{{ getFieldError('address_1') }}</small>
+    </div>
+    }
+  </div>
+
+  <div class="mb-4">
+    <ion-item class="rounded-lg shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200">
+      <ion-label position="floating" class="text-neutral-700 font-medium">{{ 'address.address_line_2' | translate }}</ion-label>
+      <ion-input
+        formControlName="address_2"
+        type="text"
+        [placeholder]="'address.placeholders.address_line_2' | translate"
+        [clearInput]="true"
+        class="text-neutral-900 placeholder:text-neutral-500">
+      </ion-input>
+    </ion-item>
+  </div>
+
+  <!-- City and Postal Code Row -->
+  <div class="grid grid-cols-1 sm:grid-cols-[2fr_1fr] gap-4 mb-4">
+    <div class="space-y-1">
+      <ion-item [class.border-error-500]="isFieldInvalid('city')"
+                class="rounded-lg shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200">
+        <ion-label position="floating" class="text-neutral-700 font-medium">{{ 'address.city' | translate }} *</ion-label>
+        <ion-input
+          formControlName="city"
+          type="text"
+          [placeholder]="'address.placeholders.city' | translate"
+          [clearInput]="true"
+          class="text-neutral-900 placeholder:text-neutral-500">
+        </ion-input>
+      </ion-item>
+      @if (isFieldInvalid('city')) {
+      <div class="text-error-500 text-xs px-3 a ">
+        <small>{{ getFieldError('city') }}</small>
+      </div>
+      }
+    </div>
+
+    <div class="space-y-1">
+      <ion-item [class.border-error-500]="isFieldInvalid('postal_code')"
+                class="rounded-lg shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200">
+        <ion-label position="floating" class="text-neutral-700 font-medium">{{ 'address.postal_code' | translate }} *</ion-label>
+        <ion-input
+          formControlName="postal_code"
+          type="text"
+          placeholder="Postal code"
+          [clearInput]="true"
+          class="text-neutral-900 placeholder:text-neutral-500">
+        </ion-input>
+      </ion-item>
+      @if (isFieldInvalid('postal_code')) {
+      <div class="text-error-500 text-xs px-3 a ">
+        <small>{{ getFieldError('postal_code') }}</small>
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- Country Selection -->
+  <div class="space-y-1 mb-4">
+    <ion-item [class.border-error-500]="isFieldInvalid('country_code')"
+              class="rounded-lg shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200">
+      <ion-label position="floating" class="text-neutral-700 font-medium">{{ 'address.country' | translate }} *</ion-label>
+      <ion-select
+        formControlName="country_code"
+        [placeholder]="'address.placeholders.country' | translate"
+        (ionChange)="onCountryChange($event)"
+        class="text-neutral-900">
+        @for (region of regionList$ | async; track region.country) {
+        <ion-select-option [value]="region.country">
+          {{ region.label }}
+        </ion-select-option>
+        }
+      </ion-select>
+    </ion-item>
+    @if (isFieldInvalid('country_code')) {
+    <div class="text-error-500 text-xs px-3 a ">
+      <small>{{ getFieldError('country_code') }}</small>
+    </div>
+    }
+  </div>
+
+  <!-- Province/State Field -->
+  <div class="mb-4">
+    <ion-item class="rounded-lg shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200">
+      <ion-label position="floating" class="text-neutral-700 font-medium">{{ 'address.province' | translate }}</ion-label>
+      <ion-input
+        formControlName="province"
+        type="text"
+        [placeholder]="'address.placeholders.province' | translate"
+        [clearInput]="true"
+        class="text-neutral-900 placeholder:text-neutral-500">
+      </ion-input>
+    </ion-item>
+  </div>
+
+  <!-- Phone Field -->
+  <div class="space-y-1 mb-4">
+    <ion-item [class.border-error-500]="isFieldInvalid('phone')"
+              class="rounded-lg shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200">
+      <ion-label position="floating" class="text-neutral-700 font-medium">{{ 'phone' | translate }} *</ion-label>
+      <ion-input
+        formControlName="phone"
+        type="tel"
+        [placeholder]="'address.placeholders.phone' | translate"
+        [clearInput]="true"
+        class="text-neutral-900 placeholder:text-neutral-500">
+      </ion-input>
+    </ion-item>
+    @if (isFieldInvalid('phone')) {
+    <div class="text-error-500 text-xs px-3 a ">
+      <small>{{ getFieldError('phone') }}</small>
+    </div>
+    }
+  </div>
+
+</form>

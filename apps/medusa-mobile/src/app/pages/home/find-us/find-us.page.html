@@ -1,0 +1,55 @@
+<app-goiaba-header [showMenuButton]="true"></app-goiaba-header>
+
+<ion-content [fullscreen]="true" class="find-us-content">
+
+  <!-- Map Section -->
+  <section class="map-section">
+    <div class="container">
+      <div class="content-wrapper">
+        <div class="text-center header-section">
+          <h2 class="page-title">
+            {{ 'find_us.page.visit_us' | translate }}
+          </h2>
+          <p class="page-subtitle">
+            {{ 'find_us.page.subtitle' | translate }}
+          </p>
+        </div>
+
+        <!-- Map Container -->
+        <div class="map-wrapper">
+          <div id="map" class="map-container"></div>
+        </div>
+
+        <!-- Location Info Card -->
+        <app-goiaba-card
+          variant="elevated"
+          [showHeader]="true"
+          [title]="'find_us.page.location_title' | translate"
+          [subtitle]="'find_us.page.location_subtitle' | translate"
+          borderRadius="rounded-xl"
+          shadow="shadow-xl"
+          padding="large"
+          customClass="location-card">
+          <div class="address-info">
+            <div class="address-item flex items-start gap-4">
+              <ion-icon name="map-outline" class="address-icon text-goiaba-primary text-2xl flex-shrink-0 mt-1"></ion-icon>
+              <div class="address-details">
+                <p class="address-label text-theme-secondary text-sm font-medium mb-2">{{ 'find_us.page.address' | translate }}</p>
+                <p class="address-text text-theme-primary leading-relaxed">
+                  Rua Amazonas, 211<br>
+                  Álvares Florence, SP<br>
+                  CEP: 15540-000<br>
+                  Brazil
+                </p>
+              </div>
+            </div>
+          </div>
+        </app-goiaba-card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <app-goiaba-footer></app-goiaba-footer>
+
+</ion-content>

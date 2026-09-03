@@ -1,0 +1,215 @@
+<app-goiaba-header titleKey="products.product_details" [showBackButton]="true"></app-goiaba-header>
+
+<ion-content [fullscreen]="true" class="product-details-content">
+  <div class="container mx-auto px-4 py-6">
+
+    @if (loading) {
+    <!-- Loading State -->
+    <div class="flex justify-center items-center min-h-[400px]">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+    } @else if (error) {
+    <!-- Error State -->
+    <div class="alert alert-error">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <span>{{ error }}</span>
+    </div>
+    } @else if (product) {
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumbs text-sm mb-4">
+      <ul>
+        <li><a routerLink="/products/products-daisy">Products</a></li>
+        @if (product.collection?.title) {
+        <li>{{ product.collection.title }}</li>
+        }
+        <li>{{ product.title }}</li>
+      </ul>
+    </div>
+
+    <!-- Product Layout: Images + Details -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+
+      <!-- Image Gallery -->
+      @if (validImages.length > 0) {
+      <div class="space-y-4">
+        <!-- Main Image -->
+        <div class="carousel w-full rounded-box bg-base-200 min-h-[400px] flex items-center justify-center">
+          @for (img of validImages; track img.url; let i = $index) {
+          <div [id]="'slide' + i" class="carousel-item relative w-full" [class.hidden]="i !== activeImageIndex">
+            <img [src]="img.url" [alt]="product.title"
+              class="w-full h-full object-contain cursor-pointer transition-transform duration-300 hover:scale-105"
+              (click)="openImage(img.url)" />
+          </div>
+          }
+        </div>
+
+        <!-- Thumbnail Navigation -->
+        @if (validImages.length > 1) {
+        <div class="flex justify-center w-full py-2 gap-2 overflow-x-auto">
+          @for (img of validImages; track img.url; let i = $index) {
+          <button class="btn btn-xs" [class.btn-active]="i === activeImageIndex" (click)="onImageSelect(i)">
+            {{ i + 1 }}
+          </button>
+          }
+        </div>
+        }
+      </div>
+      }
+
+      <!-- Product Details -->
+      <div class="space-y-6">
+        <!-- Title -->
+        <h1 class="text-3xl font-bold">{{ product.title }}</h1>
+
+        <!-- Rating (placeholder) -->
+        <div class="rating rating-md">
+          @for (i of [1,2,3,4,5]; track i) {
+          <input type="radio" [checked]="i === 5" class="mask mask-star-2 bg-warning" disabled />
+          }
+          <span class="ml-2 text-sm text-base-content/60">(4.5)</span>
+        </div>
+
+        <!-- Price -->
+        <div class="space-y-2">
+          @if (hasProductDiscount) {
+          <div class="text-lg text-base-content/60 line-through">
+            {{ originalPrice | medusaCurrency }}
+          </div>
+          }
+          <div class="text-4xl font-bold text-primary">
+            {{ currentPrice | medusaCurrency }}
+          </div>
+          @if (hasProductDiscount) {
+          <div class="badge badge-warning">ROLLBACK</div>
+          }
+        </div>
+
+        <!-- Product Tags -->
+        @if (product.tags && product.tags.length > 0) {
+        <div class="flex flex-wrap gap-2">
+          @for (tag of product.tags; track tag) {
+          <div class="badge badge-outline">
+            {{ typeof tag === 'string' ? tag : tag?.value }}
+          </div>
+          }
+        </div>
+        }
+
+        <!-- Variants Selection -->
+        @if (hasProductVariants) {
+        <div class="space-y-3">
+          <h3 class="text-lg font-semibold">Select Variant</h3>
+          @if (variantsWithWishlistStatus$ | async; as variants) {
+          <div class="space-y-3">
+            @for (variant of variants; track variant.id) {
+            <div class="card bg-base-200 border-2 transition-all"
+              [class.border-primary]="selectedVariantId === variant.id"
+              [class.border-transparent]="selectedVariantId !== variant.id">
+              <div class="card-body p-4">
+                <div class="flex justify-between items-center gap-4">
+                  <div class="flex-grow">
+                    <h4 class="font-semibold">{{ getVariantTitle(variant) }}</h4>
+                    <p class="text-primary font-bold text-lg">
+                      {{ getVariantPrice(variant) | medusaCurrency }}
+                    </p>
+                  </div>
+                  <div class="flex gap-2">
+                    <button class="btn btn-circle btn-sm" [class.btn-error]="variant.isInWishlist"
+                      [class.btn-ghost]="!variant.isInWishlist" (click)="toggleVariantWishlist(variant, $event)">
+                      <ion-icon [name]="variant.isInWishlist ? 'heart' : 'heart-outline'"></ion-icon>
+                    </button>
+                    <button class="btn btn-primary btn-sm" (click)="selectVariant(variant.id); addToCart(variant)">
+                      Add to Cart
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            }
+          </div>
+          }
+        </div>
+        }
+
+        <!-- Add to Cart Button (for single variant products) -->
+        @if (!hasProductVariants && product.variants && product.variants.length > 0) {
+        <button class="btn btn-primary btn-block btn-lg" [disabled]="isAddingToCart" (click)="addToCart()">
+          @if (isAddingToCart) {
+          <ion-spinner name="crescent" class="mr-2"></ion-spinner>
+          } @else {
+          <ion-icon name="cart-outline" class="mr-2"></ion-icon>
+          }
+          Add to Cart
+        </button>
+        }
+
+        <!-- Quick Info -->
+        @if (product.weight || product.length || product.width || product.height) {
+        <div class="grid grid-cols-2 gap-4">
+          @if (product.weight) {
+          <div class="stat bg-base-200 rounded-box">
+            <div class="stat-title">Weight</div>
+            <div class="stat-value text-lg">{{ product.weight }}g</div>
+          </div>
+          }
+          @if (product.length || product.width || product.height) {
+          <div class="stat bg-base-200 rounded-box">
+            <div class="stat-title">Dimensions</div>
+            <div class="stat-value text-lg">
+              @if (product.length && product.width && product.height) {
+              {{ product.length }}×{{ product.width }}×{{ product.height }}cm
+              }
+            </div>
+          </div>
+          }
+        </div>
+        }
+      </div>
+    </div>
+
+    <!-- 3D Product Viewer Section -->
+    <div class="mb-8">
+      <div class="flex items-center gap-2 mb-4">
+        <h2 class="text-2xl font-bold">3D Product View</h2>
+        <div class="badge badge-primary badge-sm">BETA</div>
+      </div>
+      <app-product-3d-viewer
+        [modelUrl]="'/assets/sweatshirt+3d+model.glb'"
+        [autoRotate]="true">
+      </app-product-3d-viewer>
+    </div>
+
+    @if (product && product.id) {
+    <app-goiaba-review [productId]="product.id"></app-goiaba-review>
+    } @else {
+    <div class="alert alert-info">
+      <ion-icon name="information-circle-outline"></ion-icon>
+      <span>Product information is loading...</span>
+    </div>
+    }
+
+
+    <h2 class="text-2xl font-bold mb-4">Specifications</h2>
+    @if (product.metadata && typeof product.metadata === 'object') {
+    <div class="space-y-2">
+      @for (entry of product.metadata | keyvalue; track entry.key) {
+      <div class="flex justify-between py-2 border-b border-base-300">
+        <span class="font-semibold">{{ entry.key }}</span>
+        <span class="text-base-content/80">{{ entry.value }}</span>
+      </div>
+      }
+    </div>
+    } @else {
+    <p class="text-base-content/60">No specifications available.</p>
+    }
+
+
+    <h2 class="text-2xl font-bold mb-4">Description</h2>
+    <p class="text-base-content/80 whitespace-pre-line">
+      {{ product.description || 'No description available.' }}
+    </p>
+
+    }
+  </div>
+</ion-content>

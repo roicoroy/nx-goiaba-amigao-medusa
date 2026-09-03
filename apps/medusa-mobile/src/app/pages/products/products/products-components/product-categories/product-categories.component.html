@@ -1,0 +1,112 @@
+<ion-toolbar class="bg-white">
+  @if (categoriesLoading) {
+  <div class="flex items-center justify-center gap-3 p-5">
+    <ion-spinner name="crescent" class="text-goiaba-primary"></ion-spinner>
+    <ion-label class="text-neutral-600 text-sm">Loading categories...</ion-label>
+  </div>
+  } @else if (error && productCategories.length === 0) {
+  <div class="flex items-center justify-center gap-3 p-3">
+    <ion-label color="danger" class="text-sm">{{ error }}</ion-label>
+    <app-goiaba-ion-button (click)="retry()" variant="clear" size="small" iconStart="refresh" customClass="!m-0">
+      Retry
+    </app-goiaba-ion-button>
+  </div>
+  } @else if (viewState$ | async; as vs) {
+  <ion-segment [scrollable]="true" [value]="type" class="bg-neutral-100 rounded-2xl p-1">
+    <ion-segment-button value="all" (click)="all()" class="rounded-xl transition-all duration-200">
+      <ion-label class="text-sm font-medium">
+        All
+      </ion-label>
+    </ion-segment-button>
+    @for (cat of vs.productsCategories; track cat.id) {
+    <ion-segment-button [value]="cat.id" (click)="navigateSegment(cat)" class="rounded-xl transition-all duration-200">
+      <ion-label class="text-sm font-medium">
+        {{ cat.name }}
+      </ion-label>
+    </ion-segment-button>
+    }
+  </ion-segment>
+  }
+</ion-toolbar>
+
+<div class="px-4 py-2">
+  <!-- Loading state -->
+  @if (loading && !error) {
+  <div class="flex items-center justify-center gap-3 p-10">
+    <ion-spinner name="crescent" class="text-goiaba-primary"></ion-spinner>
+    <ion-label class="text-neutral-600 text-sm">Loading products...</ion-label>
+  </div>
+  }
+
+  <!-- Error state -->
+  @else if (error) {
+  <div class="flex flex-col items-center justify-center text-center p-10">
+    <ion-icon name="alert-circle" class="text-error-500 text-5xl mb-4"></ion-icon>
+    <h3 class="my-4 text-error-500 font-semibold text-lg">{{ error }}</h3>
+    <app-goiaba-ion-button (click)="refreshCategory()" variant="outline" iconStart="refresh" customClass="!mt-4">
+      Try Again
+    </app-goiaba-ion-button>
+  </div>
+  }
+
+  <!-- Category info header -->
+  @else if (selectedCategoryDetails && type !== 'all') {
+  <div class="text-center border-b border-neutral-200 mb-5 p-5">
+    <h2 class="mb-2 text-goiaba-primary font-semibold text-xl m-0">{{ selectedCategoryDetails.name }}</h2>
+    @if (selectedCategoryDetails.description) {
+    <p class="m-0 text-neutral-600 text-sm leading-relaxed">{{ selectedCategoryDetails.description }}</p>
+    }
+  </div>
+  }
+
+  <!-- Products grid -->
+  @if (!loading && !error) {
+  @if (type === 'all') {
+  @if (allProductsList.length > 0) {
+  <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+    @for (ca of allProductsList; track ca.id) {
+    <app-goiaba-card variant="elevated" [clickable]="true" [hover]="true" padding="none" customClass="h-full"
+      (cardClick)="detailsPage(ca)">
+      <div class="w-full aspect-square flex items-center justify-center overflow-hidden">
+        <img [src]="ca.images?.[0]?.url || 'assets/placeholder-product.png'"
+          (error)="$event.target.src='assets/placeholder-product.png'"
+          class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" />
+      </div>
+    </app-goiaba-card>
+    }
+  </div>
+  } @else {
+  <div class="flex flex-col items-center justify-center text-center p-15">
+    <ion-icon name="storefront-outline" class="text-neutral-500 text-5xl mb-5"></ion-icon>
+    <h3 class="mb-3 text-neutral-900 font-medium text-lg m-0">No products available</h3>
+    <p class="m-0 mb-5 text-neutral-600 text-sm leading-relaxed">Check back later for new products.</p>
+  </div>
+  }
+  } @else {
+  @if (productsList.length > 0) {
+  <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+    @for (ca of productsList; track ca.id) {
+    <app-goiaba-card variant="elevated" [clickable]="true" [hover]="true" padding="none" customClass="h-full"
+      (cardClick)="detailsPage(ca)">
+      <div class="w-full aspect-square flex items-center justify-center overflow-hidden">
+        <img [src]="ca.images?.[0]?.url || 'assets/placeholder-product.png'"
+          (error)="$event.target.src='assets/placeholder-product.png'"
+          class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" />
+      </div>
+    </app-goiaba-card>
+    }
+  </div>
+  } @else {
+  <div class="flex flex-col items-center justify-center text-center p-15">
+    <ion-icon name="file-tray-outline" class="text-neutral-500 text-5xl mb-5"></ion-icon>
+    <h3 class="mb-3 text-neutral-900 font-medium text-lg m-0">No products in this category</h3>
+    <p class="m-0 mb-5 text-neutral-600 text-sm leading-relaxed">Try selecting a different category or check "All"
+      products.</p>
+    <app-goiaba-ion-button (click)="all()" variant="outline" customClass="!mt-2">
+      View All Products
+    </app-goiaba-ion-button>
+  </div>
+  }
+  }
+  }
+</div>

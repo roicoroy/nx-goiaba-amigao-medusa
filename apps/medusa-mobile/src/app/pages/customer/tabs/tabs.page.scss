@@ -1,0 +1,44 @@
+.cart-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 10px;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  pointer-events: none; // Badge shouldn't block clicks
+}
+
+ion-tab-button {
+  position: relative;
+}
+
+// Ensure tabs content is always interactive
+ion-tabs {
+  pointer-events: auto;
+  
+  ion-router-outlet {
+    pointer-events: auto;
+    
+    .ion-page {
+      pointer-events: auto !important;
+      
+      ion-content {
+        pointer-events: auto !important;
+        
+        // Ensure all interactive elements are clickable
+        button,
+        ion-button,
+        a,
+        [button],
+        ion-item[button] {
+          pointer-events: auto !important;
+        }
+      }
+    }
+  }
+}

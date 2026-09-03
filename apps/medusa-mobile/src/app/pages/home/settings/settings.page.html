@@ -1,0 +1,49 @@
+<app-goiaba-header titleKey="settings" [showBackButton]="false"></app-goiaba-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-card class="mx-auto max-w-md">
+    <ion-card-header>
+      <ion-card-title class="flex items-center gap-3">
+        <ion-icon name="settings-outline" class="text-primary"></ion-icon>
+        {{ 'settings' | translate }}
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list>
+
+        <!-- Dark Mode Toggle -->
+        <ion-item>
+          <ion-label>{{ 'dark_mode' | translate }}</ion-label>
+          <ion-note slot="end">
+            <app-theme></app-theme>
+          </ion-note>
+        </ion-item>
+
+        <!-- Language Selector -->
+        <ion-item>
+          <ion-label>{{ 'language' | translate }}</ion-label>
+          <ion-note slot="end">
+            <app-translate></app-translate>
+          </ion-note>
+        </ion-item>
+
+        <!-- Region Selector -->
+        <ion-item>
+          <app-region-select></app-region-select>
+        </ion-item>
+
+      </ion-list>
+
+      <!-- Save Settings Button -->
+      <ion-button expand="block" color="primary" class="mt-6 h-12">
+        {{ 'save_settings' | translate }}
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Footer -->
+  <app-goiaba-footer></app-goiaba-footer>
+
+</ion-content>

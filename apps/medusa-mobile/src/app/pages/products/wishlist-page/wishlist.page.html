@@ -1,0 +1,137 @@
+<app-goiaba-header titleKey="wishlist.title" [showBackButton]="false" [showCart]="true"></app-goiaba-header>
+
+<ion-content [fullscreen]="true" class="wishlist-content">
+
+  <div class="container px-4 py-4">
+    <!-- Loading State -->
+    @if (loading$ | async) {
+      <div class="flex flex-col items-center justify-center py-16 px-4">
+        <ion-spinner name="crescent" class="mb-4"></ion-spinner>
+        <p class="text-neutral-600 text-sm">Loading wishlist...</p>
+      </div>
+    }
+
+    <!-- Error State -->
+    @if (error$ | async; as error) {
+      <div class="flex flex-col items-center justify-center py-16 px-4 text-center">
+        <ion-icon name="warning-outline" class="text-6xl text-warning-500 mb-4"></ion-icon>
+        <h3 class="text-xl font-semibold text-neutral-900 mb-2">Wishlist Error</h3>
+        <p class="text-neutral-600 mb-6 max-w-md">{{ error }}</p>
+        <ion-button (click)="ngOnInit()" fill="outline" color="primary"
+          class="rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
+          <ion-icon name="refresh-outline" slot="start"></ion-icon>
+          Retry
+        </ion-button>
+      </div>
+    }
+
+    <!-- Not Logged In State -->
+    @if (!(isLoggedIn$ | async) && !(loading$ | async) && !(error$ | async)) {
+      <div class="flex flex-col items-center justify-center py-16 px-4 text-center">
+        <ion-icon name="lock-closed-outline" class="text-6xl text-neutral-400 mb-4"></ion-icon>
+        <h3 class="text-xl font-semibold text-neutral-900 mb-2">Please Log In</h3>
+        <p class="text-neutral-600 mb-6 max-w-md">You need to be logged in to view your wishlist.</p>
+        <ion-button (click)="goToLogin()" fill="solid" color="primary"
+          class="rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
+          <ion-icon name="log-in-outline" slot="start"></ion-icon>
+          Go to Login
+        </ion-button>
+      </div>
+    }
+
+    <!-- Empty Wishlist State -->
+    @if ((isLoggedIn$ | async) && (isEmpty$ | async) && !(loading$ | async) && !(error$ | async)) {
+      <div class="flex flex-col items-center justify-center py-16 px-4 text-center">
+        <ion-icon name="heart-outline" class="text-6xl text-neutral-400 mb-4"></ion-icon>
+        <h3 class="text-xl font-semibold text-neutral-900 mb-2">Your Wishlist is Empty</h3>
+        <p class="text-neutral-600 mb-6 max-w-md">Start adding products to your wishlist to see them here.</p>
+        <ion-button (click)="goToProducts()" fill="solid" color="primary"
+          class="rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
+          <ion-icon name="bag-outline" slot="start"></ion-icon>
+          Continue Shopping
+        </ion-button>
+      </div>
+    }
+
+    <!-- Wishlist Items -->
+    @if ((isLoggedIn$ | async) && (hasItems$ | async) && !(loading$ | async) && !(error$ | async)) {
+      <div class="space-y-4">
+        @for (itemUI of wishlistItemsWithUI(); track trackByFn($index, itemUI)) {
+          <ion-card class="wishlist-item-card rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
+            <ion-card-content class="p-4">
+              <div class="flex gap-4">
+                <!-- Product Image -->
+                <div (click)="goToProductFromWishlistItem(itemUI)"
+                     class="flex-shrink-0 cursor-pointer group">
+                  <div class="w-24 h-24 md:w-32 md:h-32 rounded-lg overflow-hidden bg-neutral-100 flex items-center justify-center">
+                    <ion-img
+                      [src]="itemUI.displayImage"
+                      [alt]="itemUI.displayTitle"
+                      (ionError)="handleImageError($index)"
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200">
+                    </ion-img>
+                  </div>
+                </div>
+
+                <!-- Product Details -->
+                <div class="flex-1 min-w-0">
+                  <h3 (click)="goToProductFromWishlistItem(itemUI)"
+                      class="text-lg font-semibold text-neutral-900 mb-2 cursor-pointer hover:text-goiaba-primary transition-colors duration-200 line-clamp-2">
+                    {{ itemUI.displayTitle }}
+                  </h3>
+
+                  <p class="text-sm text-neutral-600 mb-3 line-clamp-2">
+                    {{ itemUI.displayDescription }}
+                  </p>
+
+                  <!-- Variant and Product Info Row -->
+                  <div class="flex flex-wrap gap-2 mb-3">
+                    <!-- Variant Info -->
+                    @if (itemUI.product_variant?.title) {
+                      <ion-chip color="primary" outline="true" class="m-0">
+                        <ion-label class="text-xs">
+                          {{ itemUI.product_variant?.title }}
+                        </ion-label>
+                      </ion-chip>
+                    }
+
+                    <!-- SKU Info -->
+                    @if (itemUI.product_variant?.sku) {
+                      <ion-chip color="medium" outline="true" class="m-0">
+                        <ion-label class="text-xs">
+                          SKU: {{ itemUI.product_variant?.sku }}
+                        </ion-label>
+                      </ion-chip>
+                    }
+                  </div>
+
+                  <!-- Action Buttons -->
+                  <div class="flex items-center gap-3 mt-3">
+                    <ion-button
+                      (click)="addToCart(itemUI)"
+                      fill="solid"
+                      size="default"
+                      color="primary"
+                      class="rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 flex-1 md:flex-none">
+                      <ion-icon name="cart-outline" slot="start"></ion-icon>
+                      Add to Cart
+                    </ion-button>
+
+                    <ion-button
+                      (click)="removeFromWishlistItem(itemUI)"
+                      fill="clear"
+                      size="default"
+                      class="text-error-500 hover:bg-error-50 rounded-lg transition-colors duration-200">
+                      <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+                    </ion-button>
+                  </div>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        }
+      </div>
+    }
+  </div>
+
+</ion-content>

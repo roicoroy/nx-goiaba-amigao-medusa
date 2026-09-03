@@ -1,0 +1,175 @@
+/**
+ * Products Daisy Page Styles
+ * Using daisyUI components with custom enhancements
+ */
+
+// Ensure content is scrollable and uses daisyUI theme background
+.products-content {
+  --background: hsl(var(--b2));
+
+  &::part(scroll) {
+    background-color: hsl(var(--b2));
+  }
+}
+
+// Container spacing
+.container {
+  max-width: 1280px;
+}
+
+// Category Tabs Styling
+.tabs-boxed {
+  border-radius: var(--rounded-box, 1rem);
+  padding: 0.25rem;
+
+  .tab {
+    border-radius: calc(var(--rounded-box, 1rem) - 0.25rem);
+    transition: all 0.2s ease;
+
+    &.tab-active {
+      background-color: hsl(var(--p));
+      color: hsl(var(--pc));
+    }
+
+    &:hover:not(.tab-active) {
+      background-color: hsl(var(--b3));
+    }
+  }
+}
+
+// Product Card Enhancements
+.card {
+  // Ensure cards maintain aspect ratio and are clickable
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+
+  &:active {
+    transform: translateY(-2px);
+  }
+
+  // Product image container
+  figure {
+    position: relative;
+    margin: 0;
+    width: 100%;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  // Card body flex layout
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  // Badge positioning
+  .badge {
+    font-size: 0.625rem;
+    padding: 0.25rem 0.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  // Wishlist button styling
+  .btn-circle {
+    width: 2rem;
+    height: 2rem;
+    min-height: 2rem;
+    padding: 0;
+
+    ion-icon {
+      font-size: 1.125rem;
+    }
+  }
+
+  // Card title line clamp
+  .card-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .tabs-boxed {
+    .tab {
+      font-size: 0.875rem;
+      padding: 0.5rem 0.75rem;
+    }
+  }
+
+  .card {
+    .card-body {
+      padding: 0.75rem;
+    }
+
+    .card-title {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+// Empty state styling
+ion-icon[name="storefront-outline"],
+ion-icon[name="alert-circle"] {
+  opacity: 0.3;
+}
+
+// Loading spinner styling
+ion-spinner {
+  --color: hsl(var(--p));
+}
+
+// Ensure proper spacing for grid
+.grid {
+  gap: 1rem;
+
+  @media (min-width: 768px) {
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    gap: 1.5rem;
+  }
+}
+
+// Button hover effects
+.btn {
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+// Ensure cards are properly clickable
+.card {
+  cursor: pointer;
+  user-select: none;
+
+  * {
+    pointer-events: none;
+  }
+
+  button,
+  .btn {
+    pointer-events: auto;
+  }
+}

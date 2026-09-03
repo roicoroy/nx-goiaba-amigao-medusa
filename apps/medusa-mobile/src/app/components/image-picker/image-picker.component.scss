@@ -1,0 +1,12 @@
+/**
+ * Image Picker Component Styles
+ * Modern styles using Tailwind utilities
+ * Most styling is now handled by Tailwind classes in the template
+ */
+
+// Avatar-specific styles for host element
+:host(.profile-avatar-picker) {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

@@ -1,0 +1,17 @@
+<ion-content class="bg-transparent" [fullscreen]="true" [scrollY]="false" [style.--padding-start]="'0'" [style.--padding-end]="'0'" [style.--padding-top]="'0'" [style.--padding-bottom]="'0'">
+
+  <ion-toolbar class="fixed top-0 left-0 right-0 z-[1000] backdrop-blur-md bg-black/70 pointer-events-none">
+    <ion-buttons slot="end" class="pointer-events-auto">
+      <ion-button (click)="closeModal()" fill="clear"
+                  class="text-white p-3 mr-2 z-[1001] hover:text-neutral-200 transition-colors duration-200">
+        <ion-icon name="close" slot="icon-only" class="text-3xl"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <div class="flex items-center justify-center w-full h-full p-4 box-border relative">
+    <img [src]="imageUrl" [alt]="'Product Image'"
+         class="max-w-full max-h-full w-auto h-auto object-contain rounded-lg shadow-2xl transition-transform duration-300 a  select-none"
+         (error)="$event.target.src='assets/placeholder-product.png'">
+  </div>
+</ion-content>

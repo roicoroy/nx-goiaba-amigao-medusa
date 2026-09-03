@@ -1,0 +1,234 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Dashboard</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onLogout()" fill="clear">
+        <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="dashboard-container">
+    <!-- Error State -->
+    <ion-card *ngIf="error$ | async as error" color="danger">
+      <ion-card-content>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          <span>{{ error }}</span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Welcome Section -->
+    <div class="welcome-section" *ngIf="user$ | async as user">
+      <h2>Welcome back, {{ user.firstName || user.email }}!</h2>
+      <p>Here's what's happening with your store today</p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-grid" *ngIf="stats$ | async as stats">
+      <ion-card class="stat-card">
+        <ion-card-content>
+          <div class="stat-content">
+            <ion-icon name="receipt-outline" class="stat-icon orders"></ion-icon>
+            <div class="stat-info">
+              <h3>{{ stats.totalOrders }}</h3>
+              <p>Total Orders</p>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stat-card">
+        <ion-card-content>
+          <div class="stat-content">
+            <ion-icon name="time-outline" class="stat-icon pending"></ion-icon>
+            <div class="stat-info">
+              <h3>{{ stats.pendingOrders }}</h3>
+              <p>Pending Orders</p>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stat-card">
+        <ion-card-content>
+          <div class="stat-content">
+            <ion-icon name="people-outline" class="stat-icon customers"></ion-icon>
+            <div class="stat-info">
+              <h3>{{ stats.totalCustomers }}</h3>
+              <p>Customers</p>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stat-card">
+        <ion-card-content>
+          <div class="stat-content">
+            <ion-icon name="cash-outline" class="stat-icon revenue"></ion-icon>
+            <div class="stat-info">
+              <h3>{{ formatCurrency(stats.totalRevenue) }}</h3>
+              <p>Revenue</p>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Real-time Connection Status -->
+    <ion-card class="connection-status-card">
+      <ion-card-content>
+        <div class="connection-status">
+          <div class="status-indicator">
+            <ion-icon
+              [name]="connectionStatus === 'connected' ? 'radio-outline' : 'radio-button-off-outline'"
+              [color]="getStatusColor()">
+            </ion-icon>
+            <span [style.color]="connectionStatus === 'connected' ? 'var(--ion-color-success)' : 'var(--ion-color-medium)'">
+              {{ getStatusText() }}
+            </span>
+          </div>
+          <ion-button
+            *ngIf="connectionStatus === 'error'"
+            (click)="reconnectSSE()"
+            fill="clear"
+            size="small">
+            <ion-icon name="refresh-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Real-time Order Events -->
+    <ion-card class="section-card" *ngIf="recentOrderEvents.length > 0">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="notifications-outline"></ion-icon>
+          Live Order Notifications
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let orderEvent of recentOrderEvents; trackBy: trackByOrderId" class="order-event-item">
+            <ion-icon name="flash" slot="start" color="success"></ion-icon>
+            <ion-label>
+              <h3>🆕 Order #{{ orderEvent.orderId }}</h3>
+              <p>💰 ${{ orderEvent.total }} from {{ orderEvent.customerEmail }}</p>
+              <p class="timestamp">{{ orderEvent.timestamp | date:'short' }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Recent Orders Section -->
+    <ion-card class="section-card">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="receipt-outline"></ion-icon>
+          Recent Orders
+        </ion-card-title>
+        <ion-button fill="clear" size="small" (click)="viewOrders()">
+          View All
+          <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+        </ion-button>
+      </ion-card-header>
+      <ion-card-content>
+        <div *ngIf="loading$ | async" class="loading-container">
+          <ion-spinner></ion-spinner>
+          <p>Loading orders...</p>
+        </div>
+
+        <div *ngIf="(orders$ | async) as orders">
+          <div *ngIf="orders.length === 0 && !(loading$ | async)" class="empty-state">
+            <ion-icon name="receipt-outline"></ion-icon>
+            <p>No orders found</p>
+          </div>
+
+          <ion-list *ngIf="orders.length > 0">
+            <ion-item *ngFor="let order of orders" class="order-item" button [routerLink]="['/orders', order.id]">
+              <div class="order-content">
+                <div class="order-header">
+                  <h3>#{{ order.display_id || order.id.slice(-8) }}</h3>
+                  <div class="order-badges">
+                    <ion-badge [color]="getOrderStatusColor(order.status)">
+                      {{ order.status }}
+                    </ion-badge>
+                    <ion-badge [color]="getFulfillmentStatusColor(order.fulfillment_status)">
+                      {{ order.fulfillment_status || 'not_fulfilled' }}
+                    </ion-badge>
+                    <ion-badge [color]="getPaymentStatusColor(order.payment_status)">
+                      {{ order.payment_status }}
+                    </ion-badge>
+                  </div>
+                </div>
+                <div class="order-details">
+                  <p class="customer">
+                    <ion-icon name="person-outline"></ion-icon>
+                    {{ order.customer?.email || order.email || 'Guest' }}
+                  </p>
+                  <p class="amount">
+                    <ion-icon name="cash-outline"></ion-icon>
+                    {{ formatCurrency(order.total || 0) }}
+                  </p>
+                  <p class="items-count">
+                    <ion-icon name="cube-outline"></ion-icon>
+                    {{ order.items?.length || 0 }} item(s)
+                  </p>
+                  <p class="date">
+                    <ion-icon name="calendar-outline"></ion-icon>
+                    {{ formatDate(order.created_at) }}
+                  </p>
+                </div>
+              </div>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Quick Actions -->
+    <ion-card class="section-card">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="flash-outline"></ion-icon>
+          Quick Actions
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="actions-grid">
+          <ion-button expand="block" fill="outline" (click)="viewOrders()">
+            <ion-icon name="receipt-outline" slot="start"></ion-icon>
+            Manage Orders
+          </ion-button>
+          <!-- <ion-button expand="block" fill="outline" (click)="viewCustomers()">
+            <ion-icon name="people-outline" slot="start"></ion-icon>
+            View Customers
+          </ion-button>
+          <ion-button expand="block" fill="solid" color="success" (click)="testNotification()">
+            <ion-icon name="notifications" slot="start"></ion-icon>
+            🧪 Test Notification Alert
+          </ion-button>
+          <ion-button expand="block" fill="outline" color="primary" (click)="testSSEConnection()">
+            <ion-icon name="radio-outline" slot="start"></ion-icon>
+            🔌 Test WebSocket Connection
+          </ion-button>
+          <ion-button expand="block" fill="solid" color="primary" (click)="initializeWebSocket()">
+            <ion-icon name="power-outline" slot="start"></ion-icon>
+            🚀 Initialize WebSocket Server
+          </ion-button> -->
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

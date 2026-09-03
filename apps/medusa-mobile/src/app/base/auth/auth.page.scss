@@ -1,0 +1,34 @@
+/**
+ * Auth Page Styles
+ * Modern styles using Tailwind utilities
+ * Most styling is now handled by Tailwind classes in the template
+ */
+
+// Fade-in animation for page content
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+// Ensure proper spacing for ion-card components
+ion-card {
+  --background: transparent;
+}
+
+// Override default ion-card-content padding if needed
+ion-card-content {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+}

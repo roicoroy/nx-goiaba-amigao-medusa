@@ -1,0 +1,218 @@
+/**
+ * Goiaba Ion Button Component Styles
+ * CSS-based styling using attribute selectors
+ * No computed class methods - all styles defined in CSS
+ */
+
+// Component host styles
+:host {
+  display: inline-block;
+}
+
+// Base button styles - reset Ionic defaults
+.goiaba-button {
+  --background: transparent;
+  --color: inherit;
+  --border-width: 0;
+  --border-style: none;
+  --border-color: transparent;
+  --box-shadow: none;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  margin: 0;
+  
+  // Base styles for all buttons
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  min-height: 44px;
+  min-width: 44px;
+  
+  // Default border radius
+  border-radius: 0.5rem;
+  
+  // Default border (can be overridden)
+  border: 0;
+}
+
+// Border radius overrides via attribute
+.goiaba-button[border-radius="rounded-full"] {
+  border-radius: 9999px;
+}
+
+.goiaba-button[border-radius="rounded-xl"] {
+  border-radius: 0.75rem;
+}
+
+.goiaba-button[border-radius="rounded-2xl"] {
+  border-radius: 1rem;
+}
+
+// Variant: Primary
+.goiaba-button[variant="primary"] {
+  background-color: var(--goiaba-primary, #f97316);
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.goiaba-button[variant="primary"]:hover:not([disabled]) {
+  background-color: var(--goiaba-600, #ea580c);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+// Variant: Secondary
+.goiaba-button[variant="secondary"] {
+  background-color: var(--goiaba-secondary, #dc2626);
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.goiaba-button[variant="secondary"]:hover:not([disabled]) {
+  background-color: var(--goiaba-600, #ea580c);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+// Variant: Danger
+.goiaba-button[variant="danger"] {
+  background-color: #ef4444;
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.goiaba-button[variant="danger"]:hover:not([disabled]) {
+  background-color: #dc2626;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+// Variant: Outline
+.goiaba-button[variant="outline"] {
+  background-color: transparent;
+  color: var(--goiaba-primary, #f97316);
+  border: 2px solid var(--goiaba-primary, #f97316);
+}
+
+.goiaba-button[variant="outline"]:hover:not([disabled]) {
+  background-color: #fff7ed;
+}
+
+// Variant: Clear
+.goiaba-button[variant="clear"] {
+  background-color: transparent;
+  color: #111827;
+}
+
+.goiaba-button[variant="clear"]:hover:not([disabled]) {
+  background-color: #f3f4f6;
+}
+
+// Size: Small
+.goiaba-button[size="small"] {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+// Size: Default
+.goiaba-button[size="default"],
+.goiaba-button:not([size]) {
+  padding: 0.1em 1rem 0.1rem;
+  font-size: 1rem;
+}
+
+// Size: Large
+.goiaba-button[size="large"] {
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+}
+
+// Icon-only buttons
+.goiaba-button[icon-only] {
+  padding: 0.5rem;
+  aspect-ratio: 1;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+// Border width overrides
+.goiaba-button[border-width="0"] {
+  border: 0;
+}
+
+.goiaba-button[border-width="1"] {
+  border-width: 1px;
+}
+
+.goiaba-button[border-width="2"] {
+  border-width: 2px;
+}
+
+.goiaba-button[border-width="4"] {
+  border-width: 4px;
+}
+
+.goiaba-button[border-width="8"] {
+  border-width: 8px;
+}
+
+// Disabled/loading state
+.goiaba-button[disabled],
+.goiaba-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+// Icon styles
+.button-icon {
+  color: inherit;
+  font-size: 1.25rem; // Default xl
+  flex-shrink: 0;
+}
+
+.goiaba-button[size="small"] .button-icon {
+  font-size: 1rem; // base
+}
+
+.goiaba-button[size="default"] .button-icon,
+.goiaba-button:not([size]) .button-icon {
+  font-size: 1.25rem; // xl
+}
+
+.goiaba-button[size="large"] .button-icon {
+  font-size: 1.5rem; // 2xl
+}
+
+.button-icon-start {
+  margin-right: 0.5rem;
+}
+
+.button-icon-end {
+  margin-left: 0.5rem;
+}
+
+// Spinner styles
+.button-spinner {
+  --color: currentColor;
+  flex-shrink: 0;
+}
+
+// Ensure spinner is properly sized
+.goiaba-button[size="small"] .button-spinner {
+  width: 1rem;
+  height: 1rem;
+}
+
+.goiaba-button[size="default"] .button-spinner,
+.goiaba-button:not([size]) .button-spinner {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.goiaba-button[size="large"] .button-spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+}

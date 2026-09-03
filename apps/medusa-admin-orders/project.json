@@ -1,0 +1,66 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "medusa-admin-orders",
+  "projectType": "application",
+  "sourceRoot": "apps/medusa-admin-orders/src",
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ionic serve --port 8101",
+        "cwd": "apps/medusa-admin-orders"
+      },
+      "cache": false
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/www"],
+      "options": {
+        "command": "ionic build",
+        "cwd": "apps/medusa-admin-orders"
+      },
+      "cache": true,
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ng test",
+        "cwd": "apps/medusa-admin-orders"
+      },
+      "cache": true
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ng lint",
+        "cwd": "apps/medusa-admin-orders"
+      },
+      "cache": true
+    },
+    "cap:sync": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ionic cap sync",
+        "cwd": "apps/medusa-admin-orders"
+      },
+      "cache": false
+    },
+    "cap:open:ios": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ionic cap open ios",
+        "cwd": "apps/medusa-admin-orders"
+      },
+      "cache": false
+    },
+    "cap:open:android": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ionic cap open android",
+        "cwd": "apps/medusa-admin-orders"
+      },
+      "cache": false
+    }
+  }
+}

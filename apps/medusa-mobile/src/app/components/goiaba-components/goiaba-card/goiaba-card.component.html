@@ -1,0 +1,22 @@
+<ion-card 
+  [class]="getCardClasses()"
+  (click)="handleClick($event)">
+  @if (showHeader && (title || subtitle)) {
+    <ion-card-header [class]="getHeaderClasses()">
+      @if (title) {
+        <ion-card-title [class]="getHeaderTitleClasses()">
+          {{ title }}
+        </ion-card-title>
+      }
+      @if (subtitle) {
+        <ion-card-subtitle [class]="getHeaderSubtitleClasses()">
+          {{ subtitle }}
+        </ion-card-subtitle>
+      }
+    </ion-card-header>
+  }
+  <ion-card-content [class]="getPaddingClasses()">
+    <ng-content></ng-content>
+  </ion-card-content>
+</ion-card>
+

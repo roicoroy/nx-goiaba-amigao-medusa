@@ -1,0 +1,127 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "medusa-mobile",
+  "projectType": "application",
+  "sourceRoot": "apps/medusa-mobile/src",
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ionic serve --port 8100",
+        "cwd": "apps/medusa-mobile"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/www"],
+      "options": {
+        "command": "ionic build",
+        "cwd": "apps/medusa-mobile"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ng test",
+        "cwd": "apps/medusa-mobile"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ng lint",
+        "cwd": "apps/medusa-mobile"
+      }
+    },
+    "cap:sync": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ionic cap sync",
+        "cwd": "apps/medusa-mobile"
+      }
+    },
+    "cap:open:ios": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ionic cap open ios",
+        "cwd": "apps/medusa-mobile"
+      }
+    },
+    "cap:open:android": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ionic cap open android",
+        "cwd": "apps/medusa-mobile"
+      }
+    },
+    "cap:build:ios": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "ionic cap build ios",
+        "cwd": "apps/medusa-mobile"
+      }
+    },
+    "cap:build:android": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "ionic cap build android",
+        "cwd": "apps/medusa-mobile"
+      }
+    },
+    "cap:run:ios": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["cap:build:ios"],
+      "options": {
+        "command": "ionic cap run ios",
+        "cwd": "apps/medusa-mobile"
+      }
+    },
+    "cap:run:android": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["cap:build:android"],
+      "options": {
+        "command": "ionic cap run android",
+        "cwd": "apps/medusa-mobile"
+      }
+    },
+    "cap:run:ios:device": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["cap:build:ios"],
+      "options": {
+        "command": "ionic cap run ios --target device",
+        "cwd": "apps/medusa-mobile"
+      }
+    },
+    "cap:run:android:device": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["cap:build:android"],
+      "options": {
+        "command": "ionic cap run android --target device",
+        "cwd": "apps/medusa-mobile"
+      }
+    },
+    "assets:generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx @capacitor/assets generate",
+        "cwd": "apps/medusa-mobile"
+      }
+    },
+    "assets:generate:ios": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx @capacitor/assets generate --ios",
+        "cwd": "apps/medusa-mobile"
+      }
+    },
+    "assets:generate:android": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx @capacitor/assets generate --android",
+        "cwd": "apps/medusa-mobile"
+      }
+    }
+  }
+}

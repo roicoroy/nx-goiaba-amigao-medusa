@@ -1,0 +1,10 @@
+<div slot="end" class="flex items-center gap-2">
+  <app-goiaba-swap
+    [checked]="appDarkMode()"
+    onIcon="moon"
+    offIcon="sunny"
+    [iconOnly]="true"
+    size="lg"
+    (swapChange)="onSwapChange($event)">
+  </app-goiaba-swap>
+</div>

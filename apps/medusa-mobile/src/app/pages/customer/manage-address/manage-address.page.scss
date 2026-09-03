@@ -1,0 +1,45 @@
+// Form action buttons container
+.form-actions {
+  margin-top: 32px;
+  padding: 0 16px;
+  
+  .submit-button {
+    margin-bottom: 16px;
+    --border-radius: 8px;
+    --padding-top: 16px;
+    --padding-bottom: 16px;
+    font-weight: 600;
+  }
+  
+  .cancel-button {
+    --border-radius: 8px;
+    --padding-top: 16px;
+    --padding-bottom: 16px;
+    font-weight: 600;
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 16px;
+  
+  ion-spinner {
+    margin-bottom: 16px;
+  }
+  
+  p {
+    color: var(--ion-color-medium);
+    font-size: 14px;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .form-actions {
+    padding: 0;
+  }
+}
+

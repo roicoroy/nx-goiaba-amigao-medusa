@@ -1,0 +1,15 @@
+<ion-item class="rounded-lg shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200 px-4">
+  <ion-label position="stacked" class="text-neutral-700 font-medium">Apply Discount Code</ion-label>
+  <ion-input [(ngModel)]="promoCode" 
+             placeholder="Enter promo code" 
+             clearInput="true"
+             class="text-neutral-900 placeholder:text-neutral-500">
+  </ion-input>
+  <ion-button slot="end" 
+              fill="clear" 
+              (click)="applyDiscount()" 
+              [disabled]="!promoCode.trim()"
+              class="text-goiaba-primary hover:text-goiaba-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 font-medium">
+    Apply
+  </ion-button>
+</ion-item>

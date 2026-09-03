@@ -1,0 +1,266 @@
+.search-container {
+  padding: 1rem;
+  background: var(--ion-color-light);
+}
+
+.filters-card {
+  margin: 0 1rem 1rem 1rem;
+
+  ion-card-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    color: var(--ion-color-primary);
+
+    ion-icon {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  ion-item {
+    --border-radius: 8px;
+    --background: var(--ion-color-light);
+  }
+}
+
+.filter-actions {
+  margin-top: 1rem;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+
+  ion-spinner {
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: var(--ion-color-medium);
+    margin: 0;
+  }
+}
+
+.error-card {
+  margin: 1rem;
+
+  .error-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+
+    ion-icon {
+      font-size: 3rem;
+      color: var(--ion-color-danger);
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      color: var(--ion-color-danger);
+      margin: 0 0 0.5rem 0;
+    }
+
+    p {
+      color: var(--ion-color-medium);
+      margin: 0 0 1.5rem 0;
+    }
+  }
+}
+
+.orders-container {
+  padding: 0 1rem 1rem 1rem;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+
+  ion-icon {
+    font-size: 4rem;
+    color: var(--ion-color-medium);
+    margin-bottom: 1rem;
+  }
+
+  h3 {
+    color: var(--ion-color-dark);
+    margin: 0 0 0.5rem 0;
+  }
+
+  p {
+    color: var(--ion-color-medium);
+    margin: 0 0 1.5rem 0;
+  }
+}
+
+.order-card {
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  ion-card-content {
+    padding: 1rem;
+  }
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+
+  .order-info {
+    flex: 1;
+
+    h3 {
+      margin: 0 0 0.25rem 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--ion-color-dark);
+    }
+
+    .customer-name {
+      margin: 0 0 0.25rem 0;
+      font-weight: 500;
+      color: var(--ion-color-primary);
+    }
+
+    .order-date {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--ion-color-medium);
+    }
+  }
+
+  .order-amount {
+    text-align: right;
+
+    h2 {
+      margin: 0;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--ion-color-success);
+    }
+  }
+}
+
+.order-details {
+  .status-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+
+    ion-badge {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      text-transform: capitalize;
+    }
+
+    .returns-badge {
+      font-weight: 600;
+      
+      ion-icon {
+        font-size: 0.875rem;
+        margin-right: 0.25rem;
+      }
+    }
+  }
+
+  .order-items {
+    p {
+      margin: 0 0 0.5rem 0;
+      font-weight: 500;
+      color: var(--ion-color-dark);
+    }
+
+    .item-preview {
+      font-size: 0.9rem;
+      color: var(--ion-color-medium);
+      line-height: 1.4;
+    }
+  }
+}
+
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--ion-color-light);
+
+  ion-button {
+    --border-radius: 6px;
+    font-size: 0.8rem;
+    height: 32px;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .filters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .order-header {
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .order-amount {
+      text-align: left;
+    }
+  }
+
+  .quick-actions {
+    ion-button {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .search-container,
+  .orders-container {
+    padding: 0.5rem;
+  }
+
+  .filters-card {
+    margin: 0 0.5rem 0.5rem 0.5rem;
+  }
+
+  .order-card {
+    ion-card-content {
+      padding: 0.75rem;
+    }
+  }
+
+  .status-badges {
+    ion-badge {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.4rem;
+    }
+  }
+}

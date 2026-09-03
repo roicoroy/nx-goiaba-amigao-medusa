@@ -1,0 +1,128 @@
+<app-goiaba-header titleKey="contact_us" [showBackButton]="false"></app-goiaba-header>
+
+<ion-content [fullscreen]="true" class="contact-us-content">
+  
+  <!-- Contact Form Section -->
+  <section class="contact-section py-16 md:py-24 bg-theme-primary">
+    <div class="container mx-auto px-4">
+      <div class="max-w-2xl mx-auto">
+        <div class="text-center header-section mb-12">
+          <h2 class="page-title">
+            {{ 'contact_us.page.get_in_touch' | translate }}
+          </h2>
+          <p class="page-subtitle">
+            {{ 'contact_us.page.subtitle' | translate }}
+          </p>
+        </div>
+
+        <app-goiaba-card
+          variant="elevated"
+          [showHeader]="true"
+          [title]="'contact_us.page.title' | translate"
+          [subtitle]="'contact_us.page.subtitle_description' | translate"
+          borderRadius="rounded-2xl"
+          shadow="shadow-xl"
+          padding="large"
+          headerBackgroundColor="bg-goiaba-primary"
+          headerTextColor="text-white"
+          customClass="border-0">
+          <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="space-y-6">
+              <!-- Name Field -->
+              <div class="space-y-1">
+                <ion-item class="rounded-xl shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200"
+                          [class.border-error-500]="hasError('name', 'required') || hasError('name', 'minlength')">
+                  <ion-label position="stacked" class="text-neutral-700 font-medium">
+                    {{ 'contact_us.page.form.name' | translate }} <ion-text color="danger">{{ 'contact_us.page.form.required' | translate }}</ion-text>
+                  </ion-label>
+                  <ion-input
+                    formControlName="name"
+                    type="text"
+                    [placeholder]="'contact_us.page.form.name_placeholder' | translate"
+                    class="text-neutral-900 placeholder:text-neutral-500">
+                  </ion-input>
+                </ion-item>
+                <div *ngIf="hasError('name', 'required') || hasError('name', 'minlength')" class="text-error-500 text-xs px-3">
+                  <small *ngIf="hasError('name', 'required')">{{ 'contact_us.page.form.name_required' | translate }}</small>
+                  <small *ngIf="hasError('name', 'minlength')">{{ 'contact_us.page.form.name_min_length' | translate }}</small>
+                </div>
+              </div>
+
+              <!-- Email Field -->
+              <div class="space-y-1">
+                <ion-item class="rounded-xl shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200"
+                          [class.border-error-500]="hasError('email', 'required') || hasError('email', 'email')">
+                  <ion-label position="stacked" class="text-neutral-700 font-medium">
+                    {{ 'contact_us.page.form.email' | translate }} <ion-text color="danger">{{ 'contact_us.page.form.required' | translate }}</ion-text>
+                  </ion-label>
+                  <ion-input
+                    formControlName="email"
+                    type="email"
+                    [placeholder]="'contact_us.page.form.email_placeholder' | translate"
+                    class="text-neutral-900 placeholder:text-neutral-500">
+                  </ion-input>
+                </ion-item>
+                <div *ngIf="hasError('email', 'required') || hasError('email', 'email')" class="text-error-500 text-xs px-3">
+                  <small *ngIf="hasError('email', 'required')">{{ 'contact_us.page.form.email_required' | translate }}</small>
+                  <small *ngIf="hasError('email', 'email')">{{ 'contact_us.page.form.email_invalid' | translate }}</small>
+                </div>
+              </div>
+
+              <!-- Subject Field -->
+              <div class="space-y-1">
+                <ion-item class="rounded-xl shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200"
+                          [class.border-error-500]="hasError('subject', 'required') || hasError('subject', 'minlength')">
+                  <ion-label position="stacked" class="text-neutral-700 font-medium">
+                    {{ 'contact_us.page.form.subject' | translate }} <ion-text color="danger">{{ 'contact_us.page.form.required' | translate }}</ion-text>
+                  </ion-label>
+                  <ion-input
+                    formControlName="subject"
+                    type="text"
+                    [placeholder]="'contact_us.page.form.subject_placeholder' | translate"
+                    class="text-neutral-900 placeholder:text-neutral-500">
+                  </ion-input>
+                </ion-item>
+                <div *ngIf="hasError('subject', 'required') || hasError('subject', 'minlength')" class="text-error-500 text-xs px-3">
+                  <small *ngIf="hasError('subject', 'required')">{{ 'contact_us.page.form.subject_required' | translate }}</small>
+                  <small *ngIf="hasError('subject', 'minlength')">{{ 'contact_us.page.form.subject_min_length' | translate }}</small>
+                </div>
+              </div>
+
+              <!-- Message Field -->
+              <div class="space-y-1">
+                <ion-item class="rounded-xl shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200"
+                          [class.border-error-500]="hasError('message', 'required') || hasError('message', 'minlength')">
+                  <ion-label position="stacked" class="text-neutral-700 font-medium">
+                    {{ 'contact_us.page.form.message' | translate }} <ion-text color="danger">{{ 'contact_us.page.form.required' | translate }}</ion-text>
+                  </ion-label>
+                  <ion-textarea
+                    formControlName="message"
+                    [placeholder]="'contact_us.page.form.message_placeholder' | translate"
+                    rows="6"
+                    class="text-neutral-900 placeholder:text-neutral-500">
+                  </ion-textarea>
+                </ion-item>
+                <div *ngIf="hasError('message', 'required') || hasError('message', 'minlength')" class="text-error-500 text-xs px-3">
+                  <small *ngIf="hasError('message', 'required')">{{ 'contact_us.page.form.message_required' | translate }}</small>
+                  <small *ngIf="hasError('message', 'minlength')">{{ 'contact_us.page.form.message_min_length' | translate }}</small>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <ion-button 
+                expand="block" 
+                type="submit"
+                [disabled]="contactForm.invalid && isSubmitted"
+                class="bg-goiaba-primary hover:bg-goiaba-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 mt-6 disabled:opacity-50 disabled:cursor-not-allowed">
+                <ion-icon name="send-outline" slot="start"></ion-icon>
+                {{ 'contact_us.page.form.send_message' | translate }}
+              </ion-button>
+            </form>
+        </app-goiaba-card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <app-goiaba-footer></app-goiaba-footer>
+
+</ion-content>

@@ -1,0 +1,77 @@
+<ion-content class="login-content">
+  <div class="login-container">
+    <div class="login-header">
+      <ion-icon name="storefront-outline" class="logo-icon"></ion-icon>
+      <h1>Medusa Admin</h1>
+      <p>Customer Orders Management</p>
+    </div>
+
+    <!-- Error Message Display -->
+    <ion-card *ngIf="errorMessage" class="error-card">
+      <ion-card-content>
+        <div class="error-content">
+          <ion-icon name="alert-circle-outline" class="error-icon"></ion-icon>
+          <div class="error-text">
+            <strong>Error</strong>
+            <p>{{ errorMessage }}</p>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <ion-item class="form-item">
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
+          [class.ion-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+          [disabled]="isAuthenticating"
+        ></ion-input>
+        <ion-note slot="error" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+          {{ getFieldErrorMessage('email') }}
+        </ion-note>
+      </ion-item>
+
+      <ion-item class="form-item">
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input
+          type="password"
+          formControlName="password"
+          placeholder="Enter your password"
+          [class.ion-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+          [disabled]="isAuthenticating"
+        ></ion-input>
+        <ion-note slot="error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+          {{ getFieldErrorMessage('password') }}
+        </ion-note>
+      </ion-item>
+
+      <ion-button
+        expand="block"
+        type="submit"
+        class="login-button"
+        [disabled]="loginForm.invalid || isAuthenticating"
+      >
+        <ion-spinner *ngIf="isAuthenticating" name="crescent" slot="start"></ion-spinner>
+        <ion-icon *ngIf="!isAuthenticating" name="log-in-outline" slot="start"></ion-icon>
+        {{ isAuthenticating ? 'Signing In...' : 'Sign In' }}
+      </ion-button>
+    </form>
+
+    <div class="login-footer">
+      <p>Access your Medusa admin dashboard to manage customer orders</p>
+      <p class="staff-notice">
+        <ion-icon name="shield-checkmark-outline"></ion-icon>
+        Store staff access only
+      </p>
+      <div class="register-link">
+        <p>
+          Don't have an account?
+          <a routerLink="/register" class="register-link-text">Register</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</ion-content>

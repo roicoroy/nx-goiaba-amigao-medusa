@@ -1,0 +1,236 @@
+{
+	"orders": "Pedidos",
+	"login": "Login",
+	"register": "Registre-se",
+	"logout": "Sair",
+	"manage_premium": "Gerenciar Premium",
+	"home": "Início",
+	"select_language": "Selecione seu idioma",
+	"ok": "OK",
+	"cancel": "Cancelar",
+	"settings": "Configurações",
+	"settings_description": "Personalize sua experiência",
+	"save_settings": "Salvar Configurações",
+	"get_image": "Adicionar Foto",
+	"first_name": "Nome",
+	"last_name": "Sobrenome",
+	"login_first": "Por favor, faça login primeiro.",
+	"english": "Inglês",
+	"portuguese": "Português",
+	"dark_mode": "Modo Escuro",
+	"language": "Idioma",
+	"appearance": "Aparência",
+	"contact_us": "Contact Us",
+	"contact_us_description": "Adoraríamos ouvir de você. Envie-nos uma mensagem e responderemos o mais rápido possível.",
+	"find_us": "Encontre-nos",
+	"find_us_description": "Visite-nos em nossa localização",
+	"tabs": {
+		"delivery": "Entrega",
+		"shipping": "Envio",
+		"payment": "Pagamento"
+	},
+	"delivery": {
+		"shipping_same": "Meu endereço de entrega é o mesmo que meu endereço de cobrança.",
+		"user_checkout_options": "Opções de checkout do usuário",
+		"create_account": "Criar Conta",
+		"checkout_as_guest": "Finalizar como Visitante",
+		"email": "E-mail",
+		"password": "Senha",
+		"confirm_password": "Confirmar Senha",
+		"password_match": "As senhas devem coincidir",
+		"password_hint": "Mínimo de oito caracteres, pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial (@$!%*#?&)"
+	},
+	"shipping": {
+		"shipping_methods": "Métodos de Envio",
+		"get_it_by": "receba até",
+		"is_a_gift": "Item é um presente",
+		"gift_options": "Opções de Presente",
+		"include_gift_receipt": "Incluir recibo de presente",
+		"recipient_name": "Nome do Destinatário",
+		"custom_message": "Mensagem Personalizada",
+		"gift_wrap": "Adicionar embrulho para presente"
+	},
+	"payment": {
+		"payment_method": "Método de Pagamento",
+		"card_number": "Número do Cartão",
+		"expiry_date": "Data de Validade",
+		"cvv": "CVV"
+	},
+	"address": {
+		"first_name": "Nome",
+		"last_name": "Sobrenome",
+		"address_line_1": "Endereço Linha 1",
+		"address_line_2": "Endereço Linha 2",
+		"city": "Cidade / Distrito",
+		"province": "Província / Estado",
+		"country": "País",
+		"postal_code": "Código Postal",
+		"company": "Empresa",
+		"shipping_address": "Endereço de Entrega",
+		"billing_address": "Endereço de Cobrança",
+		"placeholders": {
+			"email": "Digite o endereço de e-mail",
+			"first_name": "Nome",
+			"last_name": "Sobrenome",
+			"company": "Nome da empresa (opcional)",
+			"address_line_1": "Endereço",
+			"address_line_2": "Apartamento, suíte, etc. (opcional)",
+			"city": "Cidade",
+			"postal_code": "Código postal",
+			"country": "Selecione o país",
+			"province": "Província/Estado (opcional)",
+			"phone": "Número de telefone"
+		}
+	},
+	"phone": "Telefone",
+	"errors": {
+		"required": "Campo obrigatório",
+		"pattern": "Formato inválido",
+		"form_error": "Por favor, corrija todos os erros.",
+		"field_required": "{{field}} é obrigatório",
+		"email_invalid": "Por favor, insira um endereço de e-mail válido",
+		"min_length": "{{field}} deve ter pelo menos {{min}} caracteres",
+		"phone_invalid": "Por favor, insira um número de telefone válido (apenas dígitos, espaços, +, -, ())",
+		"postal_code_invalid": "Por favor, insira um código postal válido (3-10 caracteres)",
+		"format_invalid": "O formato de {{field}} é inválido"
+	},
+	"common": {
+		"next": "Próximo",
+		"pay": "Pagar",
+		"previous": "Anterior",
+		"reset": "Redefinir",
+		"review": "Revisar",
+		"edit": "Editar",
+		"restart": "Reiniciar"
+	},
+	"home": {
+		"hero": {
+			"title": "Bem-vindo ao Goiaba Goods Galore",
+			"subtitle": "Descubra os produtos mais estranhos, malucos e maravilhosos que você nunca soube que precisava!",
+			"description": "Sua loja única para itens incomuns, únicos e extraordinários de todo o mundo.",
+			"shop_now": "Comprar Agora"
+		},
+		"promo": {
+			"daily_offers": {
+				"title": "Ofertas diárias",
+				"subtitle": "em tudo que você ama",
+				"button": "Descobrir Mais"
+			},
+			"discover_unique": {
+				"title": "Descubra produtos únicos",
+				"subtitle": "de todo o mundo",
+				"button": "Comprar Agora"
+			},
+			"special_deals": {
+				"title": "Ofertas especiais",
+				"subtitle": "em produtos únicos",
+				"button": "Descobrir Mais"
+			},
+			"new_arrivals": {
+				"title": "Novidades",
+				"subtitle": "itens frescos e emocionantes",
+				"button": "Explorar Agora"
+			}
+		},
+		"features": {
+			"heading": "Por que comprar no Goiaba Goods Galore?",
+			"description": "Cuidamos dos produtos mais únicos e incomuns para trazer itens que você não encontrará em nenhum outro lugar.",
+			"unique_finds": {
+				"title": "Achados Únicos",
+				"description": "Descubra produtos únicos que você não encontrará em lojas regulares. Especializamo-nos no extraordinário!"
+			},
+			"global_selection": {
+				"title": "Seleção Global",
+				"description": "Produtos de todo o mundo, trazendo os melhores itens estranhos e maravilhosos de todos os cantos do globo."
+			},
+			"quality_assured": {
+				"title": "Qualidade Garantida",
+				"description": "Cada produto é cuidadosamente selecionado e verificado quanto à qualidade para garantir que você obtenha os melhores itens incomuns com ótimo valor."
+			}
+		},
+		"about": {
+			"heading": "Sobre o Goiaba Goods Galore",
+			"paragraph_1": "Bem-vindo ao Goiaba Goods Galore, seu destino para os produtos mais incomuns, únicos e fascinantes da internet! Somos como o eBay, mas com um toque - especializamo-nos no estranho, maravilhoso e maravilhosamente estranho.",
+			"paragraph_2": "Quer você esteja procurando gadgets excêntricos, colecionáveis incomuns, decoração bizarra para casa ou presentes que farão seus amigos dizerem \"O quê?!\" - estamos prontos para você. Nossa loja apresenta itens diversos de vendedores de todo o mundo, todos unidos por uma coisa: são tudo menos comuns.",
+			"paragraph_3": "Do prático-mas-incomum ao completamente-estranho, o Goiaba Goods Galore é onde seu próximo produto estranho favorito está esperando para ser descoberto. Comece a explorar e encontre algo exclusivamente você!"
+		}
+	},
+	"find_us": {
+		"description": "Visite-nos em nossa localização",
+		"page": {
+			"visit_us": "Visite-nos",
+			"subtitle": "Venha nos ver em nossa localização. Adoraríamos recebê-lo!",
+			"location_title": "Mini Mercado Amigão",
+			"location_subtitle": "Visite-nos em nossa localização",
+			"address": "Endereço"
+		}
+	},
+	"contact_us": {
+		"description": "Adoraríamos ouvir de você. Envie-nos uma mensagem e responderemos o mais rápido possível.",
+		"page": {
+			"get_in_touch": "Entre em Contato",
+			"subtitle": "Tem uma pergunta? Quer vender algo incomum? Adoraríamos ouvir de você!",
+			"title": "Entre em Contato",
+			"subtitle_description": "Adoraríamos ouvir de você",
+			"form": {
+				"name": "Nome",
+				"name_required": "Nome é obrigatório",
+				"name_min_length": "Nome deve ter pelo menos 2 caracteres",
+				"name_placeholder": "Digite seu nome",
+				"email": "E-mail",
+				"email_required": "E-mail é obrigatório",
+				"email_invalid": "Por favor, insira um endereço de e-mail válido",
+				"email_placeholder": "Digite seu e-mail",
+				"subject": "Assunto",
+				"subject_required": "Assunto é obrigatório",
+				"subject_min_length": "Assunto deve ter pelo menos 3 caracteres",
+				"subject_placeholder": "Digite o assunto",
+				"message": "Mensagem",
+				"message_required": "Mensagem é obrigatória",
+				"message_min_length": "Mensagem deve ter pelo menos 10 caracteres",
+				"message_placeholder": "Digite sua mensagem",
+				"send_message": "Enviar Mensagem",
+				"required": "*"
+			}
+		}
+	},
+	"orders": {
+		"items_count": "Você tem {{count}} item{{count, plural, =1 {} other {s}}}",
+		"welcome_user": "Bem-vindo de volta, {{userName}}!",
+		"order_status": "Pedido #{{orderNumber}} está {{status}}",
+		"price_range": "De {{minPrice}} até {{maxPrice}}",
+		"my_orders": "Meus Pedidos",
+		"order_review": "Revisão do Pedido"
+	},
+	"returns": {
+		"create_return": "Criar Devolução"
+	},
+	"cart": {
+		"title": "Carrinho de Compras"
+	},
+	"products": {
+		"title": "Goiaba Goods Galore",
+		"product_details": "Detalhes do Produto"
+	},
+	"profile": {
+		"title": "Perfil"
+	},
+	"wishlist": {
+		"title": "Minha Lista de Desejos"
+	},
+	"footer": {
+		"company_name": "Goiaba Goods Galore",
+		"description": "Seu destino para os produtos mais estranhos, malucos e maravilhosos. Descubra itens únicos que você nunca soube que precisava!",
+		"quick_links": "Links Rápidos",
+		"shop_now": "Comprar Agora",
+		"shopping_cart": "Carrinho de Compras",
+		"contact_us_link": "Entre em Contato",
+		"support": "Suporte",
+		"help_center": "Central de Ajuda",
+		"shipping_info": "Informações de Envio",
+		"returns": "Devoluções",
+		"copyright": "© {{year}} Goiaba Goods Galore. Todos os direitos reservados.",
+		"privacy_policy": "Política de Privacidade",
+		"terms_of_service": "Termos de Serviço"
+	}
+}

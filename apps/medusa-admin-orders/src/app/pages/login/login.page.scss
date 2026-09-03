@@ -1,0 +1,247 @@
+.login-content {
+  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.login-container {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  margin: 1rem;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  .logo-icon {
+    font-size: 4rem;
+    color: #667eea;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    color: #2d3748;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+  }
+
+  p {
+    color: #718096;
+    font-size: 0.9rem;
+    margin: 0;
+  }
+}
+
+// Error Card Styling
+.error-card {
+  margin: 0 0 1.5rem 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.15);
+  border-left: 4px solid #ef4444;
+
+  ion-card-content {
+    padding: 1rem;
+  }
+
+  .error-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+
+    .error-icon {
+      font-size: 1.5rem;
+      color: #ef4444;
+      flex-shrink: 0;
+      margin-top: 0.125rem;
+    }
+
+    .error-text {
+      flex: 1;
+
+      strong {
+        display: block;
+        color: #dc2626;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+
+      p {
+        color: #991b1b;
+        font-size: 0.85rem;
+        line-height: 1.4;
+        margin: 0;
+      }
+    }
+  }
+}
+
+.login-form {
+  .form-item {
+    margin-bottom: 1rem;
+    --border-radius: 8px;
+    --border-color: #e2e8f0;
+    --highlight-color-focused: #667eea;
+
+    ion-label {
+      color: #4a5568;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    ion-input {
+      --padding-start: 12px;
+      --padding-end: 12px;
+      --padding-top: 12px;
+      --padding-bottom: 12px;
+
+      &[disabled] {
+        opacity: 0.6;
+      }
+    }
+
+    ion-note {
+      font-size: 0.8rem;
+      margin-top: 0.25rem;
+    }
+  }
+
+  .login-button {
+    margin-top: 1.5rem;
+    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --border-radius: 8px;
+    height: 48px;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0.5px;
+
+    ion-spinner {
+      margin-right: 0.5rem;
+    }
+
+    &:hover:not([disabled]) {
+      --background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    }
+
+    &[disabled] {
+      --background: #cbd5e0;
+      --color: #a0aec0;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+
+  p {
+    color: #718096;
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.4;
+  }
+
+  .staff-notice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: #667eea;
+    font-weight: 500;
+    margin-top: 0.75rem;
+
+    ion-icon {
+      font-size: 1.1rem;
+    }
+  }
+
+  .register-link {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+
+    p {
+      color: #4a5568;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+
+    .register-link-text {
+      color: #667eea;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: #5a67d8;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+// Alert styling (for error alerts)
+::ng-deep .login-error-alert {
+  .alert-head {
+    h2 {
+      color: #dc2626;
+    }
+  }
+
+  .alert-message {
+    color: #4a5568;
+    line-height: 1.5;
+  }
+
+  .alert-button {
+    color: #667eea;
+    font-weight: 600;
+  }
+}
+
+// Responsive design
+@media (max-width: 480px) {
+  .login-container {
+    margin: 0.5rem;
+    padding: 1.5rem;
+  }
+
+  .login-header {
+    .logo-icon {
+      font-size: 3rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .error-card {
+    .error-content {
+      .error-icon {
+        font-size: 1.25rem;
+      }
+
+      .error-text {
+        strong {
+          font-size: 0.85rem;
+        }
+
+        p {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+}

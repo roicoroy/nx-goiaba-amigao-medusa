@@ -1,0 +1,7 @@
+{
+  "name": "ion-medusa-admin-orders",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

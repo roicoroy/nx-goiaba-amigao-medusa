@@ -1,0 +1,30 @@
+<form [formGroup]="customerDetailsForm" class="space-y-4">
+    <ion-item class="rounded-3xl shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200">
+        <ion-input [required]="true" type="text" [clearInput]="true" labelPlacement="floating"
+            autocapitalize="off" formControlName="first_name" label="Enter your first name"
+            class="text-neutral-900 placeholder:text-neutral-500"></ion-input>
+    </ion-item>
+    <ion-item class="rounded-3xl shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200">
+        <ion-input [required]="true" type="text" [clearInput]="true" inputmode="text" labelPlacement="floating"
+            autocapitalize="off" formControlName="last_name" label="Enter your last name"
+            class="text-neutral-900 placeholder:text-neutral-500"></ion-input>
+    </ion-item>
+    <ion-item class="rounded-3xl shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200">
+        <ion-input [required]="true" type="phone" placeholder="phone" formControlName="phone" [clearInput]="true"
+            autocapitalize="off" inputmode="phone"
+            class="text-neutral-900 placeholder:text-neutral-500">
+        </ion-input>
+    </ion-item>
+    <ion-item class="rounded-3xl shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200">
+        <ion-input [required]="true" type="text" placeholder="Company's Name" formControlName="company_name" clearInput
+            autocapitalize="off" inputmode="text"
+            class="text-neutral-900 placeholder:text-neutral-500">
+        </ion-input>
+    </ion-item>
+    <ion-col class="mt-6">
+        <ion-button (click)="submit()" [disabled]="!customerDetailsForm.valid" mode="ios" expand="block" shape="round"
+                   class="bg-goiaba-primary hover:bg-goiaba-600 text-white font-medium py-3 px-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 touch-target disabled:opacity-50 disabled:cursor-not-allowed">
+            Update Details
+        </ion-button>
+    </ion-col>
+</form>

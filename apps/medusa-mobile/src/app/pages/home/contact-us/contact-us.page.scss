@@ -1,0 +1,93 @@
+/**
+ * Contact Us Page Styles
+ * Modern styles using Tailwind utilities
+ * Most styling is now handled by Tailwind classes in the template
+ */
+
+// Fade-in animation for page content
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+// iOS Safe Area Support for ion-content
+.contact-us-content {
+  --background: white;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+}
+
+// Contact section with white background - ensure safe area handling
+.contact-section {
+  background-color: white;
+  padding-top: calc(8rem + var(--ion-safe-area-top, env(safe-area-inset-top)));
+  padding-left: var(--ion-safe-area-left, env(safe-area-inset-left));
+  padding-right: var(--ion-safe-area-right, env(safe-area-inset-right));
+  padding-bottom: calc(4rem + var(--ion-safe-area-bottom, env(safe-area-inset-bottom)));
+  
+  @media (min-width: 768px) {
+    padding-top: calc(6rem + var(--ion-safe-area-top, env(safe-area-inset-top)));
+    padding-bottom: calc(6rem + var(--ion-safe-area-bottom, env(safe-area-inset-bottom)));
+  }
+}
+
+// Ensure proper spacing for ion-card components
+ion-card {
+  --background: transparent;
+}
+
+// Override default ion-card-content padding if needed
+ion-card-content {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
+
+// Header Section
+.header-section {
+  margin-bottom: 3rem;
+
+  .page-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--ion-text-color, var(--goiaba-color-text-primary, #1f2937));
+    margin-bottom: 1rem;
+
+    @media (min-width: 768px) {
+      font-size: 2.25rem;
+    }
+  }
+
+  .page-subtitle {
+    font-size: 1.125rem;
+    color: var(--ion-color-medium-shade, var(--goiaba-color-text-tertiary, #6b7280));
+  }
+}
+
+// iOS Safari specific fixes
+@supports (-webkit-touch-callout: none) {
+  .contact-us-content {
+    -webkit-overflow-scrolling: touch;
+    background-color: var(--ion-background-color, white);
+  }
+  
+  .contact-section {
+    margin-left: calc(-1 * var(--ion-safe-area-left, env(safe-area-inset-left)));
+    margin-right: calc(-1 * var(--ion-safe-area-right, env(safe-area-inset-right)));
+    padding-left: calc(1rem + var(--ion-safe-area-left, env(safe-area-inset-left)));
+    padding-right: calc(1rem + var(--ion-safe-area-right, env(safe-area-inset-right)));
+  }
+}

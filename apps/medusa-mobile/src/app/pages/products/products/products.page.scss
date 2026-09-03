@@ -1,0 +1,17 @@
+/**
+ * Products Page Styles
+ * Modern styles using Tailwind utilities
+ * Aligned with home page structure
+ */
+
+
+// Web-specific: Use daisyUI theme background
+@media (min-width: 768px) {
+  .products-content {
+    --background: hsl(var(--b2));
+    
+    &::part(scroll) {
+      background-color: hsl(var(--b2));
+    }
+  }
+}

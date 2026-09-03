@@ -1,0 +1,121 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="register-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Create Store Staff Account</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+          <!-- Email Field -->
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input
+              type="email"
+              formControlName="email"
+              placeholder="Enter your email">
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="email?.invalid && email?.touched">
+            <p class="error-message" *ngIf="email?.errors?.['required']">Email is required</p>
+            <p class="error-message" *ngIf="email?.errors?.['email']">Please enter a valid email</p>
+          </ion-text>
+
+          <!-- First Name Field -->
+          <ion-item>
+            <ion-label position="floating">First Name</ion-label>
+            <ion-input
+              type="text"
+              formControlName="first_name"
+              placeholder="Enter your first name">
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="first_name?.invalid && first_name?.touched">
+            <p class="error-message">First name is required</p>
+          </ion-text>
+
+          <!-- Last Name Field -->
+          <ion-item>
+            <ion-label position="floating">Last Name</ion-label>
+            <ion-input
+              type="text"
+              formControlName="last_name"
+              placeholder="Enter your last name">
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="last_name?.invalid && last_name?.touched">
+            <p class="error-message">Last name is required</p>
+          </ion-text>
+
+          <!-- Phone Field (Optional) -->
+          <ion-item>
+            <ion-label position="floating">Phone (Optional)</ion-label>
+            <ion-input
+              type="tel"
+              formControlName="phone"
+              placeholder="Enter your phone number">
+            </ion-input>
+          </ion-item>
+
+          <!-- Password Field -->
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input
+              type="password"
+              formControlName="password"
+              placeholder="Enter your password">
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="password?.invalid && password?.touched">
+            <p class="error-message" *ngIf="password?.errors?.['required']">Password is required</p>
+            <p class="error-message" *ngIf="password?.errors?.['minlength']">Password must be at least 8 characters</p>
+          </ion-text>
+
+          <!-- Confirm Password Field -->
+          <ion-item>
+            <ion-label position="floating">Confirm Password</ion-label>
+            <ion-input
+              type="password"
+              formControlName="confirmPassword"
+              placeholder="Confirm your password">
+            </ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="confirmPassword?.invalid && confirmPassword?.touched">
+            <p class="error-message" *ngIf="confirmPassword?.errors?.['required']">Please confirm your password</p>
+          </ion-text>
+          <ion-text color="danger" *ngIf="registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched">
+            <p class="error-message">Passwords do not match</p>
+          </ion-text>
+
+          <!-- Error Message from Backend -->
+          <ion-text color="danger" *ngIf="error$ | async as error">
+            <p class="error-message backend-error">{{ error }}</p>
+          </ion-text>
+
+          <!-- Submit Button -->
+          <ion-button
+            expand="block"
+            type="submit"
+            [disabled]="registerForm.invalid || (loading$ | async)"
+            class="submit-button">
+            <ion-spinner *ngIf="loading$ | async" name="crescent"></ion-spinner>
+            <span *ngIf="!(loading$ | async)">Register</span>
+          </ion-button>
+
+          <!-- Link to Login Page -->
+          <div class="login-link">
+            <ion-text>
+              <p>Already have an account? <a routerLink="/login">Login</a></p>
+            </ion-text>
+          </div>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

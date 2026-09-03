@@ -1,0 +1,63 @@
+/**
+ * Apply Discount Component Styles
+ * Modern styles using Tailwind utilities
+ * Most styling is now handled by Tailwind classes in the template
+ */
+
+// Ensure proper spacing and alignment for ion-item components
+ion-item {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --inner-padding-start: 0;
+  --inner-padding-end: 0;
+  --inner-padding-top: 0;
+  --inner-padding-bottom: 0;
+  --min-height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+}
+
+ion-label {
+  --color: inherit;
+  margin: 0;
+  width: 100%;
+}
+
+ion-input {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --color: inherit;
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+// Align button properly in the end slot
+ion-item ion-button[slot="end"] {
+  --padding-start: 0.75rem;
+  --padding-end: 0.75rem;
+  --padding-top: 0.5rem;
+  --padding-bottom: 0.5rem;
+  margin: 0;
+  margin-left: 0.5rem;
+  height: auto;
+  align-self: flex-end;
+  white-space: nowrap;
+}
+
+// Ensure clear input icon is properly aligned
+ion-input::part(native) {
+  display: flex;
+  align-items: center;
+}
+
+ion-input::part(clear-icon) {
+  margin-left: 0.5rem;
+  align-self: center;
+}

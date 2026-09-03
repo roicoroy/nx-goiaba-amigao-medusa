@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Select {{ addressType === 'shipping' ? 'Shipping' : 'Billing' }} Address</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancel()">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Add New Address Button -->
+  <div class="add-address-section">
+    <ion-button
+      (click)="addNewAddress()"
+      expand="block"
+      fill="outline"
+      class="add-address-button">
+      <ion-icon name="add-circle" slot="start"></ion-icon>
+      Add New Address
+    </ion-button>
+  </div>
+
+  <!-- Address List -->
+  @if (addresses && addresses.length > 0) {
+  <div class="address-list">
+    <ion-list>
+      @for (address of addresses; track address.id) {
+      <div
+        [class.selected]="isSelected(address)"
+        (click)="selectAddress(address)"
+        class="address-item-wrapper">
+        <app-address-view
+          [address]="address"
+          [isDefaultBilling]="address.is_default_billing === true"
+          [isDefaultShipping]="address.is_default_shipping === true"
+          [showActions]="false">
+        </app-address-view>
+        @if (isSelected(address)) {
+        <ion-icon
+          name="checkmark-circle"
+          color="primary"
+          class="selected-icon">
+        </ion-icon>
+        }
+      </div>
+      }
+    </ion-list>
+  </div>
+  }
+
+  <!-- Empty State -->
+  @if (!addresses || addresses.length === 0) {
+  <div class="empty-state">
+    <div class="empty-content">
+      <ion-icon name="location" class="empty-icon"></ion-icon>
+      <h3>No Saved Addresses</h3>
+      <p>You haven't added any addresses yet. Add your first address to continue.</p>
+      <ion-button
+        (click)="addNewAddress()"
+        fill="solid"
+        class="add-first-address">
+        <ion-icon name="add" slot="start"></ion-icon>
+        Add Address
+      </ion-button>
+    </div>
+  </div>
+  }
+</ion-content>

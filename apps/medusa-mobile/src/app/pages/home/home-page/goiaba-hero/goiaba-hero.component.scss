@@ -1,0 +1,41 @@
+/**
+ * Goiaba Hero Component Styles
+ * Uses daisyUI hero component - minimal custom styling needed
+ *
+ * Note: Uses global .a  class from custom-utilities.scss
+ */
+
+// Ensure hero content is properly centered and responsive
+.hero-content {
+  align-items: center;
+
+  @media (min-width: 1024px) {
+    align-items: center;
+  }
+}
+
+// Button icon spacing
+.btn {
+  ion-icon {
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+.my-hero {
+  // --hue: 120;
+  // --bg: oklch(35% .3 var(--hue));
+  // --text: oklch(85% .1 var(--hue));
+  // --shadow: oklch(25% .2 var(--hue));
+  // --highlight: oklch(98% .05 var(--hue));
+  // block-size: 100%;
+  // color: var(--text);
+
+  // .highlighted-text-shadow {
+  //   text-shadow:
+  //     /* regular text-shadow */
+  //     0 .15ch 15px var(--shadow),
+  //     /* text-shadow highlight */
+  //     0 -2px 0 var(--highlight);
+  // }
+}

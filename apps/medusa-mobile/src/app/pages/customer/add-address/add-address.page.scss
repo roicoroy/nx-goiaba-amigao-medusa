@@ -1,0 +1,27 @@
+// Form action buttons container
+.form-actions {
+  margin-top: 32px;
+  padding: 0 16px;
+  
+  .submit-button {
+    margin-bottom: 16px;
+    --border-radius: 8px;
+    --padding-top: 16px;
+    --padding-bottom: 16px;
+    font-weight: 600;
+  }
+  
+  .cancel-button {
+    --border-radius: 8px;
+    --padding-top: 16px;
+    --padding-bottom: 16px;
+    font-weight: 600;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .form-actions {
+    padding: 0;
+  }
+}

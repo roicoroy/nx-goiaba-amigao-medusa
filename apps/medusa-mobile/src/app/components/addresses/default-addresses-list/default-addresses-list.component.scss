@@ -1,0 +1,62 @@
+/**
+ * Default Addresses List Component Styles
+ * Using daisyUI components for clean, modern design
+ */
+
+// Main container for the address list
+.address-list-container {
+  padding: 0.5rem 0;
+}
+
+// daisyUI Card styling (handled by classes, minimal custom CSS needed)
+.card {
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Address view component container
+app-address-view {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+// Default selection buttons container
+.default-selection {
+  // Handled by daisyUI flex utilities
+}
+
+// Action buttons container
+.action-buttons {
+  // Handled by daisyUI flex utilities
+}
+
+// Empty state styling
+.empty-state {
+  padding: 3rem 1rem;
+  
+  ion-icon {
+    display: block;
+    margin: 0 auto 1rem;
+    opacity: 0.3;
+  }
+  
+  p {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+// Ensure buttons work with ion-icon
+.btn {
+  display: inline-flex;
+  align-items: center;
+  
+  ion-icon {
+    display: inline-flex;
+    align-items: center;
+  }
+}

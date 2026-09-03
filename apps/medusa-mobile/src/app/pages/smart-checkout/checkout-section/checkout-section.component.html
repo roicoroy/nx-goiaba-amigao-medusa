@@ -1,0 +1,21 @@
+<ion-card>
+  <ion-card-header>
+    <div class="section-header">
+      <div class="section-title">
+        <ion-icon [name]="icon()"></ion-icon>
+        <ion-card-title>{{ title() }}</ion-card-title>
+      </div>
+      <div class="section-status">
+        @if (isCompleted()) {
+          <ion-icon name="checkmark-circle" color="success"></ion-icon>
+        }
+        @if (hasError()) {
+          <ion-icon name="alert-circle" color="danger"></ion-icon>
+        }
+      </div>
+    </div>
+  </ion-card-header>
+  <ion-card-content>
+    <ng-content></ng-content>
+  </ion-card-content>
+</ion-card>

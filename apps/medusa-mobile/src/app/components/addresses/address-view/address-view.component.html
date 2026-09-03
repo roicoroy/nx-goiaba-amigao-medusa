@@ -1,0 +1,57 @@
+<ion-item class="address-item">
+  <div class="address-content">
+    <div class="address-header">
+      <ion-label class="address-name">
+        {{ address.first_name || '' }} {{ address.last_name || '' }}
+      </ion-label>
+      @if (isDefaultBilling || isDefaultShipping) {
+      <div class="address-badges">
+        @if (isDefaultBilling) {
+        <ion-text color="primary" class="badge">
+          Default Billing
+        </ion-text>
+        }
+        @if (isDefaultShipping) {
+        <ion-text color="secondary" class="badge">
+          Default Shipping
+        </ion-text>
+        }
+      </div>
+      }
+    </div>
+    
+    <div class="address-details">
+      @if (address.address_1) {
+      <ion-text class="address-line">{{ address.address_1 }}</ion-text>
+      }
+      @if (address.address_2) {
+      <ion-text class="address-line">{{ address.address_2 }}</ion-text>
+      }
+      @if (address.city || address.postal_code) {
+      <ion-text class="address-line">
+        {{ address.city || '' }}{{ address.city && address.postal_code ? ', ' : '' }}{{ address.postal_code || '' }}
+      </ion-text>
+      }
+      @if (address.country_code) {
+      <ion-text class="address-line">{{ address.country_code }}</ion-text>
+      }
+      @if (address.phone) {
+      <ion-text class="address-line">Phone: {{ address.phone }}</ion-text>
+      }
+      @if (address.company) {
+      <ion-text class="address-line">Company: {{ address.company }}</ion-text>
+      }
+    </div>
+  </div>
+
+  @if (showActions) {
+  <div class="address-actions">
+    <ion-button fill="clear" size="small" (click)="onEdit()">
+      <ion-icon name="create" slot="icon-only"></ion-icon>
+    </ion-button>
+    <ion-button fill="clear" size="small" color="danger" (click)="onDelete()">
+      <ion-icon name="trash" slot="icon-only"></ion-icon>
+    </ion-button>
+  </div>
+  }
+</ion-item>

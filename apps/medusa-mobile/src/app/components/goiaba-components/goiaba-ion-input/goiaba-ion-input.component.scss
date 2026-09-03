@@ -1,0 +1,51 @@
+// Override Ionic defaults to ensure Tailwind classes take precedence
+ion-item {
+  --background: transparent;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --border-width: 0;
+  --border-style: none;
+  --border-color: transparent;
+  --inner-padding-end: 0;
+  --inner-padding-start: 0;
+  --inner-padding-top: 0;
+  --inner-padding-bottom: 0;
+  --min-height: auto;
+  margin: 0;
+}
+
+ion-label {
+  --color: inherit;
+  margin: 0;
+}
+
+ion-input {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --color: inherit;
+}
+
+ion-icon {
+  color: inherit;
+}
+
+// Validation state transitions
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

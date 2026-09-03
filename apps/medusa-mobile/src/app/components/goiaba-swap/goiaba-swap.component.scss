@@ -1,0 +1,43 @@
+/**
+ * Goiaba Swap Component Styles
+ * Uses daisyUI swap component - minimal custom styling needed
+ */
+
+// Ensure swap component is properly styled
+.swap {
+  // Custom styling if needed
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  
+  // Hide the checkbox (daisyUI handles this, but ensure it's hidden)
+  .swap-checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  // Ensure icons are properly aligned
+  ion-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  // Swap content alignment
+  .swap-off,
+  .swap-on {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// Custom transitions for smooth swap (daisyUI handles the animation)
+.swap-rotate {
+  // daisyUI's swap-rotate handles the rotation animation
+}

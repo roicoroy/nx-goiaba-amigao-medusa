@@ -1,0 +1,246 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Orders</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleFilters()" fill="clear">
+        <ion-icon name="filter-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Search Bar -->
+  <div class="search-container">
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="onSearchChange($event)"
+      placeholder="Search orders by ID, customer, email..."
+      debounce="300">
+    </ion-searchbar>
+  </div>
+
+  <!-- Filters Section -->
+  <ion-card *ngIf="showFilters" class="filters-card">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="filter-outline"></ion-icon>
+        Filters
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="filters-grid">
+        <!-- Status Filter -->
+        <ion-item>
+          <ion-label position="stacked">Order Status</ion-label>
+          <ion-select [(ngModel)]="selectedStatus" (ionChange)="onStatusChange()" placeholder="All Statuses">
+            <ion-select-option *ngFor="let status of statusOptions" [value]="status.value">
+              {{ status.label }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <!-- Fulfillment Status Filter -->
+        <ion-item>
+          <ion-label position="stacked">Fulfillment Status</ion-label>
+          <ion-select [(ngModel)]="selectedFulfillmentStatus" (ionChange)="onStatusChange()" placeholder="All Fulfillment">
+            <ion-select-option *ngFor="let status of fulfillmentStatusOptions" [value]="status.value">
+              {{ status.label }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <!-- Payment Status Filter -->
+        <ion-item>
+          <ion-label position="stacked">Payment Status</ion-label>
+          <ion-select [(ngModel)]="selectedPaymentStatus" (ionChange)="onStatusChange()" placeholder="All Payments">
+            <ion-select-option *ngFor="let status of paymentStatusOptions" [value]="status.value">
+              {{ status.label }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <!-- Date Range -->
+        <ion-item>
+          <ion-label position="stacked">From Date</ion-label>
+          <ion-datetime-button datetime="dateFrom"></ion-datetime-button>
+          <ion-modal [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime
+                id="dateFrom"
+                [(ngModel)]="dateFrom"
+                (ionChange)="onStatusChange()"
+                presentation="date">
+              </ion-datetime>
+            </ng-template>
+          </ion-modal>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">To Date</ion-label>
+          <ion-datetime-button datetime="dateTo"></ion-datetime-button>
+          <ion-modal [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime
+                id="dateTo"
+                [(ngModel)]="dateTo"
+                (ionChange)="onStatusChange()"
+                presentation="date">
+              </ion-datetime>
+            </ng-template>
+          </ion-modal>
+        </ion-item>
+      </div>
+
+      <div class="filter-actions">
+        <ion-button expand="block" fill="outline" (click)="clearFilters()">
+          <ion-icon name="close-outline" slot="start"></ion-icon>
+          Clear Filters
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Loading State -->
+  <div *ngIf="loading$ | async" class="loading-container">
+    <ion-spinner></ion-spinner>
+    <p>Loading orders...</p>
+  </div>
+
+  <!-- Authentication Check -->
+  <div *ngIf="!(isLoggedIn$ | async)" class="auth-check-container">
+    <ion-spinner></ion-spinner>
+    <p>Checking authentication...</p>
+  </div>
+
+
+  <!-- Error State -->
+  <ion-card *ngIf="error$ | async as error" class="error-card">
+    <ion-card-content>
+      <div class="error-content">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <h3>Error Loading Orders</h3>
+        <p>{{ error }}</p>
+        <ion-button (click)="loadOrders()" fill="outline">
+          <ion-icon name="refresh-outline" slot="start"></ion-icon>
+          Retry
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Orders List -->
+  <div *ngIf="!(loading$ | async) && !(error$ | async)" class="orders-container">
+    <div *ngIf="(orders$ | async)?.length === 0" class="empty-state">
+      <ion-icon name="receipt-outline"></ion-icon>
+      <h3>No Orders Found</h3>
+      <p>No orders match your current filters.</p>
+      <ion-button (click)="clearFilters()" fill="outline">
+        Clear Filters
+      </ion-button>
+    </div>
+
+    <ion-card *ngFor="let order of orders$ | async; trackBy: trackByOrderId" class="order-card" (click)="viewOrder(order)">
+      <ion-card-content>
+        <div class="order-header">
+          <div class="order-info">
+            <h3>{{ getOrderDisplayId(order) }}</h3>
+            <p class="customer-name">{{ getCustomerName(order) }}</p>
+            <p class="order-date">{{ formatDate(order.created_at) }}</p>
+          </div>
+          <div class="order-amount">
+            <h2>{{ formatCurrency(order.total, order.currency_code) }}</h2>
+          </div>
+        </div>
+
+        <div class="order-details">
+          <div class="status-badges">
+            <ion-badge [color]="getStatusColor(order.status)">
+              {{ order.status | titlecase }}
+            </ion-badge>
+            <ion-badge [color]="getFulfillmentStatusColor(order.fulfillment_status)">
+              {{ (order.fulfillment_status || 'not_fulfilled') | titlecase }}
+            </ion-badge>
+            <ion-badge [color]="getPaymentStatusColor(order.payment_status)">
+              {{ (order.payment_status || 'not_paid') | titlecase }}
+            </ion-badge>
+            <ng-container *ngIf="returns$ | async as returnsMap">
+              <ion-badge 
+                *ngIf="getReturnsCount(order.id, returnsMap) > 0"
+                color="warning"
+                class="returns-badge">
+                <ion-icon name="return-down-back-outline" slot="start"></ion-icon>
+                {{ getReturnsCount(order.id, returnsMap) }} Return{{ getReturnsCount(order.id, returnsMap) > 1 ? 's' : '' }}
+              </ion-badge>
+            </ng-container>
+          </div>
+
+          <div class="order-items">
+            <p>{{ order.items?.length || 0 }} item(s)</p>
+            <div class="item-preview" *ngIf="order.items && order.items.length > 0">
+              <span *ngFor="let item of order.items.slice(0, 2); let last = last">
+                {{ item.title }}{{ !last ? ', ' : '' }}
+              </span>
+              <span *ngIf="order.items.length > 2">
+                +{{ order.items.length - 2 }} more
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions" *ngIf="order.status !== 'completed' && order.status !== 'canceled'">
+          <ion-button
+            *ngIf="order.fulfillment_status === 'not_fulfilled'"
+            size="small"
+            fill="outline"
+            (click)="quickFulfill($event, order)">
+            <ion-icon name="cube-outline" slot="start"></ion-icon>
+            Fulfill
+          </ion-button>
+
+          <ion-button
+            *ngIf="order.payment_status === 'awaiting' || order.payment_status === 'not_paid'"
+            size="small"
+            fill="outline"
+            (click)="quickCapture($event, order)">
+            <ion-icon name="card-outline" slot="start"></ion-icon>
+            Capture
+          </ion-button>
+
+          <ion-button
+            *ngIf="order.fulfillment_status === 'fulfilled' && order.payment_status === 'captured'"
+            size="small"
+            fill="outline"
+            (click)="quickComplete($event, order)">
+            <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+            Complete
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Pagination Component -->
+  <ng-container *ngIf="!(loading$ | async) && !(error$ | async)">
+    <app-orders-pagination
+      *ngIf="pagination$ | async as pagination"
+      [count]="pagination.count"
+      [offset]="pagination.offset"
+      [limit]="pagination.limit"
+      [loading]="(loading$ | async) ?? false"
+      (pageChange)="onPageChange($event)"
+      (loadMore)="onLoadMore()">
+    </app-orders-pagination>
+  </ng-container>
+
+  <!-- Infinite Scroll (Alternative - can be enabled if preferred) -->
+  <!-- <ion-infinite-scroll (ionInfinite)="handleInfiniteScroll($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more orders...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll> -->
+</ion-content>

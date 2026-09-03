@@ -1,0 +1,41 @@
+/**
+ * Cart Button Component Styles
+ * Modern styles for cart button in header
+ */
+
+// Component host styles
+:host {
+  display: inline-block;
+}
+
+// Cart button container
+.relative {
+  position: relative;
+  display: inline-block;
+}
+
+// Button styling
+ion-button {
+  --padding-start: 8px;
+  --padding-end: 8px;
+  --padding-top: 4px;
+  --padding-bottom: 4px;
+  margin: 0;
+  min-width: auto;
+  min-height: auto;
+  height: auto;
+
+  ion-icon {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+}
+
+// Badge positioning
+ion-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  z-index: 10;
+  pointer-events: none;
+}

@@ -1,0 +1,199 @@
+@if (viewState$ | async; as vs) {
+  <div class="product-reviews-container">
+    @if (vs.loading && !vs.reviews.length) {
+      <div class="loading-container">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p>Loading reviews...</p>
+      </div>
+    } @else if (vs.error) {
+      <div class="error-container">
+        <p class="error-message">{{ vs.error }}</p>
+      </div>
+    } @else {
+      <!-- Reviews Section -->
+      <div class="reviews-section">
+        <h3 class="reviews-title">Customer Reviews</h3>
+
+        <!-- Review Statistics -->
+        @if (vs.stats && vs.stats.total_reviews > 0) {
+          <div class="review-stats">
+            <div class="stats-main">
+              <div class="average-rating">
+                <span class="rating-value">{{ vs.stats.average_rating }}</span>
+                <div class="rating-stars">
+                  @for (star of [1,2,3,4,5]; track star) {
+                    <ion-icon 
+                      [name]="star <= Math.round(vs.stats.average_rating) ? 'star' : 'star-outline'"
+                      class="star-icon"
+                      [class.filled]="star <= Math.round(vs.stats.average_rating)">
+                    </ion-icon>
+                  }
+                </div>
+              </div>
+              <div class="total-reviews">
+                <span class="count">{{ vs.stats.total_reviews }}</span>
+                <span class="label">reviews</span>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- Reviews List (moved to top) -->
+        @if (getApprovedReviews(vs.reviews).length > 0) {
+          <div class="reviews-list">
+            @for (review of getApprovedReviews(vs.reviews); track review.id) {
+              <ion-card class="review-card" @fade>
+                <ion-card-content>
+                  <div class="review-header">
+                    <div class="reviewer-info">
+                      <ion-avatar class="reviewer-avatar">
+                        @if (getCustomerAvatar(review) && !avatarErrorMap.get(review.id)) {
+                          <img 
+                            [src]="getCustomerAvatar(review)" 
+                            [alt]="getCustomerName(review)"
+                            (error)="avatarErrorMap.set(review.id, true)"
+                            class="avatar-image">
+                        }
+                        <span 
+                          class="avatar-initials"
+                          [style.display]="getCustomerAvatar(review) && !avatarErrorMap.get(review.id) ? 'none' : 'flex'">
+                          {{ getCustomerInitials(review) }}
+                        </span>
+                      </ion-avatar>
+                      <div class="reviewer-details">
+                        <div class="reviewer-name">{{ getCustomerName(review) }}</div>
+                        <div class="review-date">{{ formatDate(review.created_at) }}</div>
+                      </div>
+                    </div>
+                    <div class="review-rating">
+                      @for (star of [1,2,3,4,5]; track star) {
+                        <ion-icon 
+                          [name]="star <= review.rating ? 'star' : 'star-outline'"
+                          class="star-icon-small"
+                          [class.filled]="star <= review.rating">
+                        </ion-icon>
+                      }
+                    </div>
+                  </div>
+
+                  @if (review.title) {
+                    <h4 class="review-title">{{ review.title }}</h4>
+                  }
+
+                  <p class="review-content">{{ review.content }}</p>
+
+                  @if (review.admin_response) {
+                    <div class="admin-response">
+                      <div class="admin-response-header">
+                        <ion-icon name="checkmark-circle" class="admin-icon"></ion-icon>
+                        <span class="admin-label">Store Response</span>
+                      </div>
+                      <p class="admin-response-content">{{ review.admin_response.content }}</p>
+                      <span class="admin-response-date">{{ formatDate(review.admin_response.created_at) }}</span>
+                    </div>
+                  }
+                </ion-card-content>
+              </ion-card>
+            }
+          </div>
+        } @else if (!vs.loading) {
+          <div class="empty-state">
+            <ion-icon name="chatbubbles-outline" class="empty-icon"></ion-icon>
+            <p>No reviews yet. Be the first to review this product!</p>
+          </div>
+        }
+
+        <!-- Review Form (moved below reviews, only for authenticated users) -->
+        @if (isLoggedIn$ | async) {
+          <ion-card class="review-form-card">
+            <ion-card-header>
+              <ion-card-title>Write a Review</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <form [formGroup]="reviewForm" (ngSubmit)="onSubmitReview($event)">
+                <!-- Rating Selection -->
+                <div class="form-group">
+                  <ion-label class="form-label">Rating *</ion-label>
+                  <div class="rating-selector">
+                    @for (star of [1,2,3,4,5]; track star) {
+                      <button
+                        type="button"
+                        (click)="setRating(star)"
+                        class="star-button"
+                        [class.selected]="selectedRating >= star">
+                        <ion-icon 
+                          [name]="selectedRating >= star ? 'star' : 'star-outline'"
+                          class="star-icon-selector">
+                        </ion-icon>
+                      </button>
+                    }
+                  </div>
+                  @if (reviewForm.get('rating')?.invalid && reviewForm.get('rating')?.touched) {
+                    <ion-text color="danger" class="error-text">
+                      Please select a rating
+                    </ion-text>
+                  }
+                </div>
+
+                <!-- Title Input -->
+                <div class="form-group">
+                  <ion-item class="form-item">
+                    <ion-label position="floating">Review Title *</ion-label>
+                    <ion-input
+                      formControlName="title"
+                      type="text"
+                      placeholder="Enter a title for your review"
+                      maxlength="100">
+                    </ion-input>
+                  </ion-item>
+                  @if (reviewForm.get('title')?.invalid && reviewForm.get('title')?.touched) {
+                    <ion-text color="danger" class="error-text">
+                      Title must be between 3 and 100 characters
+                    </ion-text>
+                  }
+                </div>
+
+                <!-- Content Textarea -->
+                <div class="form-group">
+                  <ion-item class="form-item">
+                    <ion-label position="floating">Your Review *</ion-label>
+                    <ion-textarea
+                      formControlName="content"
+                      placeholder="Share your experience with this product..."
+                      rows="5"
+                      maxlength="1000">
+                    </ion-textarea>
+                  </ion-item>
+                  @if (reviewForm.get('content')?.invalid && reviewForm.get('content')?.touched) {
+                    <ion-text color="danger" class="error-text">
+                      Review must be between 10 and 1000 characters
+                    </ion-text>
+                  }
+                </div>
+
+                <!-- Submit Button -->
+                <ion-button
+                  type="submit"
+                  expand="block"
+                  [disabled]="reviewForm.invalid || isSubmitting || vs.loading"
+                  class="submit-button">
+                  @if (isSubmitting || vs.loading) {
+                    <ion-spinner name="crescent" class="mr-2"></ion-spinner>
+                  }
+                  Submit Review
+                </ion-button>
+              </form>
+            </ion-card-content>
+          </ion-card>
+        } @else {
+          <ion-card class="login-prompt-card">
+            <ion-card-content>
+              <p>Please <a routerLink="/login">log in</a> to write a review.</p>
+            </ion-card-content>
+          </ion-card>
+        }
+      </div>
+    }
+  </div>
+}
+

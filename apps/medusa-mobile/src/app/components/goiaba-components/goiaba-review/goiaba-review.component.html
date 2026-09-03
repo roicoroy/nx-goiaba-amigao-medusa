@@ -1,0 +1,265 @@
+@if (viewState$ | async; as vs) {
+  <div class="goiaba-review-container">
+    @if (vs.loading && !vs.reviews.length) {
+      <!-- Loading State -->
+      <div class="flex justify-center items-center min-h-[300px]">
+        <span class="loading loading-spinner loading-lg text-primary"></span>
+      </div>
+    } @else if (vs.error) {
+      <!-- Error State -->
+      <div class="alert alert-error">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <span>{{ vs.error }}</span>
+      </div>
+    } @else {
+      <!-- Reviews Section -->
+      <div class="space-y-6">
+        <!-- Review Statistics -->
+        @if (vs.stats && vs.stats.total_reviews > 0) {
+          <div class="stats stats-vertical lg:stats-horizontal shadow bg-base-200 w-full">
+            <div class="stat">
+              <div class="stat-title">Average Rating</div>
+              <div class="stat-value text-primary text-4xl">{{ vs.stats.average_rating.toFixed(1) }}</div>
+              <div class="stat-desc">
+                <div class="rating rating-md">
+                  @for (star of [1,2,3,4,5]; track star) {
+                    <input
+                      type="radio"
+                      [checked]="star <= Math.round(vs.stats.average_rating)"
+                      class="mask mask-star-2 bg-warning"
+                      disabled />
+                  }
+                </div>
+              </div>
+            </div>
+            <div class="stat">
+              <div class="stat-title">Total Reviews</div>
+              <div class="stat-value text-4xl">{{ vs.stats.total_reviews }}</div>
+              <div class="stat-desc">Customer reviews</div>
+            </div>
+          </div>
+        }
+
+        <!-- Reviews List -->
+        @if (getApprovedReviews(vs.reviews).length > 0) {
+          <div class="space-y-4">
+            <h3 class="text-2xl font-bold">Customer Reviews</h3>
+            @for (review of getApprovedReviews(vs.reviews); track review.id) {
+              <div class="card bg-base-100 shadow-md">
+                <div class="card-body">
+                  <!-- Review Header -->
+                  <div class="flex justify-between items-start gap-4 mb-4 flex-wrap">
+                    <div class="flex items-center gap-3">
+                      <!-- Avatar -->
+                      <div class="avatar placeholder">
+                        @if (getCustomerAvatar(review) && !avatarErrorMap.get(review.id)) {
+                          <div class="bg-neutral text-neutral-content rounded-full w-12">
+                            <img
+                              [src]="getCustomerAvatar(review)"
+                              [alt]="getCustomerName(review)"
+                              (error)="avatarErrorMap.set(review.id, true)"
+                              class="rounded-full" />
+                          </div>
+                        } @else {
+                          <div class="bg-primary text-primary-content rounded-full w-12">
+                            <span class="text-lg font-semibold">{{ getCustomerInitials(review) }}</span>
+                          </div>
+                        }
+                      </div>
+                      <!-- Customer Info -->
+                      <div>
+                        <div class="font-semibold text-base">{{ getCustomerName(review) }}</div>
+                        <div class="text-sm text-base-content/60">{{ formatDate(review.created_at) }}</div>
+                      </div>
+                    </div>
+                    <!-- Rating -->
+                    <div class="rating rating-sm">
+                      @for (star of [1,2,3,4,5]; track star) {
+                        <input
+                          type="radio"
+                          [checked]="star <= review.rating"
+                          class="mask mask-star-2 bg-warning"
+                          disabled />
+                      }
+                    </div>
+                  </div>
+
+                  <!-- Review Title -->
+                  @if (review.title) {
+                    <h4 class="text-lg font-semibold mb-2">{{ review.title }}</h4>
+                  }
+
+                  <!-- Review Content -->
+                  <p class="text-base-content/80 leading-relaxed mb-4">{{ review.content }}</p>
+
+                  <!-- Admin Response -->
+                  @if (review.admin_response) {
+                    <div class="alert alert-info mt-4">
+                      <ion-icon name="checkmark-circle-outline" class="text-lg"></ion-icon>
+                      <div class="flex-grow">
+                        <div class="font-semibold mb-1">Store Response</div>
+                        <p class="text-sm">{{ review.admin_response.content }}</p>
+                        <div class="text-xs text-base-content/60 mt-1">
+                          {{ formatDate(review.admin_response.created_at) }}
+                        </div>
+                      </div>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        } @else if (!vs.loading) {
+          <!-- Empty State -->
+          <div class="alert alert-info">
+            <ion-icon name="chatbubbles-outline" class="text-2xl"></ion-icon>
+            <span>No reviews yet. Be the first to review this product!</span>
+          </div>
+        }
+
+        poppopopop
+
+        <!-- Review Form (only for authenticated users) -->
+        @if (isLoggedIn$ | async) {
+          <div class="card bg-base-100 shadow-md mt-6">
+            <div class="card-body">
+              <div class="flex items-center gap-2 mb-4">
+                <h3 class="card-title mb-0">Write a Review</h3>
+                @if (isDemoMode) {
+                  <span class="badge badge-info gap-2 h-6">Demo Mode</span>
+                }
+              </div>
+              <form [formGroup]="reviewForm" (ngSubmit)="onSubmitReview($event)" class="space-y-4">
+                <!-- Rating Selection with Slider -->
+                <div class="form-control">
+                  <label class="label">
+                    <span class="label-text font-semibold">Rating *</span>
+                    <span class="label-text-alt font-bold text-lg"
+                          [class.text-error]="selectedRating < 2"
+                          [class.text-warning]="selectedRating >= 2 && selectedRating < 3"
+                          [class.text-yellow-500]="selectedRating >= 3 && selectedRating < 4"
+                          [class.text-success]="selectedRating >= 4">
+                      {{ selectedRating > 0 ? selectedRating.toFixed(1) : '0.0' }} ⭐
+                    </span>
+                  </label>
+
+                  <!-- Slider Rating Input -->
+                  <div class="px-2 py-4">
+                    <ngx-slider
+                      [(value)]="selectedRating"
+                      [options]="ratingSliderOptions"
+                      (userChange)="onSliderRatingChange($event)">
+                    </ngx-slider>
+                  </div>
+
+                  <!-- Traditional Star Rating (visual representation) -->
+                  <div class="rating rating-lg mt-2 gap-1">
+                    @for (star of [1,2,3,4,5]; track star) {
+                      <input
+                        type="radio"
+                        name="rating-{{ productId }}"
+                        [value]="star"
+                        [checked]="Math.round(selectedRating) === star"
+                        (change)="setRating(star)"
+                        class="mask mask-star-2 cursor-pointer transition-all"
+                        [class.bg-warning]="selectedRating >= star"
+                        [class.bg-base-300]="selectedRating < star" />
+                    }
+                  </div>
+
+                  <div class="mt-2 text-sm text-center">
+                    <span class="badge badge-outline"
+                          [class.badge-error]="selectedRating < 2"
+                          [class.badge-warning]="selectedRating >= 2 && selectedRating < 3"
+                          [class.badge-info]="selectedRating >= 3 && selectedRating < 4"
+                          [class.badge-success]="selectedRating >= 4">
+                      @if (selectedRating < 2) {
+                        Poor
+                      } @else if (selectedRating < 3) {
+                        Fair
+                      } @else if (selectedRating < 4) {
+                        Good
+                      } @else if (selectedRating >= 4) {
+                        Excellent
+                      } @else {
+                        Select a rating
+                      }
+                    </span>
+                  </div>
+
+                  @if (reviewForm.get('rating')?.invalid && reviewForm.get('rating')?.touched) {
+                    <label class="label">
+                      <span class="label-text-alt text-error">Please select a rating</span>
+                    </label>
+                  }
+                </div>
+
+                <!-- Title Input -->
+                <div class="form-control">
+                  <label class="label">
+                    <span class="label-text font-semibold">Review Title *</span>
+                  </label>
+                  <input
+                    type="text"
+                    formControlName="title"
+                    placeholder="Enter a title for your review"
+                    class="input input-bordered w-full"
+                    maxlength="100" />
+                  @if (reviewForm.get('title')?.invalid && reviewForm.get('title')?.touched) {
+                    <label class="label">
+                      <span class="label-text-alt text-error">
+                        Title must be between 3 and 100 characters
+                      </span>
+                    </label>
+                  }
+                </div>
+
+                <!-- Content Textarea -->
+                <div class="form-control">
+                  <label class="label">
+                    <span class="label-text font-semibold">Your Review *</span>
+                  </label>
+                  <textarea
+                    formControlName="content"
+                    placeholder="Share your experience with this product..."
+                    class="textarea textarea-bordered h-32"
+                    maxlength="1000"></textarea>
+                  @if (reviewForm.get('content')?.invalid && reviewForm.get('content')?.touched) {
+                    <label class="label">
+                      <span class="label-text-alt text-error">
+                        Review must be between 10 and 1000 characters
+                      </span>
+                    </label>
+                  }
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-control mt-6">
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-block"
+                    [disabled]="reviewForm.invalid || isSubmitting || vs.loading">
+                    @if (isSubmitting || vs.loading) {
+                      <span class="loading loading-spinner loading-sm"></span>
+                    } @else {
+                      <ion-icon name="checkmark-outline" class="text-lg"></ion-icon>
+                    }
+                    Submit Review
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        } @else {
+          <!-- Login Prompt -->
+          <div class="alert alert-info mt-6">
+            <ion-icon name="log-in-outline" class="text-lg"></ion-icon>
+            <span>
+              Please <a routerLink="/login" class="link link-primary font-semibold">log in</a> to write a review.
+            </span>
+          </div>
+        }
+      </div>
+    }
+  </div>
+}

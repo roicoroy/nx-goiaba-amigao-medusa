@@ -1,0 +1,107 @@
+<app-goiaba-header [showMenuButton]="true" [showBackButton]="false" [showCart]="true"></app-goiaba-header>
+
+
+<ion-content [fullscreen]="true" class="home-content">
+
+  <!-- Hero Section - daisyUI Component -->
+  <app-goiaba-hero (shopNowClick)="navigateToProducts()"></app-goiaba-hero>
+
+  <!-- Promotional Banner Section -->
+  <section class="promo-section bg-theme-surface">
+    <div class="flex flex-col">
+
+      <app-goiaba-promo-banner [title]="'home.promo.special_deals.title' | translate"
+        [subtitle]="'home.promo.special_deals.subtitle' | translate" iconName="flash-outline" backgroundColor="app-dark"
+        textColor="white" [buttonText]="'home.promo.special_deals.button' | translate"
+        [buttonAction]="navigateToProducts">
+      </app-goiaba-promo-banner>
+
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section py-16 md:py-24 bg-theme-secondary">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-black text-theme-primary mb-4">
+          {{ 'home.features.heading' | translate }}
+        </h2>
+        <p class="text-xl md:text-2xl text-theme-secondary max-w-2xl mx-auto font-medium">
+          {{ 'home.features.description' | translate }}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Feature 1 -->
+        <div
+          class="feature-card p-8 rounded-2xl bg-theme-surface-elevated border border-theme-primary hover:shadow-theme-lg transition-all duration-300">
+          <div
+            class="w-16 h-16 bg-goiaba-primary/20 rounded-full flex items-center justify-center mb-6 mx-auto md:mx-0">
+            <ion-icon name="diamond-outline" class="text-3xl text-goiaba-primary"></ion-icon>
+          </div>
+          <h3 class="text-2xl md:text-3xl font-black text-theme-primary mb-3 text-center md:text-left">{{
+            'home.features.unique_finds.title' | translate }}</h3>
+          <p class="text-lg text-theme-secondary text-center md:text-left">
+            {{ 'home.features.unique_finds.description' | translate }}
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div
+          class="feature-card p-8 rounded-2xl bg-theme-surface-elevated border border-theme-primary hover:shadow-theme-lg transition-all duration-300">
+          <div
+            class="w-16 h-16 bg-goiaba-secondary/20 rounded-full flex items-center justify-center mb-6 mx-auto md:mx-0">
+            <ion-icon name="globe-outline" class="text-3xl text-goiaba-secondary"></ion-icon>
+          </div>
+          <h3 class="text-2xl md:text-3xl font-black text-theme-primary mb-3 text-center md:text-left">{{
+            'home.features.global_selection.title' | translate }}</h3>
+          <p class="text-lg text-theme-secondary text-center md:text-left">
+            {{ 'home.features.global_selection.description' | translate }}
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div
+          class="feature-card p-8 rounded-2xl bg-theme-surface-elevated border border-theme-primary hover:shadow-theme-lg transition-all duration-300">
+          <div
+            class="w-16 h-16 bg-goiaba-primary/20 rounded-full flex items-center justify-center mb-6 mx-auto md:mx-0">
+            <ion-icon name="heart-outline" class="text-3xl text-goiaba-primary"></ion-icon>
+          </div>
+          <h3 class="text-2xl md:text-3xl font-black text-theme-primary mb-3 text-center md:text-left">{{
+            'home.features.quality_assured.title' | translate }}</h3>
+          <p class="text-lg text-theme-secondary text-center md:text-left">
+            {{ 'home.features.quality_assured.description' | translate }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about-section py-16 md:py-24 bg-theme-surface">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 class="text-4xl md:text-5xl lg:text-6xl font-black text-theme-primary mb-4">
+            {{ 'home.about.heading' | translate }}
+          </h2>
+        </div>
+        <div class="prose prose-lg max-w-none">
+          <p class="text-xl md:text-2xl text-theme-secondary leading-relaxed mb-6 font-medium">
+            {{ 'home.about.paragraph_1' | translate }}
+          </p>
+          <p class="text-xl md:text-2xl text-theme-secondary leading-relaxed mb-6 font-medium">
+            {{ 'home.about.paragraph_2' | translate }}
+          </p>
+          <p class="text-xl md:text-2xl text-theme-secondary leading-relaxed font-medium">
+            {{ 'home.about.paragraph_3' | translate }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <app-goiaba-footer></app-goiaba-footer>
+
+</ion-content>

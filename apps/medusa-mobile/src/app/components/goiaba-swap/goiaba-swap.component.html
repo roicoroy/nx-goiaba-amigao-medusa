@@ -1,0 +1,29 @@
+<!-- daisyUI Swap Component -->
+<label class="swap swap-rotate cursor-pointer" [class]="sizeClass">
+  <!-- Hidden checkbox for state management -->
+  <input 
+    type="checkbox" 
+    [checked]="checked"
+    (change)="onCheckboxChange($event)"
+    class="swap-checkbox" />
+  
+  <!-- Off state (unchecked) - shown when checkbox is unchecked -->
+  <div class="swap-off flex items-center justify-center gap-2">
+    @if (offIcon) {
+      <ion-icon [name]="offIcon" [class]="iconSizeClass"></ion-icon>
+    }
+    @if (offLabel && !iconOnly) {
+      <span class="text-sm">{{ offLabel }}</span>
+    }
+  </div>
+  
+  <!-- On state (checked) - shown when checkbox is checked -->
+  <div class="swap-on flex items-center justify-center gap-2">
+    @if (onIcon) {
+      <ion-icon [name]="onIcon" [class]="iconSizeClass"></ion-icon>
+    }
+    @if (onLabel && !iconOnly) {
+      <span class="text-sm">{{ onLabel }}</span>
+    }
+  </div>
+</label>

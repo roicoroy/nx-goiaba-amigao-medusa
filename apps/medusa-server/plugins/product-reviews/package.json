@@ -1,0 +1,108 @@
+{
+  "name": "@blegaut/medusa-product-reviews-enhanced",
+  "version": "1.4.30",
+  "description": "Enhanced Product Reviews Plugin for Medusa with advanced filtering, pagination and admin UI",
+  "author": "blegaut",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lambda-curry/medusa-plugins"
+  },
+  "homepage": "https://github.com/lambda-curry/medusa-plugins/tree/main/plugins/product-reviews",
+  "files": [
+    ".medusa/server"
+  ],
+  "exports": {
+    "./package.json": "./package.json",
+    "./workflows": "./.medusa/server/src/workflows/index.js",
+    "./.medusa/server/src/modules/*": "./.medusa/server/src/modules/*/index.js",
+    "./providers/*": "./.medusa/server/src/providers/*/index.js",
+    "./*": "./.medusa/server/src/*.js",
+    "./admin": {
+      "import": "./.medusa/server/src/admin/index.mjs",
+      "require": "./.medusa/server/src/admin/index.js",
+      "default": "./.medusa/server/src/admin/index.js"
+    }
+  },
+  "keywords": [
+    "medusa",
+    "plugin",
+    "product-reviews",
+    "medusa-plugin-integration",
+    "medusa-plugin-other",
+    "medusa-v2",
+    "medusa-plugin-product-reviews",
+    "medusa-plugin",
+    "lambdacurry"
+  ],
+  "scripts": {
+    "build": "medusa plugin:build",
+    "dev": "medusa plugin:develop",
+    "dev:publish": "medusa plugin:publish",
+    "prepublishOnly": "sh -c 'if [ -n \"$SKIP_PREPUBLISH\" ]; then exit 0; else medusa plugin:build; fi'",
+    "deploy": "npm run build && SKIP_PREPUBLISH=1 yalc publish",
+    "publish:yalc": "npx yalc publish",
+    "db:generate": "DB_USERNAME=${DB_USERNAME:-postgres} DB_PASSWORD=${DB_PASSWORD:-postgres} medusa plugin:db:generate",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@medusajs/admin-sdk": "^2.10.3",
+    "@medusajs/cli": "^2.10.3",
+    "@medusajs/framework": "^2.10.3",
+    "@medusajs/icons": "^2.10.3",
+    "@medusajs/medusa": "^2.10.3",
+    "@medusajs/test-utils": "^2.10.3",
+    "@medusajs/ui": "^4.0.23",
+    "@mikro-orm/cli": "6.4.3",
+    "@mikro-orm/core": "6.4.3",
+    "@mikro-orm/knex": "6.4.3",
+    "@mikro-orm/migrations": "6.4.3",
+    "@mikro-orm/postgresql": "6.4.3",
+    "@swc/core": "1.5.7",
+    "@types/express": "4.17.13",
+    "@types/luxon": "^3",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^18.2.25",
+    "awilix": "^8.0.1",
+    "pg": "^8.13.0",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.54.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2",
+    "vite": "^5.2.11",
+    "yalc": "^1.0.0-pre.53"
+  },
+  "peerDependencies": {
+    "@medusajs/admin-sdk": "2.11.2",
+    "@medusajs/cli": "2.11.2",
+    "@medusajs/framework": "2.11.2",
+    "@medusajs/icons": "^2.10.3",
+    "@medusajs/medusa": "2.11.2",
+    "@medusajs/test-utils": "^2.10.3",
+    "@medusajs/ui": "^4.0.23",
+    "@mikro-orm/cli": "^6.4.16",
+    "@mikro-orm/core": "^6.4.16",
+    "@mikro-orm/knex": "^6.4.16",
+    "@mikro-orm/migrations": "^6.4.16",
+    "@mikro-orm/postgresql": "^6.4.16",
+    "awilix": "^8.0.1",
+    "pg": "^8.13.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "installConfig": {
+    "hoistingLimits": "workspaces"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "3.4.2",
+    "@medusajs/js-sdk": "^2.10.3",
+    "@medusajs/workflows-sdk": "^2.10.3",
+    "luxon": "^3.5.0",
+    "react-player": "^3.3.3"
+  }
+}

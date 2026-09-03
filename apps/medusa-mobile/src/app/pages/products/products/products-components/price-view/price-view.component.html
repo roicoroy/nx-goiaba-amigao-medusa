@@ -1,0 +1,33 @@
+<ion-accordion-group #accordionGroup class="w-full">
+    <ion-accordion value="pricesList">
+        <ion-item slot="header" class="bg-neutral-50 hover:bg-neutral-100 transition-colors duration-200">
+            <ion-label class="text-neutral-900 font-semibold">Quick Price list</ion-label>
+        </ion-item>
+        <div class="p-4 space-y-3" slot="content">
+            @for (variant of variantsWithWishlistStatus$ | async; track variant.id) {
+              <div class="flex items-center justify-between gap-3 p-3 bg-neutral-50 rounded-lg hover:bg-neutral-100 transition-colors duration-200">
+                <span class="text-sm font-medium text-neutral-700 flex-shrink-0">
+                    {{ variant.title }}
+                </span>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                    <app-goiaba-ion-button
+                        (click)="addToCart(variant)"
+                        variant="outline"
+                        size="small"
+                        customClass="!px-3 !py-2">
+                        {{ getVariantPrice(variant) | shortNumber | medusaCurrency:getVariantCurrency(variant) }}
+                    </app-goiaba-ion-button>
+                    <app-goiaba-ion-button
+                        (click)="toggleWishlist(variant)"
+                        variant="clear"
+                        size="small"
+                        [iconOnly]="true"
+                        [iconStart]="variant.isInWishlist ? 'heart' : 'heart-outline'"
+                        [customClass]="variant.isInWishlist ? '!text-error-500 hover:!bg-error-50' : '!text-neutral-600 hover:!bg-neutral-100'">
+                    </app-goiaba-ion-button>
+                </div>
+              </div>
+            }
+        </div>
+    </ion-accordion>
+</ion-accordion-group>

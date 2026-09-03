@@ -1,0 +1,198 @@
+// Ensure page content is interactive and scrollable
+ion-content {
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 1;
+  --overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  
+  // Ensure inner scroll works
+  .inner-scroll {
+    pointer-events: auto !important;
+  }
+}
+
+.profile-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 24px;
+  pointer-events: auto;
+  position: relative;
+  z-index: 1;
+
+  .avatar-wrapper {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    margin: 10px 0 16px;
+
+    app-image-picker {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      border: 4px solid var(--ion-background-color);
+
+      ::ng-deep {
+        .picker, ion-img, img {
+          width: 100% !important;
+          height: 100% !important;
+          border: none !important;
+          border-radius: 50% !important;
+          margin: 0 !important;
+          max-width: none !important;
+          max-height: none !important;
+          object-fit: cover !important;
+        }
+      }
+    }
+
+    .remove-avatar-btn {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 36px;
+      height: 36px;
+      --padding-start: 0;
+      --padding-end: 0;
+      z-index: 10;
+      border: 3px solid var(--ion-background-color);
+    }
+  }
+
+  h2 {
+    font-weight: 800;
+    font-size: 1.75rem;
+    letter-spacing: -0.5px;
+  }
+
+  .text-small {
+    font-size: 0.95rem;
+    margin-top: 4px;
+  }
+
+}
+
+.welcome-card {
+  border-radius: 24px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+
+  .icon-container ion-icon {
+    font-size: 4.5rem;
+    background: rgba(var(--ion-color-primary-rgb), 0.1);
+    border-radius: 50%;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+}
+
+.sticky-segment {
+  // position: sticky;
+  top: 0;
+  // z-index: 10;
+  background: rgba(var(--ion-background-color-rgb), 0.95);
+  backdrop-filter: blur(10px);
+  padding: 10px 16px;
+  margin: 0 -16px;
+  border-bottom: 1px solid var(--ion-color-light);
+  pointer-events: auto;
+
+  ion-segment {
+    background: transparent;
+    padding: 0;
+    pointer-events: auto;
+
+    ion-segment-button {
+      --indicator-color: transparent;
+      --color: var(--ion-color-medium);
+      --color-checked: var(--ion-color-primary);
+      min-height: 44px;
+      margin: 0 4px;
+      pointer-events: auto;
+
+      &::part(indicator-background) {
+        border-bottom: 2px solid var(--ion-color-primary);
+        background: transparent;
+      }
+    }
+  }
+}
+
+.tab-content {
+  min-height: 300px;
+  padding-top: 20px;
+  padding-bottom: 40px;
+  pointer-events: auto;
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+  
+  // Ensure all child elements are interactive
+  * {
+    pointer-events: auto;
+  }
+  
+  // But allow labels to not block clicks
+  ion-label {
+    pointer-events: none;
+  }
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 4px;
+
+  h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+}
+
+.info-card {
+  border-radius: 16px;
+  margin-inline: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+
+  ion-item {
+    --padding-start: 16px;
+    --inner-padding-end: 16px;
+    pointer-events: auto;
+    
+    ion-label {
+      pointer-events: none;
+    }
+  }
+
+  .label-sm {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+}
+
+.action-card {
+  border-radius: 16px;
+  margin-inline: 0;
+  border: 1px solid var(--ion-color-primary);
+  background: rgba(var(--ion-color-primary-rgb), 0.03);
+
+  ion-item {
+    --background: transparent;
+
+    h3 {
+      font-weight: 600;
+      color: var(--ion-color-primary);
+    }
+  }
+}
+

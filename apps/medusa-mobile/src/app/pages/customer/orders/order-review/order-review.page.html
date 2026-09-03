@@ -1,0 +1,67 @@
+<app-goiaba-header titleKey="orders.order_review" [showBackButton]="true"></app-goiaba-header>
+
+<ion-content [fullscreen]="true" class="order-review-content">
+  <div class="container mx-auto px-4 py-4">
+    @if(order){
+
+  <!-- Order Summary -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Order #{{ order.display_id }}</ion-card-title>
+      <ion-badge [color]="getStatusColor(order.status)">
+        {{ order.status }}
+      </ion-badge>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Total:</strong> {{ order.total | medusaCurrency:order.currency_code }}</p>
+      <p><strong>Date:</strong> {{ order.created_at | date:'medium' }}</p>
+      <p><strong>Status:</strong> {{ order.status }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Action Buttons -->
+  <ion-card>
+    <ion-card-content>
+      <ion-button *ngIf="fromPayment" expand="block" (click)="home()" color="primary">
+        <ion-icon name="storefront" slot="start"></ion-icon>
+        Continue Shopping
+      </ion-button>
+
+      <ion-button *ngIf="canCreateReturn(order.status)" expand="block" (click)="createReturn()" fill="outline"
+        [class.ion-margin-top]="fromPayment">
+        <ion-icon name="return-down-back" slot="start"></ion-icon>
+        Create Return
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Order Items -->
+  <ion-card *ngFor="let product of order?.items; let i = index">
+    <ion-card-content>
+      <ion-row>
+        <ion-col size="4">
+          <ion-img [src]="product?.thumbnail" (ionError)="onImageError($event)"></ion-img>
+        </ion-col>
+        <ion-col size="8">
+          <ion-text>
+            {{ product?.title }}
+          </ion-text> <br>
+          <ion-text>
+            {{ product?.subtitle }}
+          </ion-text> <br>
+          <ion-text>
+            {{ product?.unit_price | shortNumber | medusaCurrency:order.currency_code }}
+          </ion-text> <br>
+          <ion-text color="primary">
+            {{ product?.variant_sku }}
+          </ion-text>
+          <p>
+            {{ product.product_description }}
+          </p>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+    }
+  </div>
+</ion-content>

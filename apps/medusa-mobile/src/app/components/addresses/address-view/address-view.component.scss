@@ -1,0 +1,90 @@
+.address-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  --background: var(--ion-color-light);
+  --border-color: var(--ion-color-medium);
+}
+
+.address-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.address-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.address-name {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--ion-color-dark);
+  margin: 0;
+}
+
+.address-badges {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--ion-color-primary-tint);
+  color: var(--ion-color-primary-contrast);
+  font-weight: 500;
+}
+
+.address-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.address-line {
+  font-size: 14px;
+  color: var(--ion-color-medium);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.address-actions {
+  display: flex;
+  gap: 4px;
+  margin-left: 8px;
+}
+
+.address-actions ion-button {
+  --padding-start: 8px;
+  --padding-end: 8px;
+  --padding-top: 4px;
+  --padding-bottom: 4px;
+  min-width: 32px;
+  height: 32px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .address-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .address-badges {
+    margin-top: 4px;
+  }
+  
+  .address-actions {
+    margin-top: 8px;
+    margin-left: 0;
+  }
+}

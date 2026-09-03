@@ -1,0 +1,38 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="end">
+            <ion-button (click)="closeModal()" expand="block" fill="clear" shape="round">
+                Dismiss
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    @if (secret_key && secret_key.length > 0) {
+    <ion-row>
+        <ion-col>
+            <ngx-stripe-payment id="card-element" [clientSecret]="secret_key"></ngx-stripe-payment>
+        </ion-col>
+    </ion-row>
+    } @else {
+    <ion-row>
+        <ion-col>
+            <div class="ion-text-center ion-padding">
+                <ion-spinner name="crescent"></ion-spinner>
+                <p>Loading payment form...</p>
+            </div>
+        </ion-col>
+    </ion-row>
+    }
+</ion-content>
+<ion-footer>
+    <ion-toolbar>
+        <ion-col size="12">
+            <ion-button (click)="confirmPayment()" color="primary" expand="block" fill="solid" shape="round"
+                color="dark">
+                <ion-icon name="card"></ion-icon> <br />
+                <ion-label>Submit Card</ion-label>
+            </ion-button>
+        </ion-col>
+    </ion-toolbar>
+</ion-footer>

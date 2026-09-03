@@ -1,0 +1,38 @@
+@if (viewState$ | async; as vs) {
+  @if (vs.loading) {
+    <div class="loading-container">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Loading bought together products...</p>
+    </div>
+  } @else if (vs.error) {
+    <div class="error-container">
+      <p class="error-message">{{ vs.error }}</p>
+    </div>
+  } @else if (vs.products && vs.products.length > 0) {
+    <div class="bought-together-container">
+      <h3 class="bought-together-title">Frequently Bought Together</h3>
+      <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+        @for (product of vs.products; track product.id) {
+          <app-goiaba-card 
+            @fade 
+            variant="elevated"
+            [clickable]="true"
+            [hover]="true"
+            padding="none"
+            customClass="h-full"
+            (cardClick)="detailsPage(product)">
+            <div class="w-full aspect-square flex items-center justify-center overflow-hidden">
+              <img [src]="product.images?.[0]?.url || 'assets/placeholder-product.png'"
+                (error)="$event.target.src='assets/placeholder-product.png'"
+                class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" />
+            </div>
+          </app-goiaba-card>
+        }
+      </div>
+    </div>
+  } @else {
+    <div class="empty-state">
+      <p>No products bought together found.</p>
+    </div>
+  }
+}

@@ -1,0 +1,223 @@
+<!-- Loading State -->
+@if (loading()) {
+  <div class="flex flex-col items-center justify-center text-center p-8 min-h-[300px] space-y-4">
+    <ion-spinner name="crescent" class="text-goiaba-primary"></ion-spinner>
+    <p class="text-neutral-600 text-base m-0">Loading cart...</p>
+  </div>
+}
+
+<!-- Error State -->
+@if (error() && !loading()) {
+  <div class="alert alert-error max-w-2xl mx-auto my-4 shadow-lg">
+    <ion-icon name="alert-circle" class="text-2xl"></ion-icon>
+    <div>
+      <h3 class="font-bold">Oops! Something went wrong</h3>
+      <div class="text-sm">{{ error() }}</div>
+    </div>
+    <button class="btn btn-sm btn-outline" (click)="refreshCart()">
+      <ion-icon name="refresh-outline"></ion-icon>
+      Retry
+    </button>
+  </div>
+}
+
+<!-- Cart Content -->
+@if (!loading() && !error()) {
+  @if (isCartEmpty()) {
+    <!-- Empty Cart State -->
+    <div class="flex flex-col items-center justify-center text-center p-12 min-h-[500px] space-y-8">
+      <div class="flex justify-center">
+        <div class="relative w-24 h-24">
+          <ion-icon name="cart-outline" class="text-8xl text-neutral-300"></ion-icon>
+        </div>
+      </div>
+      <div>
+        <h2 class="text-3xl font-bold text-neutral-900 mb-2">Your cart is empty</h2>
+        <p class="text-neutral-600 text-lg">Add some products to get started shopping!</p>
+      </div>
+      <button class="btn btn-primary btn-lg gap-2" (click)="continueShopping()">
+        <ion-icon name="bag"></ion-icon>
+        Continue Shopping
+      </button>
+    </div>
+  } @else {
+    <!-- Cart Items & Summary -->
+    <div class="container mx-auto px-2 py-6">
+      <h1 class="text-3xl font-bold text-neutral-900 mb-6">Shopping Cart</h1>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Cart Items Section -->
+        <div class="lg:col-span-2">
+          <div class="card bg-white shadow-lg border border-neutral-200">
+            <div class="card-body p-0">
+              <!-- Items Header -->
+              <div class="px-6 py-4 border-b border-neutral-200 flex justify-between items-center">
+                <h3 class="text-xl font-semibold text-neutral-900">Items</h3>
+                <span class="badge badge-primary badge-lg">{{ medusaCart()?.items?.length }} items</span>
+              </div>
+
+              <!-- Items Table -->
+              <div class="overflow-x-auto">
+                <table class="table table-zebra w-full">
+                  <thead>
+                    <tr class="bg-neutral-50">
+                      <th class="text-neutral-700">Product</th>
+                      <th class="text-neutral-700 text-center">Quantity</th>
+                      <th class="text-neutral-700 text-right">Price</th>
+                      <th class="text-neutral-700 text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (item of medusaCart()?.items; track item.id) {
+                      <tr class="hover:bg-neutral-50 transition-colors">
+                        <!-- Product Info -->
+                        <td>
+                          <div class="flex gap-3">
+                            <div class="avatar">
+                              <div class="w-16 h-16 rounded-lg overflow-hidden bg-neutral-200">
+                                <img
+                                  [src]="item?.thumbnail"
+                                  [alt]="item?.title"
+                                  (error)="onImageError($event)"
+                                  class="object-cover w-full h-full" />
+                              </div>
+                            </div>
+                            <div class="flex flex-col justify-center">
+                              <p class="font-semibold text-neutral-900">{{ item?.title }}</p>
+                              @if (item.variant?.title) {
+                                <p class="text-sm text-neutral-600">{{ item.variant?.title }}</p>
+                              }
+                              <p class="text-sm font-semibold text-goiaba-primary">
+                                {{ item?.unit_price | shortNumber | medusaCurrency: medusaCart()!.currency_code }}
+                              </p>
+                            </div>
+                          </div>
+                        </td>
+
+                        <!-- Quantity Controls -->
+                        <td>
+                          <div class="flex justify-center items-center gap-2">
+                            <button
+                              class="btn btn-xs btn-ghost"
+                              [disabled]="item.quantity <= 1"
+                              (click)="decrementItem(item)">
+                              <ion-icon name="remove"></ion-icon>
+                            </button>
+                            <input
+                              type="number"
+                              [value]="item.quantity"
+                              readonly
+                              class="input input-bordered input-xs w-16 text-center" />
+                            <button
+                              class="btn btn-xs btn-ghost"
+                              (click)="incrementItem(item)">
+                              <ion-icon name="add"></ion-icon>
+                            </button>
+                          </div>
+                        </td>
+
+                        <!-- Price -->
+                        <td class="text-right">
+                          <span class="font-semibold text-neutral-900">
+                            {{ ((item?.unit_price ?? 0) * item.quantity) | shortNumber | medusaCurrency: medusaCart()!.currency_code }}
+                          </span>
+                        </td>
+
+                        <!-- Remove -->
+                        <td class="text-center">
+                          <button
+                            class="btn btn-ghost btn-xs text-error-500 hover:bg-error-50"
+                            (click)="delete(item)">
+                            <ion-icon name="trash-outline"></ion-icon>
+                          </button>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Apply Discount -->
+          <div class="mt-6">
+            <app-apply-discount></app-apply-discount>
+          </div>
+        </div>
+
+        <!-- Cart Summary Section -->
+        <div class="lg:col-span-1">
+          <div class="card bg-white shadow-lg border border-neutral-200 sticky top-4">
+            <div class="card-body">
+              <h3 class="card-title text-xl font-semibold text-neutral-900 mb-4">Order Summary</h3>
+
+              <div class="space-y-3">
+                <!-- Subtotal -->
+                <div class="flex justify-between items-center pb-3 border-b border-neutral-200">
+                  <span class="text-neutral-700">Subtotal</span>
+                  <span class="font-semibold text-neutral-900">
+                    {{ medusaCart()?.subtotal | shortNumber | medusaCurrency: medusaCart()!.currency_code }}
+                  </span>
+                </div>
+
+                <!-- Discount -->
+                @if (medusaCart()?.discount_total && (medusaCart()?.discount_total ?? 0) > 0) {
+                  <div class="flex justify-between items-center pb-3 border-b border-neutral-200">
+                    <span class="text-neutral-700">Discount</span>
+                    <span class="font-semibold text-success-500">
+                      -{{ medusaCart()?.discount_total | shortNumber | medusaCurrency: medusaCart()!.currency_code }}
+                    </span>
+                  </div>
+                }
+
+                <!-- Tax -->
+                @if (medusaCart()?.tax_total && (medusaCart()?.tax_total ?? 0) > 0) {
+                  <div class="flex justify-between items-center pb-3 border-b border-neutral-200">
+                    <span class="text-neutral-700">Tax</span>
+                    <span class="font-semibold text-neutral-900">
+                      {{ medusaCart()?.tax_total | shortNumber | medusaCurrency: medusaCart()!.currency_code }}
+                    </span>
+                  </div>
+                }
+
+                <!-- Shipping -->
+                @if (medusaCart()?.shipping_total && (medusaCart()?.shipping_total ?? 0) > 0) {
+                  <div class="flex justify-between items-center pb-3 border-b border-neutral-200">
+                    <span class="text-neutral-700">Shipping</span>
+                    <span class="font-semibold text-neutral-900">
+                      {{ medusaCart()?.shipping_total | shortNumber | medusaCurrency: medusaCart()!.currency_code }}
+                    </span>
+                  </div>
+                }
+
+                <!-- Total -->
+                <div class="flex justify-between items-center pt-3 bg-neutral-50 -mx-6 -mb-6 px-6 py-4 rounded-b-lg">
+                  <span class="font-bold text-lg text-neutral-900">Total</span>
+                  <span class="font-bold text-xl text-goiaba-primary">
+                    {{ medusaCart()?.total | shortNumber | medusaCurrency: medusaCart()!.currency_code }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="card-actions flex flex-col gap-3 pt-6">
+                <button
+                  class="btn btn-outline btn-error w-full gap-2"
+                  (click)="clearCart()">
+                  <ion-icon name="trash"></ion-icon>
+                  Clear Cart
+                </button>
+                <button
+                  class="btn btn-primary w-full gap-2"
+                  (click)="checkout()">
+                  <ion-icon name="card"></ion-icon>
+                  Proceed to Checkout
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "name": "medusa-server",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/medusa-server/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "medusa build",
+        "cwd": "apps/medusa-server"
+      },
+      "outputs": [
+        "{projectRoot}/.medusa/server",
+        "{projectRoot}/.medusa/admin"
+      ],
+      "cache": true
+    },
+    "tunel": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "yarn dev:tunnel",
+        "cwd": "apps/medusa-server"
+      },
+      "cache": false
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "CHOKIDAR_USEPOLLING=true CHOKIDAR_IGNORED='plugins/**' medusa develop",
+        "cwd": "apps/medusa-server"
+      },
+      "cache": false
+    },
+    "start": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "medusa start",
+        "cwd": "apps/medusa-server"
+      },
+      "cache": false
+    },
+    "migrate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "medusa db:migrate",
+        "cwd": "apps/medusa-server"
+      },
+      "cache": false
+    },
+    "db:setup": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "medusa db:setup",
+        "cwd": "apps/medusa-server"
+      },
+      "cache": false
+    },
+    "seed": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "medusa exec ./src/scripts/seed.ts",
+        "cwd": "apps/medusa-server"
+      },
+      "cache": false
+    },
+    "create-admin": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "medusa user -e roicoroy@yahoo.com.br -p Rwbento123!",
+        "cwd": "apps/medusa-server"
+      },
+      "cache": false
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "jest",
+        "cwd": "apps/medusa-server"
+      },
+      "cache": true,
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/jest.config.js",
+        "{projectRoot}/jest.config.js"
+      ]
+    },
+    "test:integration:http": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "TEST_TYPE=integration:http NODE_OPTIONS=--experimental-vm-modules jest --silent=false --runInBand --forceExit",
+        "cwd": "apps/medusa-server"
+      },
+      "cache": false
+    },
+    "test:integration:modules": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "TEST_TYPE=integration:modules NODE_OPTIONS=--experimental-vm-modules jest --silent=false --runInBand --forceExit",
+        "cwd": "apps/medusa-server"
+      },
+      "cache": false
+    },
+    "test:unit": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "TEST_TYPE=unit NODE_OPTIONS=--experimental-vm-modules jest --silent --runInBand --forceExit",
+        "cwd": "apps/medusa-server"
+      },
+      "cache": true
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/medusa-server",
+        "command": "tsc --build --emitDeclarationOnly"
+      },
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/package.json",
+        "{projectRoot}/tsconfig.json",
+        "{projectRoot}/**/*",
+        "{projectRoot}/.medusa/types/*",
+        "!{projectRoot}/node_modules",
+        "!{projectRoot}/.medusa/server",
+        "!{projectRoot}/.medusa/admin",
+        "!{projectRoot}/.cache",
+        "^production"
+      ],
+      "outputs": [
+        "{projectRoot}/.medusa/server/**/*.d.ts",
+        "{projectRoot}/.medusa/server/*.tsbuildinfo"
+      ]
+    }
+  },
+  "tags": []
+}

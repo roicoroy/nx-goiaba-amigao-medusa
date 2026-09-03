@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Receive items for {{ getOrderDisplayId() }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="onCancel()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="content-wrapper">
+    <!-- Item Details Section -->
+    <div class="section">
+      <div class="items-list">
+        <div *ngFor="let item of receiveItems" class="item-card">
+          <div class="item-header">
+            <div class="item-thumbnail">
+              <img *ngIf="item.thumbnail" [src]="item.thumbnail" [alt]="item.title">
+              <ion-icon *ngIf="!item.thumbnail" name="cube-outline"></ion-icon>
+            </div>
+            <div class="item-info">
+              <div class="item-quantity-badge">{{ item.requestedQuantity }}x</div>
+              <div class="item-details">
+                <h4>{{ item.title }}</h4>
+                <p class="item-subtitle">{{ item.subtitle }}</p>
+                <p class="item-sku" *ngIf="item.variantSku">{{ item.variantSku }}</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="item-receive-section">
+            <ion-item>
+              <ion-label position="stacked">Items received</ion-label>
+              <ion-input
+                type="number"
+                [(ngModel)]="item.receivedQuantity"
+                [min]="0"
+                [max]="item.maxQuantity"
+                placeholder="0">
+              </ion-input>
+            </ion-item>
+            <div *ngIf="item.quantityError" class="error-message">
+              <ion-icon name="alert-circle-outline"></ion-icon>
+              {{ item.quantityError }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Summary Section -->
+    <div class="section" *ngIf="orderSummary">
+      <div class="summary-card">
+        <div class="summary-row">
+          <span>Order Total</span>
+          <span class="summary-value">{{ formatCurrency(orderSummary.orderTotal, order.currency_code) }} {{ order.currency_code }}</span>
+        </div>
+        <div class="summary-row">
+          <span>Outstanding amount</span>
+          <span class="summary-value" [class.negative]="orderSummary.outstandingAmount < 0">
+            {{ formatCurrency(orderSummary.outstandingAmount, order.currency_code) }} {{ order.currency_code }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Information and Action Section -->
+    <div class="section">
+      <!-- Inventory Adjustment Note -->
+      <div class="info-box">
+        <ion-icon name="information-circle-outline" class="info-icon"></ion-icon>
+        <p>Please note that we will automatically adjust the inventory levels based on your input above.</p>
+      </div>
+
+      <!-- Send Notification Toggle -->
+      <ion-item>
+        <ion-toggle [(ngModel)]="sendNotification"></ion-toggle>
+        <ion-label>
+          <h3>Send notification</h3>
+          <p>Notify customer about received return</p>
+        </ion-label>
+      </ion-item>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div class="footer-buttons">
+      <ion-button fill="outline" (click)="onCancel()" [disabled]="isLoading">
+        Cancel
+      </ion-button>
+      <ion-button (click)="onSave()" [disabled]="isLoading">
+        <ion-spinner *ngIf="isLoading" name="crescent" slot="start"></ion-spinner>
+        Save
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>
+

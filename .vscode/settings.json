@@ -1,0 +1,34 @@
+{
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#4dc9ff",
+        "activityBar.background": "#4dc9ff",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#df009b",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "commandCenter.border": "#15202b99",
+        "sash.hoverBorder": "#4dc9ff",
+        "statusBar.background": "#1abaff",
+        "statusBar.foreground": "#15202b",
+        "statusBarItem.hoverBackground": "#00a1e6",
+        "statusBarItem.remoteBackground": "#df009c",
+        "statusBarItem.remoteForeground": "#15202b",
+        "titleBar.activeBackground": "#1abaff",
+        "titleBar.activeForeground": "#15202b",
+        "titleBar.inactiveBackground": "#1abaff99",
+        "titleBar.inactiveForeground": "#15202b99",
+        "activityBarTop.activeBackground": "#4dc9ff",
+        "activityBarTop.background": "#4dc9ff",
+        "activityBarTop.foreground": "#15202b",
+        "activityBarTop.inactiveForeground": "#15202b99",
+        "commandCenter.foreground": "#15202b",
+        "statusBar.debuggingBackground": "#1abaff",
+        "statusBar.debuggingForeground": "#15202b"
+    },
+    "peacock.color": "#1abaff",
+    "java.configuration.updateBuildConfiguration": "disabled",
+    "cSpell.words": [
+        "goiaba",
+        "psidium"
+    ]
+}

@@ -1,0 +1,79 @@
+<app-goiaba-header titleKey="products.product_details" [showBackButton]="true">
+</app-goiaba-header>
+
+<ion-content [fullscreen]="true" class="product-details-content">
+
+  <!-- Breadcrumb Navigation -->
+  @if (viewState$ | async; as vs) {
+  @if (vs.selectedProduct) {
+  <div class="px-4 py-3 border-b border-neutral-200">
+    <div class="flex items-center gap-2 text-sm flex-wrap">
+      <a routerLink="/products"
+        class="text-neutral-500 hover:text-goiaba-primary hover:underline transition-colors duration-200">Home</a>
+      <span class="text-neutral-400">></span>
+      @if (vs.selectedProduct.collection) {
+      <a [routerLink]="['/category', vs.selectedProduct.collection.id]" class="text-goiaba-primary underline">
+        {{ vs.selectedProduct.collection.title }}
+      </a>
+      <span class="text-neutral-400">></span>
+      }
+      <span class="text-neutral-900 font-medium">{{ vs.selectedProduct.title || 'Product' }}</span>
+    </div>
+  </div>
+  }
+  }
+
+  @if (viewState$ | async; as vs) {
+  @if (vs.selectedProduct) {
+  <div class="p-0">
+    <ion-grid class="p-0 max-w-none">
+      <ion-row class="m-0">
+        <!-- Product Images -->
+        @if (getValidImages(vs.selectedProduct).length > 0 || vs.selectedProduct.thumbnail) {
+        <ion-col size="12" size-lg="7" class="p-0">
+          <div class="mb-8 p-4">
+            <!-- Main Image -->
+            <div class="flex items-center justify-center min-h-[300px] md:min-h-[400px] p-6 md:p-8 mb-4">
+              <img [src]="getMainImageUrl(vs.selectedProduct)" alt="Product Image"
+                class="max-w-full max-h-[300px] md:max-h-[500px] object-contain cursor-pointer transition-transform duration-300 hover:scale-105"
+                (click)="openImage(getMainImageUrl(vs.selectedProduct))" />
+            </div>
+
+            <!-- Thumbnail Images -->
+            @if (getValidImages(vs.selectedProduct).length > 1) {
+            <div class="flex gap-2 overflow-x-auto p-2 justify-center flex-wrap">
+              @for (item of getValidImages(vs.selectedProduct); track item.url) {
+              <button [class.border-2]="activeImg === item.url" [class.border-goiaba-primary]="activeImg === item.url"
+                [class.border-transparent]="activeImg !== item.url" (click)="handleImageActive(item.url)"
+                class="p-1 min-w-[60px] md:min-w-[80px] h-[60px] md:h-[80px] rounded transition-all duration-200 hover:opacity-80">
+                <img [src]="item.url" alt="Thumbnail" class="w-full h-full object-cover rounded" />
+              </button>
+              }
+            </div>
+            }
+          </div>
+        </ion-col>
+        }
+
+        <!-- Product Details -->
+        <ion-col size="12" size-lg="5" class="p-0 md:pl-8">
+          <div class="p-4 md:p-0">
+            <app-medusa-product-details-wrapper [medusaProduct]="vs.selectedProduct" [isInWishlist$]="isInWishlist$"
+              (addToWishlist)="addToWishlist($event)" (variantSelected)="onVariantSelected($event)">
+            </app-medusa-product-details-wrapper>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  }
+  }
+
+  @if (viewState$ | async; as vs) {
+  @if (vs.selectedProduct && vs.selectedProduct.id) {
+  <app-bought-together [productId]="vs.selectedProduct.id"></app-bought-together>
+  <app-product-reviews [productId]="vs.selectedProduct.id"></app-product-reviews>
+  }
+  }
+
+</ion-content>

@@ -1,0 +1,236 @@
+{
+	"orders": "Orders",
+	"login": "Login",
+	"register": "Register",
+	"logout": "Logout",
+	"manage_premium": "Manage Premium",
+	"home": "Home",
+	"select_language": "Select your language",
+	"ok": "OK",
+	"cancel": "Cancel",
+	"settings": "Settings",
+	"settings_description": "Customize your experience",
+	"save_settings": "Save Settings",
+	"get_image": "Add Photo",
+	"first_name": "First Name",
+	"last_name": "Last Name",
+	"login_first": "Please, login first.",
+	"english": "English",
+	"portuguese": "Portuguese",
+	"dark_mode": "Dark Mode",
+	"language": "Language",
+	"appearance": "Appearance",
+	"contact_us": "Contact Us",
+	"contact_us_description": "We'd love to hear from you. Send us a message and we'll respond as soon as possible.",
+	"find_us": "Find Us",
+	"find_us_description": "Visit us at our location",
+	"tabs": {
+		"delivery": "Delivery",
+		"shipping": "Shipping",
+		"payment": "Payment"
+	},
+	"delivery": {
+		"shipping_same": "My shipping address is same as my billing address.",
+		"user_checkout_options": "User checkout options",
+		"create_account": "Create Account",
+		"checkout_as_guest": "Checkout as a Guest",
+		"email": "Email",
+		"password": "Password",
+		"confirm_password": "Confirm Password",
+		"password_match": "Passwords must match",
+		"password_hint": "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character (@$!%*#?&)"
+	},
+	"shipping": {
+		"shipping_methods": "Shipping Methods",
+		"get_it_by": "get it by",
+		"is_a_gift": "Item is a gift",
+		"gift_options": "Gift Options",
+		"include_gift_receipt": "Include gift receipt",
+		"recipient_name": "Recipient Name",
+		"custom_message": "Custom Message",
+		"gift_wrap": "Add gift wrap"
+	},
+	"payment": {
+		"payment_method": "Payment Method",
+		"card_number": "Card Number",
+		"expiry_date": "Expiry Date",
+		"cvv": "CVV"
+	},
+	"address": {
+		"first_name": "First Name",
+		"last_name": "Last Name",
+		"address_line_1": "Address Line 1",
+		"address_line_2": "Address Line 2",
+		"city": "City / District",
+		"province": "Province / State",
+		"country": "Country",
+		"postal_code": "Postal Code",
+		"company": "Company",
+		"shipping_address": "Shipping Address",
+		"billing_address": "Billing Address",
+		"placeholders": {
+			"email": "Enter email address",
+			"first_name": "First name",
+			"last_name": "Last name",
+			"company": "Company name (optional)",
+			"address_line_1": "Street address",
+			"address_line_2": "Apartment, suite, etc. (optional)",
+			"city": "City",
+			"postal_code": "Postal code",
+			"country": "Select country",
+			"province": "Province/State (optional)",
+			"phone": "Phone number"
+		}
+	},
+	"phone": "Phone",
+	"errors": {
+		"required": "Field is required",
+		"pattern": "Invalid format",
+		"form_error": "Please fix all the errors.",
+		"field_required": "{{field}} is required",
+		"email_invalid": "Please enter a valid email address",
+		"min_length": "{{field}} must be at least {{min}} characters",
+		"phone_invalid": "Please enter a valid phone number (digits, spaces, +, -, () only)",
+		"postal_code_invalid": "Please enter a valid postal code (3-10 characters)",
+		"format_invalid": "{{field}} format is invalid"
+	},
+	"common": {
+		"next": "Next",
+		"pay": "Pay",
+		"previous": "Previous",
+		"reset": "Reset",
+		"review": "Review",
+		"edit": "Edit",
+		"restart": "Restart"
+	},
+	"home": {
+		"hero": {
+			"title": "Welcome to Goiaba Goods Galore",
+			"subtitle": "Discover the weirdest, wackiest, and most wonderful products you never knew you needed!",
+			"description": "Your one-stop shop for unusual, unique, and extraordinary items from around the world.",
+			"shop_now": "Shop Now"
+		},
+		"promo": {
+			"daily_offers": {
+				"title": "Daily offers",
+				"subtitle": "on everything you love",
+				"button": "Find Out More"
+			},
+			"discover_unique": {
+				"title": "Discover unique products",
+				"subtitle": "from around the world",
+				"button": "Shop Now"
+			},
+			"special_deals": {
+				"title": "Special deals",
+				"subtitle": "on unique products",
+				"button": "Find Out More"
+			},
+			"new_arrivals": {
+				"title": "New arrivals",
+				"subtitle": "fresh and exciting items",
+				"button": "Explore Now"
+			}
+		},
+		"features": {
+			"heading": "Why Shop at Goiaba Goods Galore?",
+			"description": "We curate the most unique and unusual products to bring you items you won't find anywhere else.",
+			"unique_finds": {
+				"title": "Unique Finds",
+				"description": "Discover one-of-a-kind products that you won't find in regular stores. We specialize in the extraordinary!"
+			},
+			"global_selection": {
+				"title": "Global Selection",
+				"description": "Products sourced from around the world, bringing you the best weird and wonderful items from every corner of the globe."
+			},
+			"quality_assured": {
+				"title": "Quality Assured",
+				"description": "Every product is carefully selected and quality-checked to ensure you get the best unusual items with great value."
+			}
+		},
+		"about": {
+			"heading": "About Goiaba Goods Galore",
+			"paragraph_1": "Welcome to Goiaba Goods Galore, your destination for the most unusual, unique, and fascinating products on the internet! We're like eBay, but with a twist - we specialize in the weird, wonderful, and wonderfully weird.",
+			"paragraph_2": "Whether you're looking for quirky gadgets, unusual collectibles, bizarre home decor, or gifts that will make your friends say \"What?!\" - we've got you covered. Our marketplace features diverse items from sellers around the world, all united by one thing: they're anything but ordinary.",
+			"paragraph_3": "From the practical-but-unusual to the completely-out-there, Goiaba Goods Galore is where your next favorite weird product is waiting to be discovered. Start exploring and find something uniquely you!"
+		}
+	},
+	"find_us": {
+		"description": "Visit us at our location",
+		"page": {
+			"visit_us": "Visit Us",
+			"subtitle": "Come and see us at our location. We'd love to welcome you!",
+			"location_title": "Mini Mercado Amigão",
+			"location_subtitle": "Visit us at our location",
+			"address": "Address"
+		}
+	},
+	"contact_us": {
+		"description": "We'd love to hear from you. Send us a message and we'll respond as soon as possible.",
+		"page": {
+			"get_in_touch": "Get in Touch",
+			"subtitle": "Have a question? Want to sell something unusual? We'd love to hear from you!",
+			"title": "Contact Us",
+			"subtitle_description": "We'd love to hear from you",
+			"form": {
+				"name": "Name",
+				"name_required": "Name is required",
+				"name_min_length": "Name must be at least 2 characters",
+				"name_placeholder": "Enter your name",
+				"email": "Email",
+				"email_required": "Email is required",
+				"email_invalid": "Please enter a valid email address",
+				"email_placeholder": "Enter your email",
+				"subject": "Subject",
+				"subject_required": "Subject is required",
+				"subject_min_length": "Subject must be at least 3 characters",
+				"subject_placeholder": "Enter subject",
+				"message": "Message",
+				"message_required": "Message is required",
+				"message_min_length": "Message must be at least 10 characters",
+				"message_placeholder": "Enter your message",
+				"send_message": "Send Message",
+				"required": "*"
+			}
+		}
+	},
+	"orders": {
+		"items_count": "You have {{count}} item{{count, plural, =1 {} other {s}}}",
+		"welcome_user": "Welcome back, {{userName}}!",
+		"order_status": "Order #{{orderNumber}} is {{status}}",
+		"price_range": "From {{minPrice}} to {{maxPrice}}",
+		"my_orders": "My Orders",
+		"order_review": "Order Review"
+	},
+	"returns": {
+		"create_return": "Create Return"
+	},
+	"cart": {
+		"title": "Shopping Cart"
+	},
+	"products": {
+		"title": "Goiaba Goods Galore",
+		"product_details": "Product Details"
+	},
+	"profile": {
+		"title": "Profile"
+	},
+	"wishlist": {
+		"title": "My Wishlist"
+	},
+	"footer": {
+		"company_name": "Goiaba Goods Galore",
+		"description": "Your destination for the weirdest, wackiest, and most wonderful products. Discover unique items you never knew you needed!",
+		"quick_links": "Quick Links",
+		"shop_now": "Shop Now",
+		"shopping_cart": "Shopping Cart",
+		"contact_us_link": "Contact Us",
+		"support": "Support",
+		"help_center": "Help Center",
+		"shipping_info": "Shipping Info",
+		"returns": "Returns",
+		"copyright": "© {{year}} Goiaba Goods Galore. All rights reserved.",
+		"privacy_policy": "Privacy Policy",
+		"terms_of_service": "Terms of Service"
+	}
+}

@@ -1,0 +1,184 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.2.2 Chrome/134.0.6998.178 Electron/35.1.2 Safari/537.36" version="26.2.2">
+  <diagram name="Page-1" id="xuGMOb4m0Ql-kM8dTg4z">
+    <mxGraphModel dx="1373" dy="981" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-1" value="Order Detail Page" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="150" height="1366" as="geometry" />
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-2" value="Fulfillment Modal" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="378" y="20" width="150" height="1366" as="geometry" />
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-3" value="Medusa Admin Service" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="680" y="20" width="186" height="1366" as="geometry" />
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-4" value="Medusa Admin API" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="1135" y="20" width="156" height="1366" as="geometry" />
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-5" value="Orders State" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="1341" y="20" width="150" height="1366" as="geometry" />
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-6" value="Open modal with order data" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-1" target="23N-wq0tZPpdYdtzuKWV-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="283" y="123" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-7" value="getStockLocations()" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-2" target="23N-wq0tZPpdYdtzuKWV-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="622" y="171" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-8" value="GET /admin/stock-locations" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-3" target="23N-wq0tZPpdYdtzuKWV-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1002" y="219" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-9" value="Stock locations response" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-4" target="23N-wq0tZPpdYdtzuKWV-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1005" y="267" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-10" value="Stock locations data" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-3" target="23N-wq0tZPpdYdtzuKWV-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="625" y="315" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-11" value="Pre-select first location" style="curved=1;endArrow=block;rounded=0;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-2" target="23N-wq0tZPpdYdtzuKWV-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="504" y="363" />
+              <mxPoint x="504" y="393" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-12" value="getShippingOptions(locationId)" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-2" target="23N-wq0tZPpdYdtzuKWV-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="622" y="441" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-13" value="GET /admin/shipping-options?stock_location_id=..." style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-3" target="23N-wq0tZPpdYdtzuKWV-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1002" y="489" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-14" value="Shipping options response" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-4" target="23N-wq0tZPpdYdtzuKWV-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1005" y="537" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-15" value="Shipping options data" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-3" target="23N-wq0tZPpdYdtzuKWV-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="625" y="585" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-16" value="Pre-select matching shipping method" style="curved=1;endArrow=block;rounded=0;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-2" target="23N-wq0tZPpdYdtzuKWV-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="504" y="633" />
+              <mxPoint x="504" y="663" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-17" value="Display order items with quantities" style="curved=1;endArrow=block;rounded=0;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-2" target="23N-wq0tZPpdYdtzuKWV-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="504" y="711" />
+              <mxPoint x="504" y="741" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-18" value="User selects location/method/quantities" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-1" target="23N-wq0tZPpdYdtzuKWV-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="283" y="789" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-19" value="User clicks &quot;Create Fulfillment&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-1" target="23N-wq0tZPpdYdtzuKWV-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="283" y="837" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-20" value="Validate form" style="curved=1;endArrow=block;rounded=0;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-2" target="23N-wq0tZPpdYdtzuKWV-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="504" y="885" />
+              <mxPoint x="504" y="915" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-21" value="createFulfillment(orderId, payload)" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-2" target="23N-wq0tZPpdYdtzuKWV-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="622" y="963" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-22" value="POST /admin/orders/{orderId}/fulfillments" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-3" target="23N-wq0tZPpdYdtzuKWV-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1002" y="1011" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-23" value="Fulfillment created response" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-4" target="23N-wq0tZPpdYdtzuKWV-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1005" y="1059" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-24" value="Success" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-3" target="23N-wq0tZPpdYdtzuKWV-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="625" y="1107" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-25" value="Dispatch LoadOrderDetails action" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-2" target="23N-wq0tZPpdYdtzuKWV-5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="943" y="1155" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-26" value="Close modal" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-2" target="23N-wq0tZPpdYdtzuKWV-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="286" y="1203" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="23N-wq0tZPpdYdtzuKWV-27" value="Refresh order display" style="curved=1;endArrow=block;rounded=0;" edge="1" parent="1" source="23N-wq0tZPpdYdtzuKWV-1" target="23N-wq0tZPpdYdtzuKWV-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="146" y="1251" />
+              <mxPoint x="146" y="1281" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

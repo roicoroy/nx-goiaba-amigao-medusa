@@ -1,0 +1,122 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()" fill="clear">
+        <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Authentication</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  @if (viewState$ | async; as vs) {
+  <div class="a ">
+    <!-- Not Logged In State -->
+    @if (!vs.isLoggedIn) {
+    <div class="max-w-md mx-auto mt-8 mb-8">
+      <ion-card class="bg-white rounded-xl shadow-lg border-0 overflow-hidden a ">
+        <!-- Gradient Header -->
+        <ion-card-header class="p-6 border-b border-neutral-100 bg-gradient-to-r from-goiaba-primary to-goiaba-secondary">
+          <ion-card-title class="text-white font-semibold text-2xl text-center">
+            Welcome to Goiaba
+          </ion-card-title>
+          <p class="text-white/90 text-sm text-center mt-2">Sign in to continue shopping</p>
+        </ion-card-header>
+
+        <ion-card-content class="p-6 space-y-4">
+          <!-- Google Login Button -->
+          <ion-button expand="block"
+                      (click)="loginWithGoogle()"
+                      [disabled]="loading"
+                      class="bg-white hover:bg-neutral-50 text-neutral-700 font-medium py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 touch-target border border-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed">
+            @if (loading) {
+            <ion-spinner name="crescent" class="mr-2"></ion-spinner>
+            }
+            @if (!loading) {
+            <ion-icon slot="start" name="logo-google" class="text-xl"></ion-icon>
+            }
+            <span>Continue with Google</span>
+          </ion-button>
+
+          <!-- Social Login Divider -->
+          <div class="relative my-6">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-neutral-300"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+              <span class="px-2 bg-white text-neutral-500">Or continue with email</span>
+            </div>
+          </div>
+
+          <!-- Email Login/Register Buttons -->
+          <ion-button expand="block"
+                      fill="solid"
+                      (click)="navigateToLogin()"
+                      class="bg-goiaba-primary hover:bg-goiaba-600 text-white font-medium py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 touch-target">
+            <ion-icon name="log-in-outline" slot="start"></ion-icon>
+            <span>{{ "login" | translate }}</span>
+          </ion-button>
+
+          <ion-button expand="block"
+                      fill="outline"
+                      (click)="navigateToRegister()"
+                      class="border-2 border-goiaba-primary text-goiaba-primary hover:bg-goiaba-primary hover:text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 touch-target">
+            <ion-icon name="person-add" slot="start"></ion-icon>
+            <span>{{ "register" | translate }}</span>
+          </ion-button>
+
+          <!-- Error Message -->
+          @if (error) {
+          <div class="mt-4 p-4 bg-error-50 border border-error-200 rounded-lg a ">
+            <p class="text-error-700 text-sm text-center m-0">{{ error }}</p>
+          </div>
+          }
+        </ion-card-content>
+      </ion-card>
+    </div>
+    } @else {
+    <!-- Logged In State -->
+    <div class="max-w-lg mx-auto mt-8 mb-8">
+      <ion-card class="bg-white rounded-xl shadow-lg border-0 overflow-hidden a ">
+        <!-- Gradient Header -->
+        <ion-card-header class="p-6 border-b border-neutral-100 bg-gradient-to-r from-goiaba-primary to-goiaba-secondary">
+          <ion-card-title class="text-white font-semibold text-xl text-center">Your Profile</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content class="p-6">
+          <!-- Profile Header -->
+          <div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left mb-6 pb-6 border-b border-neutral-200">
+            <div class="mb-4 sm:mb-0 sm:mr-6">
+              <ion-avatar class="w-24 h-24 sm:w-28 sm:h-28 border-4 border-goiaba-primary shadow-lg">
+                <img [src]="vs.avatar || 'assets/shapes.svg'"
+                     [alt]="vs.customer?.email"
+                     class="object-cover" />
+              </ion-avatar>
+            </div>
+            <div class="flex-1">
+              <h2 class="text-2xl font-semibold text-neutral-900 mb-2 m-0">
+                {{ vs.customer?.first_name }} {{ vs.customer?.last_name }}
+              </h2>
+              <p class="text-neutral-600 text-base m-0">{{ vs.customer?.email }}</p>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="space-y-3">
+            <ion-button expand="block"
+                        fill="solid"
+                        color="danger"
+                        (click)="handleLogout()"
+                        class="bg-error-500 hover:bg-error-600 text-white font-medium py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 touch-target">
+              <ion-icon name="log-out-outline" slot="start"></ion-icon>
+              <span>{{ "logout" | translate }}</span>
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    }
+  </div>
+  }
+</ion-content>

@@ -1,0 +1,100 @@
+ion-card {
+  margin: 16px 0;
+  transition: all 0.3s ease;
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      ion-icon {
+        font-size: 24px;
+      }
+
+      ion-card-title {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+      }
+    }
+
+    .section-status {
+      ion-icon {
+        font-size: 28px;
+      }
+    }
+  }
+
+  ion-card-content {
+    padding-top: 16px;
+  }
+
+  // Completed state - green
+  // &.completed {
+  //   border-left: 4px solid var(--ion-color-success);
+  //   background: var(--ion-color-success-tint, rgba(16, 220, 96, 0.05));
+
+  //   .section-title ion-icon {
+  //     color: var(--ion-color-success);
+  //   }
+  // }
+
+  // Error state - red
+  &.has-error {
+    border-left: 4px solid var(--ion-color-danger);
+    background: var(--ion-color-danger-tint, rgba(235, 68, 90, 0.05));
+
+    .section-title ion-icon {
+      color: var(--ion-color-danger);
+    }
+  }
+
+  // In-progress state - neutral
+  &.in-progress {
+    border-left: 4px solid var(--ion-color-medium);
+    background: var(--ion-color-light);
+
+    .section-title ion-icon {
+      color: var(--ion-color-dark);
+    }
+  }
+
+  // Hover effect
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  ion-card {
+    margin: 12px 0;
+
+    .section-header {
+      .section-title {
+        gap: 8px;
+
+        ion-icon {
+          font-size: 20px;
+        }
+
+        ion-card-title {
+          font-size: 16px;
+        }
+      }
+
+      .section-status {
+        ion-icon {
+          font-size: 24px;
+        }
+      }
+    }
+  }
+}

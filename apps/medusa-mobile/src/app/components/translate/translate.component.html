@@ -1,0 +1,15 @@
+<div [attr.slot]="slot" 
+     [class]="'flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity duration-200 ' + (customClass || '')" 
+     (click)="openLanguageChooser()">
+  @if (showFlag) {
+    <span class="emoji-icon text-xl" [attr.aria-label]="getCurrentLocaleName()">
+      {{ getCurrentFlag() }}
+    </span>
+  }
+  @if (showLabel) {
+    <ion-label [class]="labelClass">{{ getCurrentLocaleName() }}</ion-label>
+  }
+  @if (showChevron) {
+    <ion-icon name="chevron-forward-outline" class="text-neutral-500"></ion-icon>
+  }
+</div>

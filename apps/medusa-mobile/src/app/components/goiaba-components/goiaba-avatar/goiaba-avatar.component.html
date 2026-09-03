@@ -1,0 +1,25 @@
+@if (isLoggedIn) {
+  <ion-avatar 
+    (click)="onAvatarClick()"
+    [class]="size + ' border-2 border-goiaba-primary/20 cursor-pointer relative'">
+    @if (avatarUrl) {
+      <img 
+        [src]="avatarUrl" 
+        [alt]="customer ? (customer.first_name + ' ' + customer.last_name) : 'User'"
+        (error)="$event.target.style.display='none'"
+        class="object-cover w-full h-full absolute top-0 left-0 z-10">
+    }
+    <div
+      class="w-full h-full bg-gradient-to-br from-goiaba-primary to-goiaba-secondary flex items-center justify-center absolute top-0 left-0 z-0">
+      <span class="text-white font-semibold text-sm">
+        {{ getCustomerInitials(customer) }}
+      </span>
+    </div>
+  </ion-avatar>
+} @else {
+  <ion-icon 
+    name="log-in-outline" 
+    (click)="onAvatarClick()"
+    class="text-goiaba-primary cursor-pointer text-2xl">
+  </ion-icon>
+}

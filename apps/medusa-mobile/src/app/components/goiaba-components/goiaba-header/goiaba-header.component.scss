@@ -1,0 +1,415 @@
+/**
+ * Goiaba Header Component Styles
+ *
+ * Custom styles for the header component with proper ion-title nesting
+ * Component-level styles for reusable header across all pages
+ */
+
+// Component host styles
+:host {
+  display: block;
+  width: 100%;
+}
+
+ion-header {
+  --background: transparent;
+
+  /* Remove Ionic's default padding-top for first toolbar */
+  ion-toolbar:first-of-type {
+    padding-top: 0 !important;
+  }
+}
+
+ion-toolbar {
+  --background: var(--ion-toolbar-background, var(--ion-background-color));
+  --color: var(--ion-toolbar-color, var(--ion-text-color));
+  --border-width: 0;
+  --padding-bottom: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  padding-top: 0 !important; // Override Ionic default
+
+  // Ensure proper flex layout
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Adjust ion-title styling when nested in toolbar
+ion-toolbar ion-title {
+  --color: var(--ion-text-color, #1f2937);
+  font-size: 1.125rem; // text-lg
+  font-weight: 600; // font-semibold
+  line-height: 1.5;
+  padding: 0 1rem;
+  text-align: left;
+
+  @media (min-width: 768px) {
+    font-size: 1.25rem; // text-xl on md+
+  }
+}
+
+// Ensure title is centered when no buttons
+ion-toolbar:has(ion-title):not(:has(ion-buttons[slot="start"])):not(:has(ion-buttons[slot="end"])) {
+  justify-content: center;
+
+  ion-title {
+    text-align: center;
+  }
+}
+
+// Avatar styling
+ion-avatar {
+  --size: 40px;
+  --border-radius: 50%;
+  margin: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+
+  div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// Ensure proper spacing for buttons
+// Note: Button styling is now handled by goiaba-ion-button component
+// Safe area padding is handled by the toolbar, buttons just need regular spacing
+ion-buttons {
+  margin: 0;
+
+  &[slot="start"] {
+    padding-left: 0.5rem;
+  }
+
+  &[slot="end"] {
+    padding-right: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    // Ensure cart button and avatar align properly
+    app-cart-button {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+// Menu button with custom SVG icon
+.menu-button {
+  --padding-start: 8px;
+  --padding-end: 8px;
+  --padding-top: 4px;
+  --padding-bottom: 4px;
+  margin: 0;
+  min-width: auto;
+  min-height: auto;
+
+  img {
+    width: 24px;
+    height: 24px;
+    display: block;
+    object-fit: contain;
+  }
+}
+
+// Region selector styling in header
+ion-buttons[slot="end"] ion-item {
+  --padding-start: 0.5rem;
+  --padding-end: 0.5rem;
+  --padding-top: 0.25rem;
+  --padding-bottom: 0.25rem;
+  --inner-padding-start: 0;
+  --inner-padding-end: 0;
+  --inner-padding-top: 0;
+  --inner-padding-bottom: 0;
+  --min-height: 32px;
+  margin: 0;
+  --background: var(--ion-item-background, transparent);
+  --border-width: 0;
+  height: auto;
+  max-width: 140px;
+
+  ion-label {
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+// Popover base styling
+ion-popover {
+  --width: 280px;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+ion-popover ion-content {
+  --background: var(--ion-background-color);
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+}
+
+ion-popover ion-list {
+  --background: transparent;
+  padding: 0;
+  margin: 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+// Popover list header (user info section)
+ion-popover ion-list-header {
+  --background: var(--ion-background-color);
+  padding: 1rem 1.25rem;
+  margin: 0;
+  border-bottom: 1px solid var(--ion-border-color, var(--ion-color-step-200, #e5e7eb));
+  min-height: auto;
+
+  ion-label {
+    margin: 0;
+
+    h2 {
+      margin: 0 0 0.25rem 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ion-text-color);
+      line-height: 1.5;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.875rem;
+      color: var(--ion-color-step-600, var(--ion-text-color-step-600, #6b7280));
+      line-height: 1.5;
+    }
+  }
+}
+
+// Popover menu items
+ion-popover ion-item {
+  --padding-start: 1.25rem;
+  --padding-end: 1.25rem;
+  --padding-top: 0.875rem;
+  --padding-bottom: 0.875rem;
+  --min-height: 48px;
+  --background: var(--ion-item-background, var(--ion-background-color));
+  --background-hover: var(--ion-item-background-activated, var(--ion-color-step-50));
+  --background-activated: var(--ion-item-background-activated, var(--ion-color-step-100));
+  --border-width: 0;
+  --inner-padding-end: 0;
+  margin: 0;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+
+  &:hover {
+    --background: var(--ion-item-background-activated, var(--ion-color-step-50));
+  }
+
+  &:active {
+    --background: var(--ion-item-background-activated, var(--ion-color-step-100));
+  }
+
+  ion-icon {
+    margin-inline-end: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--ion-color-step-600, var(--ion-text-color-step-600, #6b7280));
+  }
+
+  ion-label {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--ion-text-color);
+    margin: 0;
+  }
+
+  // Logout item styling
+  &[color="danger"],
+  &:has(ion-icon[color="danger"]),
+  &:has(ion-label[color="danger"]) {
+    ion-icon {
+      color: #ef4444;
+    }
+
+    ion-label {
+      color: #ef4444;
+    }
+
+    &:hover {
+      --background: #fef2f2;
+    }
+
+    &:active {
+      --background: #fee2e2;
+    }
+  }
+
+  // Remove border from last item
+  &[lines="none"] {
+    border-bottom: none;
+  }
+}
+
+// Region popover specific styling
+ion-popover[trigger="region-trigger"] {
+  ion-list-header {
+    --background: var(--ion-color-step-50, var(--ion-background-color));
+    border-bottom: 1px solid var(--ion-border-color, var(--ion-color-step-200, #e5e7eb));
+
+    ion-label {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--ion-text-color);
+    }
+  }
+
+  ion-item {
+    --padding-start: 1rem;
+    --padding-end: 1rem;
+    border-bottom: 1px solid var(--ion-border-color, var(--ion-color-step-200, #e5e7eb));
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    ion-label {
+      h3 {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--ion-text-color);
+        margin: 0 0 0.25rem 0;
+        line-height: 1.5;
+      }
+
+      p {
+        font-size: 0.75rem;
+        color: var(--ion-color-step-600, var(--ion-text-color-step-600, #6b7280));
+        margin: 0;
+        line-height: 1.5;
+      }
+    }
+
+    ion-icon[slot="end"] {
+      color: var(--ion-color-primary, #f97316);
+      font-size: 1.125rem;
+    }
+
+    // Selected region styling
+    &.bg-goiaba-50,
+    &[class*="bg-goiaba"] {
+      --background: #fff7ed;
+
+      ion-label h3 {
+        color: var(--ion-color-primary, #f97316);
+        font-weight: 600;
+      }
+    }
+  }
+}
+// iOS Safari specific fixes for safe areas
+@supports (-webkit-touch-callout: none) {
+  ion-header {
+    // Ensure header extends to top edge
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  }
+
+  ion-toolbar {
+    // Ensure white background extends to screen edges
+    // Extend background to edges while content respects safe areas
+    margin-left: calc(-1 * var(--ion-safe-area-left, env(safe-area-inset-left)));
+    margin-right: calc(-1 * var(--ion-safe-area-right, env(safe-area-inset-right)));
+    // Add safe area padding + extra top margin for content
+    padding-left: var(--ion-safe-area-left, env(safe-area-inset-left));
+    padding-right: var(--ion-safe-area-right, env(safe-area-inset-right));
+    padding-top: calc(var(--ion-safe-area-top, env(safe-area-inset-top)) + 0.75rem);
+
+    // Ensure background color extends to edges
+    background-color: white;
+    background: white;
+
+    // Ensure buttons respect safe areas
+    ion-buttons[slot="start"] {
+      padding-left: 0.5rem;
+    }
+
+    ion-buttons[slot="end"] {
+      padding-right: 0.5rem;
+    }
+  }
+
+  // On mobile devices, add even more top spacing
+  @media (max-width: 640px) {
+    ion-toolbar {
+      padding-top: calc(var(--ion-safe-area-top, env(safe-area-inset-top)) + 1rem);
+    }
+  }
+
+  // Ensure translucent header works properly with safe areas
+  ion-header[translucent] {
+    ion-toolbar {
+      --background: white;
+      background-color: white;
+    }
+  }
+}
+
+// 3D Logo in header
+.logo-3d-header {
+  width: 100%;
+  height: 100%;
+  min-height: 0 !important;
+
+  ::ng-deep canvas {
+    background: transparent !important;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 640px) {
+  ion-toolbar ion-title {
+    font-size: 1rem;
+    padding: 0 0.75rem;
+  }
+
+  ion-avatar {
+    --size: 36px;
+  }
+}
+

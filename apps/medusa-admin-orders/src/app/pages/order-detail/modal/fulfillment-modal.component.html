@@ -1,0 +1,187 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Create Fulfillment</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  @if (isLoading) {
+    <div class="loading-container">
+      <ion-spinner></ion-spinner>
+      <p>Loading stock locations...</p>
+    </div>
+  } @else {
+    <div class="content-wrapper">
+      <!-- Stock Location Section -->
+      <div class="section">
+        <h3>Stock Location</h3>
+        @if (hasStockLocationsError) {
+          <ion-card color="danger">
+            <ion-card-content>
+              <div class="error-content">
+                <ion-icon name="alert-circle" class="error-icon"></ion-icon>
+                <div class="error-text">
+                  <p class="error-message">{{ stockLocationsError }}</p>
+                  <ion-button size="small" fill="outline" (click)="loadStockLocations()">
+                    <ion-icon slot="start" name="refresh"></ion-icon>
+                    Retry
+                  </ion-button>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        } @else if (stockLocations.length > 0) {
+          <ion-item>
+            <ion-select
+              label="Select Location"
+              [(ngModel)]="selectedLocationId"
+              (ionChange)="onLocationChange()"
+              placeholder="Choose a stock location">
+              @for (location of stockLocations; track location.id) {
+                <ion-select-option [value]="location.id">
+                  {{ location.name }} - {{ location.address.city }}
+                </ion-select-option>
+              }
+            </ion-select>
+          </ion-item>
+        } @else {
+          <div class="empty-state">
+            <ion-icon name="location-outline"></ion-icon>
+            <p>No stock locations available</p>
+          </div>
+        }
+      </div>
+
+      <!-- Shipping Method Section -->
+      <div class="section">
+        <h3>Shipping Method</h3>
+        @if (isLoadingShippingOptions) {
+          <div class="loading-inline">
+            <ion-spinner></ion-spinner>
+            <span>Loading shipping options...</span>
+          </div>
+        } @else if (hasShippingOptionsError) {
+          <ion-card color="danger">
+            <ion-card-content>
+              <div class="error-content">
+                <ion-icon name="alert-circle" class="error-icon"></ion-icon>
+                <div class="error-text">
+                  <p class="error-message">{{ shippingOptionsError }}</p>
+                  <ion-button size="small" fill="outline" (click)="loadShippingOptions(selectedLocationId)">
+                    <ion-icon slot="start" name="refresh"></ion-icon>
+                    Retry
+                  </ion-button>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        } @else {
+          <ion-item>
+            <ion-select
+              label="Select Shipping Method"
+              [(ngModel)]="selectedShippingOptionId"
+              placeholder="Choose a shipping method"
+              [disabled]="shippingOptions.length === 0">
+              @for (option of shippingOptions; track option.id) {
+                <ion-select-option [value]="option.id">
+                  {{ option.name }} - {{ option.type.description }}
+                </ion-select-option>
+              }
+            </ion-select>
+          </ion-item>
+          @if (shippingOptions.length === 0 && !hasShippingOptionsError) {
+            <div class="empty-state-inline">
+              <ion-icon name="boat-outline"></ion-icon>
+              <p>No shipping options available for this location</p>
+            </div>
+          }
+        }
+      </div>
+
+      <!-- Items to Fulfill Section -->
+      <div class="section">
+        <h3>Items to Fulfill</h3>
+        @if (fulfillmentItems.length > 0) {
+          @for (item of fulfillmentItems; track item.id) {
+            <ion-card class="item-card">
+              <ion-card-content>
+                <div class="item-row">
+                  @if (item.thumbnail) {
+                    <img [src]="item.thumbnail" [alt]="item.title" class="item-thumbnail" />
+                  }
+                  <div class="item-details">
+                    <h4>{{ item.title }}</h4>
+                    <p class="item-subtitle">{{ item.subtitle }}</p>
+                    <p class="item-sku">SKU: {{ item.variant_sku }}</p>
+                    <div class="quantity-info">
+                      <span>Available: {{ item.availableQuantity }}</span>
+                      <span>In Stock: {{ item.inStockQuantity }}</span>
+                    </div>
+                  </div>
+                  <div class="quantity-input">
+                    <ion-input
+                      type="number"
+                      [(ngModel)]="item.quantity"
+                      (ionChange)="onQuantityChange(item)"
+                      [min]="0"
+                      [max]="item.availableQuantity"
+                      placeholder="Qty"
+                      [class.error]="item.quantityError">
+                    </ion-input>
+                    @if (item.quantityError) {
+                      <div class="error-message">{{ item.quantityError }}</div>
+                    }
+                  </div>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          }
+        } @else {
+          <div class="empty-state">
+            <ion-icon name="cube-outline"></ion-icon>
+            <p>No items available for fulfillment</p>
+          </div>
+        }
+      </div>
+
+      <!-- Form Validation and Submission Errors -->
+      @if (errorMessage) {
+        <ion-card color="danger">
+          <ion-card-content>
+            <div class="error-content">
+              <ion-icon name="alert-circle" class="error-icon"></ion-icon>
+              <div class="error-text">
+                <p class="error-message">{{ errorMessage }}</p>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      }
+    </div>
+  }
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div class="footer-buttons">
+      <ion-button fill="outline" (click)="dismiss()" [disabled]="isSubmitting">
+        Cancel
+      </ion-button>
+      <ion-button
+        [disabled]="isSubmitting || isLoading || hasStockLocationsError"
+        (click)="createFulfillment()">
+        @if (isSubmitting) {
+          <ion-spinner slot="start" name="crescent"></ion-spinner>
+          <span>Creating...</span>
+        } @else {
+          Create Fulfillment
+        }
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

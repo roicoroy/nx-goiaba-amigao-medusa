@@ -1,0 +1,325 @@
+{
+  "graph": {
+    "nodes": {
+      "medusa-serve-storefront": {
+        "name": "medusa-serve-storefront",
+        "type": "app",
+        "data": {
+          "root": "apps/medusa-serve-storefront",
+          "name": "medusa-serve-storefront",
+          "tags": [
+            "npm:private",
+            "npm:medusa-storefront"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "dev"
+              ]
+            },
+            "description": "Next.js Starter to be used with Medusa V2",
+            "js": {
+              "packageName": "medusa-next",
+              "packageVersion": "1.0.3",
+              "isInPackageManagerWorkspaces": false
+            }
+          },
+          "targets": {
+            "dev": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "dev"
+              },
+              "metadata": {
+                "scriptContent": "next dev --turbopack -p 8000",
+                "runCommand": "yarn dev"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "next build",
+                "cwd": "apps/medusa-serve-storefront"
+              },
+              "outputs": [
+                "{projectRoot}/.next",
+                "{projectRoot}/.next/cache"
+              ],
+              "cache": true,
+              "configurations": {},
+              "parallelism": true
+            },
+            "serve": {
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "next dev --turbopack -p 8000",
+                "cwd": "apps/medusa-serve-storefront"
+              },
+              "cache": false,
+              "configurations": {},
+              "parallelism": true
+            },
+            "start": {
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "next start -p 8000",
+                "cwd": "apps/medusa-serve-storefront"
+              },
+              "cache": false,
+              "configurations": {},
+              "parallelism": true
+            },
+            "lint": {
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "next lint",
+                "cwd": "apps/medusa-serve-storefront"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                "{workspaceRoot}/.eslintrc.json",
+                "{projectRoot}/.eslintrc.js"
+              ],
+              "configurations": {},
+              "parallelism": true
+            },
+            "analyze": {
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "ANALYZE=true next build",
+                "cwd": "apps/medusa-serve-storefront"
+              },
+              "cache": false,
+              "configurations": {},
+              "parallelism": true
+            }
+          },
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "apps/medusa-serve-storefront/src",
+          "projectType": "application",
+          "implicitDependencies": []
+        }
+      },
+      "medusa-serve": {
+        "name": "medusa-serve",
+        "type": "app",
+        "data": {
+          "root": "apps/medusa-serve",
+          "targets": {
+            "typecheck": {
+              "dependsOn": [
+                "^typecheck"
+              ],
+              "cache": true,
+              "inputs": [
+                "{projectRoot}/package.json",
+                "{projectRoot}/tsconfig.json",
+                "{projectRoot}/**/*",
+                "{projectRoot}/.medusa/types/*",
+                "!{projectRoot}/node_modules",
+                "!{projectRoot}/.medusa/server",
+                "!{projectRoot}/.medusa/admin",
+                "!{projectRoot}/.cache",
+                "^production"
+              ],
+              "outputs": [
+                "{projectRoot}/.medusa/server/**/*.d.ts",
+                "{projectRoot}/.medusa/server/*.tsbuildinfo"
+              ],
+              "syncGenerators": [
+                "@nx/js:typescript-sync"
+              ],
+              "metadata": {
+                "technologies": [
+                  "typescript"
+                ],
+                "description": "Runs type-checking for the project.",
+                "help": {
+                  "command": "yarn tsc --build --help",
+                  "example": {
+                    "args": [
+                      "--force"
+                    ]
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "options": {
+                "cwd": "apps/medusa-serve",
+                "command": "tsc --build --emitDeclarationOnly"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "dev": {
+              "executor": "nx:run-script",
+              "options": {
+                "script": "dev"
+              },
+              "metadata": {
+                "scriptContent": "medusa develop",
+                "runCommand": "yarn dev"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "nx-release-publish": {
+              "executor": "@nx/js:release-publish",
+              "dependsOn": [
+                "^nx-release-publish"
+              ],
+              "options": {},
+              "configurations": {},
+              "parallelism": true
+            },
+            "build": {
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "medusa build",
+                "cwd": "apps/medusa-serve"
+              },
+              "outputs": [
+                "{projectRoot}/.medusa/server",
+                "{projectRoot}/.medusa/admin"
+              ],
+              "cache": true,
+              "configurations": {},
+              "parallelism": true
+            },
+            "serve": {
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "medusa develop",
+                "cwd": "apps/medusa-serve"
+              },
+              "cache": false,
+              "configurations": {},
+              "parallelism": true
+            },
+            "start": {
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "medusa start",
+                "cwd": "apps/medusa-serve"
+              },
+              "cache": false,
+              "configurations": {},
+              "parallelism": true
+            },
+            "migrate": {
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "medusa migrations run",
+                "cwd": "apps/medusa-serve"
+              },
+              "cache": false,
+              "configurations": {},
+              "parallelism": true
+            },
+            "seed": {
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "medusa exec ./src/scripts/seed.ts",
+                "cwd": "apps/medusa-serve"
+              },
+              "cache": false,
+              "configurations": {},
+              "parallelism": true
+            },
+            "create-admin": {
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "medusa user -e roicoroy@yahoo.com.br -p Rwbento123!",
+                "cwd": "apps/medusa-serve"
+              },
+              "cache": false,
+              "configurations": {},
+              "parallelism": true
+            },
+            "test": {
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "jest",
+                "cwd": "apps/medusa-serve"
+              },
+              "cache": true,
+              "inputs": [
+                "default",
+                "^production",
+                "{workspaceRoot}/jest.config.js",
+                "{projectRoot}/jest.config.js"
+              ],
+              "configurations": {},
+              "parallelism": true
+            },
+            "test:integration:http": {
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "TEST_TYPE=integration:http NODE_OPTIONS=--experimental-vm-modules jest --silent=false --runInBand --forceExit",
+                "cwd": "apps/medusa-serve"
+              },
+              "cache": false,
+              "configurations": {},
+              "parallelism": true
+            },
+            "test:integration:modules": {
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "TEST_TYPE=integration:modules NODE_OPTIONS=--experimental-vm-modules jest --silent=false --runInBand --forceExit",
+                "cwd": "apps/medusa-serve"
+              },
+              "cache": false,
+              "configurations": {},
+              "parallelism": true
+            },
+            "test:unit": {
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "TEST_TYPE=unit NODE_OPTIONS=--experimental-vm-modules jest --silent --runInBand --forceExit",
+                "cwd": "apps/medusa-serve"
+              },
+              "cache": true,
+              "configurations": {},
+              "parallelism": true
+            }
+          },
+          "name": "medusa-serve",
+          "tags": [
+            "npm:public",
+            "npm:sqlite",
+            "npm:postgres",
+            "npm:typescript",
+            "npm:ecommerce",
+            "npm:headless",
+            "npm:medusa"
+          ],
+          "metadata": {
+            "targetGroups": {
+              "NPM Scripts": [
+                "dev"
+              ]
+            },
+            "description": "A starter for Medusa projects.",
+            "js": {
+              "packageName": "medusa-serve",
+              "packageVersion": "0.0.1",
+              "isInPackageManagerWorkspaces": false
+            }
+          },
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "apps/medusa-serve/src",
+          "projectType": "application",
+          "implicitDependencies": []
+        }
+      }
+    },
+    "dependencies": {
+      "medusa-serve-storefront": [],
+      "medusa-serve": []
+    }
+  }
+}

@@ -1,0 +1,14 @@
+/**
+ * Main Stylesheet
+ * -----------------------------------------------------
+ * Entry point for all custom styles in the Goiaba application
+ * This file imports design tokens and other global styles
+ *
+ * Note: Tailwind CSS is imported separately in tailwind.scss
+ * to avoid conflicts with @use directive ordering
+ */
+
+/* ===== DESIGN TOKENS ===== */
+/* Import design tokens first - these define all CSS custom properties */
+@import 'tokens';
+@import 'design-tokens';

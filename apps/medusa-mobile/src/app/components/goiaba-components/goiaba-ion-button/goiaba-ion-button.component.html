@@ -1,0 +1,42 @@
+<ion-button 
+  fill="clear"
+  [size]="size"
+  [expand]="expand"
+  [disabled]="disabled || loading"
+  (click)="handleClick($event)"
+  [attr.variant]="variant"
+  [attr.size]="size"
+  [attr.icon-only]="iconOnly ? '' : null"
+  [attr.border-width]="borderWidth"
+  [attr.border-radius]="borderRadius"
+  [class]="customClass"
+  class="goiaba-button"
+  [attr.aria-label]="iconOnly && iconStart ? iconStart : null">
+  
+  <!-- Loading Spinner -->
+  @if (loading) {
+    <ion-spinner name="crescent" class="button-spinner" [class.mr-2]="!iconOnly"></ion-spinner>
+  }
+  
+  <!-- Icon Only Mode -->
+  @if (iconOnly && iconStart && !loading) {
+    <ion-icon [name]="iconStart" class="button-icon"></ion-icon>
+  }
+  
+  <!-- Regular Mode with Icons -->
+  @if (!iconOnly) {
+    <!-- Start Icon -->
+    @if (iconStart && !loading) {
+      <ion-icon [name]="iconStart" slot="start" class="button-icon button-icon-start"></ion-icon>
+    }
+    
+    <!-- Button Content -->
+    <ng-content></ng-content>
+    
+    <!-- End Icon -->
+    @if (iconEnd && !loading) {
+      <ion-icon [name]="iconEnd" slot="end" class="button-icon button-icon-end"></ion-icon>
+    }
+  }
+</ion-button>
+

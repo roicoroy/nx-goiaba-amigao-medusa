@@ -1,0 +1,71 @@
+<ion-card
+  class="address-summary-card">
+
+  <ion-card-header>
+    <div class="card-header-content">
+      <div class="header-left">
+        <ion-icon name="location-outline" class="address-icon"></ion-icon>
+        <ion-card-title>{{ getFullName() }}</ion-card-title>
+      </div>
+
+      <div class="header-right">
+        @if (isDefaultAddress()) {
+          <ion-badge color="primary" class="default-badge">
+            Default {{ addressType() }}
+          </ion-badge>
+        }
+        @if (isSelected()) {
+          <ion-icon name="checkmark-circle" color="success" class="selected-icon"></ion-icon>
+        }
+      </div>
+    </div>
+  </ion-card-header>
+
+  <ion-card-content>
+    <div class="address-details">
+      @if (getCompany()) {
+        <ion-text class="company-name">
+          <p><strong>{{ getCompany() }}</strong></p>
+        </ion-text>
+      }
+
+      <div class="address-lines">
+        @for (line of getAddressLines(); track $index) {
+          <ion-text>
+            <p>{{ line }}</p>
+          </ion-text>
+        }
+      </div>
+
+      @if (getPhone()) {
+        <ion-text class="phone-number">
+          <p>
+            <ion-icon name="call-outline" class="inline-icon"></ion-icon>
+            {{ getPhone() }}
+          </p>
+        </ion-text>
+      }
+    </div>
+
+    <div class="card-actions">
+      <ion-button
+        fill="outline"
+        size="small"
+        (click)="onEdit()"
+        class="edit-button">
+        <ion-icon slot="start" name="create-outline"></ion-icon>
+        Edit
+      </ion-button>
+
+      @if (showSelectButton() && !isSelected()) {
+        <ion-button
+          fill="solid"
+          size="small"
+          (click)="onSelect()"
+          class="select-button">
+          Select
+        </ion-button>
+      }
+    </div>
+  </ion-card-content>
+</ion-card>

@@ -1,0 +1,71 @@
+// Layout Styles
+.content-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.main-column {
+  min-width: 0;
+}
+
+.sidebar-column {
+  min-width: 0;
+}
+
+.order-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  .order-info {
+    flex: 1;
+    min-width: 0;
+
+    h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--ion-color-dark);
+    }
+
+    .order-meta {
+      display: flex;
+      gap: 1rem;
+      color: var(--ion-color-medium);
+      font-size: 0.875rem;
+      flex-wrap: wrap;
+    }
+  }
+
+  .order-total {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+    margin: 0 1rem 0 0;
+  }
+
+  .order-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+
+  ion-button {
+    --border-radius: 6px;
+    font-weight: 500;
+    text-transform: none;
+  }
+}

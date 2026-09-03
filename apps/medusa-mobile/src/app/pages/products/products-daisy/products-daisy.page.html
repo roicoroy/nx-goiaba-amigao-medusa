@@ -1,0 +1,149 @@
+<app-goiaba-header titleKey="products.title" [showMenuButton]="true" [showCart]="true"></app-goiaba-header>
+
+<ion-content [fullscreen]="true" class="products-content" >
+  <div class="container mx-auto px-4 py-8">
+
+    <!-- Category Filter Tabs -->
+    @if (viewState$ | async; as vs) {
+      @if (vs.productsCategories && vs.productsCategories.length > 0) {
+        <div class="mb-8">
+          <div class="flex gap-2 overflow-x-auto pb-2">
+            <button
+              class="btn btn-sm whitespace-nowrap transition-all"
+              [class.btn-primary]="(selectedCategoryId$ | async) === 'all'"
+              [class.btn-ghost]="(selectedCategoryId$ | async) !== 'all'"
+              (click)="onCategorySelect('all')">
+              All Products
+            </button>
+            @for (cat of vs.productsCategories; track cat.id) {
+              <button
+                class="btn btn-sm whitespace-nowrap transition-all"
+                [class.btn-primary]="(selectedCategoryId$ | async) === cat.id"
+                [class.btn-ghost]="(selectedCategoryId$ | async) !== cat.id"
+                (click)="onCategorySelect(cat.id)">
+                {{ cat.name }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+    }
+
+    <!-- Loading State -->
+    @if (loading) {
+      <div class="flex flex-col items-center justify-center py-24">
+        <ion-spinner name="crescent" class="text-primary mb-4"></ion-spinner>
+        <p class="text-base-content/70 text-sm">Loading products...</p>
+      </div>
+    }
+
+    <!-- Error State -->
+    @else if (error) {
+      <div class="alert alert-error">
+        <ion-icon name="alert-circle" class="text-2xl"></ion-icon>
+        <div>
+          <h3 class="font-bold">{{ error }}</h3>
+          <div class="text-sm">Please try again</div>
+        </div>
+        <button class="btn btn-sm" (click)="retry()">Retry</button>
+      </div>
+    }
+
+    <!-- Products Grid -->
+    @else {
+      @if (productsWithUI$ | async; as products) {
+        @if (products.length > 0) {
+          <div class="grid grid-cols-2 gap-4 md:gap-6 md:grid-cols-3 lg:grid-cols-4">
+            @for (product of products; track product.id) {
+              <div
+                class="card bg-base-100 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden group"
+                (click)="navigateToProduct(product)">
+
+                <!-- Image Container -->
+                <figure class="relative aspect-square overflow-hidden bg-base-200">
+                  <img
+                    [src]="product.imageUrl"
+                    [alt]="product.title"
+                    class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    loading="lazy"
+                  />
+
+                  <!-- Badge Container -->
+                  @if (product.hasHotBadge || product.hasTrendingBadge || product.hasOfferBadge) {
+                    <div class="absolute top-3 left-3 flex flex-col gap-2">
+                      @if (product.hasHotBadge) {
+                        <span class="badge badge-error badge-sm">Hot</span>
+                      }
+                      @if (product.hasTrendingBadge) {
+                        <span class="badge badge-warning badge-sm">Trending</span>
+                      }
+                      @if (product.hasOfferBadge) {
+                        <span class="badge badge-success badge-sm">Offer</span>
+                      }
+                    </div>
+                  }
+
+                  <!-- Wishlist Button -->
+                  <button
+                    class="btn btn-circle btn-sm absolute top-3 right-3 shadow-lg transition-all"
+                    [class.btn-error]="product.isInWishlist"
+                    [class.btn-ghost]="!product.isInWishlist"
+                    (click)="addToWishlist(product, $event)"
+                    type="button">
+                    <ion-icon [name]="product.isInWishlist ? 'heart' : 'heart-outline'"></ion-icon>
+                  </button>
+                </figure>
+
+                <!-- Card Content -->
+                <div class="card-body p-4 gap-2">
+                  <!-- Collection -->
+                  @if (product.collectionName && product.collectionName !== 'Uncategorized') {
+                    <p class="text-xs font-semibold text-primary uppercase tracking-wide">
+                      {{ product.collectionName }}
+                    </p>
+                  }
+
+                  <!-- Title -->
+                  <h2 class="card-title text-sm line-clamp-2">
+                    {{ product.title }}
+                  </h2>
+
+                  <!-- Price -->
+                  <div class="mt-auto pt-2 border-t border-base-300">
+                    @if (product.price > 0) {
+                      <div class="text-lg font-bold text-primary">
+                        {{ product.price | medusaCurrency }}
+                      </div>
+                    } @else {
+                      <div class="text-sm text-base-content/50">Price unavailable</div>
+                    }
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <!-- Empty State -->
+          <div class="alert alert-info">
+            <ion-icon name="information-circle" class="text-2xl"></ion-icon>
+            <div>
+              <h3 class="font-bold">No products found</h3>
+              <div class="text-sm">
+                @if ((selectedCategoryId$ | async) === 'all') {
+                  No products available at the moment
+                } @else {
+                  No products in this category
+                }
+              </div>
+            </div>
+            @if ((selectedCategoryId$ | async) !== 'all') {
+              <button class="btn btn-sm" (click)="onCategorySelect('all')">
+                View All
+              </button>
+            }
+          </div>
+        }
+      }
+    }
+  </div>
+</ion-content>

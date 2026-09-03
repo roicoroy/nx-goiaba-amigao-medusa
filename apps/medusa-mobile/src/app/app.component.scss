@@ -1,0 +1,88 @@
+/**
+ * App Component Styles
+ * Menu drawer styling using daisyUI
+ */
+
+.menu-drawer {
+  --background: hsl(var(--b1));
+  --color: hsl(var(--bc));
+}
+
+.menu-content {
+  padding: 1rem 0;
+}
+
+.menu-section {
+  margin-bottom: 2rem;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.menu-section-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: hsl(var(--bc) / 0.6);
+  padding: 0.5rem 1rem;
+  margin: 0;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  color: hsl(var(--bc));
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid hsl(var(--bc) / 0.1);
+  
+  &:hover {
+    background-color: hsl(var(--b2));
+    color: hsl(var(--p));
+  }
+  
+  &:active {
+    background-color: hsl(var(--b3));
+  }
+  
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.menu-icon {
+  font-size: 1.5rem;
+  color: hsl(var(--bc) / 0.7);
+  min-width: 1.5rem;
+}
+
+.menu-label {
+  font-size: 1rem;
+  font-weight: 500;
+  flex: 1;
+}
+
+// Ensure menu header uses daisyUI theme
+ion-toolbar.bg-base-100 {
+  --background: hsl(var(--b1));
+  --color: hsl(var(--bc));
+  
+  ion-title {
+    color: hsl(var(--bc));
+  }
+}
+
+// Menu content background
+ion-content.bg-base-100 {
+  --background: hsl(var(--b1));
+}

@@ -1,0 +1,27 @@
+/**
+ * Goiaba Card Component Styles
+ * 
+ * Minimal SCSS to override Ionic defaults and ensure Tailwind styling takes precedence.
+ */
+
+ion-card {
+  --background: transparent;
+  --box-shadow: none;
+  margin: 0;
+  width: 100%;
+  
+  // Remove default Ionic padding
+  ion-card-header,
+  ion-card-content {
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-top: 0;
+    --padding-bottom: 0;
+  }
+}
+
+ion-card-title,
+ion-card-subtitle {
+  --color: inherit;
+}
+

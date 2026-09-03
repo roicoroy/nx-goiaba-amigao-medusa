@@ -1,0 +1,204 @@
+.address-summary-card {
+  margin: 0.5rem 0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  cursor: default;
+}
+
+ion-card-header {
+  padding: 1rem;
+  background: var(--ion-color-light);
+  border-bottom: 1px solid var(--ion-color-light-shade);
+
+  .card-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex: 1;
+      min-width: 0;
+
+      .address-icon {
+        font-size: 1.5rem;
+        flex-shrink: 0;
+      }
+
+      ion-card-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+
+      .default-badge {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .selected-icon {
+        font-size: 1.75rem;
+      }
+    }
+  }
+}
+
+ion-card-content {
+  padding: 1rem;
+
+  .address-details {
+    margin-bottom: 1rem;
+
+    .company-name {
+      margin-bottom: 0.5rem;
+
+      p {
+        margin: 0 0 0.25rem 0;
+        font-size: 0.95rem;
+      }
+    }
+
+    .address-lines {
+      margin-bottom: 0.5rem;
+
+      ion-text p {
+        margin: 0.15rem 0;
+        font-size: 0.95rem;
+        line-height: 1.4;
+      }
+    }
+
+    .phone-number {
+      margin-top: 0.75rem;
+
+      p {
+        margin: 0;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+
+        .inline-icon {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+
+  .card-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--ion-color-light-shade);
+
+    ion-button {
+      --border-radius: 8px;
+      font-weight: 500;
+      text-transform: none;
+      letter-spacing: 0.3px;
+
+      &.edit-button {
+        --color: var(--ion-color-medium-shade);
+        --border-color: var(--ion-color-medium);
+      }
+
+      &.select-button {
+        --background: var(--ion-color-primary);
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .address-summary-card {
+    margin: 0.5rem 0;
+
+    ion-card-header {
+      padding: 0.75rem;
+
+      .card-header-content .header-left {
+        ion-card-title {
+          font-size: 1rem;
+        }
+
+        .address-icon {
+          font-size: 1.25rem;
+        }
+      }
+
+      .card-header-content .header-right {
+        .default-badge {
+          font-size: 0.65rem;
+          padding: 0.2rem 0.4rem;
+        }
+
+        .selected-icon {
+          font-size: 1.5rem;
+        }
+      }
+    }
+
+    ion-card-content {
+      padding: 0.75rem;
+
+      .address-details {
+        .company-name p,
+        .address-lines ion-text p {
+          font-size: 0.9rem;
+        }
+
+        .phone-number p {
+          font-size: 0.85rem;
+        }
+      }
+
+      .card-actions {
+        flex-wrap: wrap;
+
+        ion-button {
+          flex: 1;
+          min-width: 100px;
+        }
+      }
+    }
+  }
+}
+
+.address-summary-card.selected {
+  animation: selectPulse 0.3s ease-out;
+}
+
+@keyframes selectPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.address-summary-card:focus-within {
+  outline: 2px solid var(--ion-color-primary);
+  outline-offset: 2px;
+}

@@ -1,0 +1,59 @@
+<div class="pagination-container" *ngIf="count > 0">
+  <!-- Pagination Info -->
+  <div class="pagination-info">
+    <p>
+      Showing {{ startItem }}-{{ endItem }} of {{ count }} orders
+    </p>
+  </div>
+
+  <!-- Pagination Controls -->
+  <div class="pagination-controls">
+    <!-- Previous Button -->
+    <ion-button
+      fill="clear"
+      size="small"
+      [disabled]="!hasPreviousPage || loading"
+      (click)="previousPage()">
+      <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
+      Previous
+    </ion-button>
+
+    <!-- Page Numbers -->
+    <div class="page-numbers">
+      <ion-button
+        *ngFor="let page of getPageNumbers()"
+        fill="clear"
+        size="small"
+        [class.active]="page === currentPage"
+        [disabled]="page === -1 || loading"
+        (click)="page !== -1 && goToPage(page)">
+        <span *ngIf="page !== -1">{{ page }}</span>
+        <span *ngIf="page === -1">...</span>
+      </ion-button>
+    </div>
+
+    <!-- Next Button -->
+    <ion-button
+      fill="clear"
+      size="small"
+      [disabled]="!hasNextPage || loading"
+      (click)="nextPage()">
+      Next
+      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+    </ion-button>
+  </div>
+
+  <!-- Load More Button (Alternative to pagination) -->
+  <div class="load-more-container" *ngIf="hasNextPage">
+    <ion-button
+      fill="outline"
+      expand="block"
+      [disabled]="loading"
+      (click)="onLoadMore()">
+      <ion-icon name="arrow-down-outline" slot="start" *ngIf="!loading"></ion-icon>
+      <ion-spinner *ngIf="loading" name="crescent" slot="start"></ion-spinner>
+      {{ loading ? 'Loading...' : 'Load More' }}
+    </ion-button>
+  </div>
+</div>
+

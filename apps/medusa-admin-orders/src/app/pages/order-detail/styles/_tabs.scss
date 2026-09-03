@@ -1,0 +1,94 @@
+// Tabs Styles
+.tab-segment {
+  margin-bottom: 1.5rem;
+
+  ion-segment {
+    --background: var(--ion-color-light-tint);
+    border-radius: 6px;
+    padding: 0.25rem;
+  }
+
+  ion-segment-button {
+    --border-radius: 4px;
+    --padding-start: 1rem;
+    --padding-end: 1rem;
+    --color: var(--ion-color-medium);
+    --color-checked: var(--ion-color-primary);
+    --background-checked: white;
+    --indicator-color: transparent;
+    min-height: 40px;
+
+    ion-label {
+      font-weight: 500;
+      font-size: 0.875rem;
+    }
+
+    &.segment-button-checked {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+.tab-content {
+  .tab-panel {
+    display: block;
+  }
+
+  .tab-section {
+    margin-bottom: 2rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+
+      .section-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--ion-color-dark);
+        margin: 0;
+      }
+
+      .section-actions {
+        display: flex;
+        gap: 0.5rem;
+
+        ion-button {
+          --border-radius: 4px;
+          font-weight: 500;
+          text-transform: none;
+        }
+      }
+    }
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+
+  ion-icon {
+    font-size: 3rem;
+    color: var(--ion-color-medium);
+    margin-bottom: 1rem;
+  }
+
+  h3 {
+    color: var(--ion-color-dark);
+    margin: 0 0 0.5rem 0;
+  }
+
+  p {
+    color: var(--ion-color-medium);
+    margin: 0;
+  }
+}

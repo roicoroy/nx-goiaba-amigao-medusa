@@ -1,0 +1,9 @@
+ok we need
+- auth, login and register to add a new store staff, I created a new register page we need to build
+- fix api services, I created a new src/app/shared/api/medusa.service.admin.ts and changed the name of medusa.service.ts to medusa.service.store.ts, the idea is make the endpoints with admin and store use the services respectively.
+- we dont need to worry about avatar, profile at moment, we will build that next time
+- we need to use NGXS state we have setup, the auth is for the customer login and register
+- need to keep in mind we have "/admin" endpoints and "/store" endpoints
+- for "/admin" endpoints we need to MEDUSA_ADMIN_KEY to the token bearer header
+- for "/store" endpoints we need to add x-publishable-api-key with MEDUSA_PUBLISHABLE_KEY value
+

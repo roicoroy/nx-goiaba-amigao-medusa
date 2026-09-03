@@ -1,0 +1,630 @@
+/**
+ * Custom Utility Classes
+ * -----------------------------------------------------
+ * Custom utility classes that don't have direct Tailwind equivalents
+ * These extend Tailwind's utility system for legacy compatibility
+ */
+
+@layer utilities {
+  /* ===== EXACT PIXEL SPACING ===== */
+  /* These provide exact pixel values for legacy compatibility */
+
+  /* Padding utilities for non-standard values */
+  .p-2\.5 { padding: 10px !important; }
+  .p-3\.5 { padding: 14px !important; }
+  .p-7 { padding: 28px !important; }
+  .p-9 { padding: 36px !important; }
+  .p-11 { padding: 44px !important; }
+  .p-13 { padding: 52px !important; }
+  .p-15 { padding: 60px !important; }
+  .p-17 { padding: 68px !important; }
+  .p-19 { padding: 76px !important; }
+
+  /* Directional padding */
+  .pt-2\.5 { padding-top: 10px !important; }
+  .pb-2\.5 { padding-bottom: 10px !important; }
+  .pl-2\.5 { padding-left: 10px !important; }
+  .pr-2\.5 { padding-right: 10px !important; }
+
+  .pt-3\.5 { padding-top: 14px !important; }
+  .pb-3\.5 { padding-bottom: 14px !important; }
+  .pl-3\.5 { padding-left: 14px !important; }
+  .pr-3\.5 { padding-right: 14px !important; }
+
+  /* Margin utilities for non-standard values */
+  .m-2\.5 { margin: 10px !important; }
+  .m-3\.5 { margin: 14px !important; }
+  .m-7 { margin: 28px !important; }
+  .m-9 { margin: 36px !important; }
+  .m-11 { margin: 44px !important; }
+  .m-13 { margin: 52px !important; }
+  .m-15 { margin: 60px !important; }
+  .m-17 { margin: 68px !important; }
+  .m-19 { margin: 76px !important; }
+
+  /* Directional margins */
+  .mt-2\.5 { margin-top: 10px !important; }
+  .mb-2\.5 { margin-bottom: 10px !important; }
+  .ml-2\.5 { margin-left: 10px !important; }
+  .mr-2\.5 { margin-right: 10px !important; }
+
+  .mt-3\.5 { margin-top: 14px !important; }
+  .mb-3\.5 { margin-bottom: 14px !important; }
+  .ml-3\.5 { margin-left: 14px !important; }
+  .mr-3\.5 { margin-right: 14px !important; }
+
+  /* Negative margins */
+  .-mt-2\.5 { margin-top: -10px !important; }
+  .-mb-2\.5 { margin-bottom: -10px !important; }
+  .-ml-2\.5 { margin-left: -10px !important; }
+  .-mr-2\.5 { margin-right: -10px !important; }
+
+  .-mt-3\.5 { margin-top: -14px !important; }
+  .-mb-3\.5 { margin-bottom: -14px !important; }
+  .-ml-3\.5 { margin-left: -14px !important; }
+  .-mr-3\.5 { margin-right: -14px !important; }
+
+  /* ===== GOIABA BRAND COLORS ===== */
+  /* Text colors */
+  .text-goiaba-primary { color: var(--goiaba-primary) !important; }
+  .text-goiaba-secondary { color: var(--goiaba-secondary) !important; }
+  .text-goiaba-accent { color: var(--goiaba-accent) !important; }
+
+  /* Background colors */
+  .bg-goiaba-primary { background-color: var(--goiaba-primary) !important; }
+  .bg-goiaba-secondary { background-color: var(--goiaba-secondary) !important; }
+  .bg-goiaba-accent { background-color: var(--goiaba-accent) !important; }
+
+  /* Border colors */
+  .border-goiaba-primary { border-color: var(--goiaba-primary) !important; }
+  .border-goiaba-secondary { border-color: var(--goiaba-secondary) !important; }
+  .border-goiaba-accent { border-color: var(--goiaba-accent) !important; }
+
+  /* Ring colors for focus states */
+  .ring-goiaba-primary { --tw-ring-color: var(--goiaba-primary) !important; }
+  .ring-goiaba-secondary { --tw-ring-color: var(--goiaba-secondary) !important; }
+  .ring-goiaba-accent { --tw-ring-color: var(--goiaba-accent) !important; }
+
+  /* ===== HOVER VARIANTS ===== */
+  /* Goiaba brand color hover states */
+  .hover\:bg-goiaba-600:hover { background-color: var(--primary-600) !important; }
+  .hover\:bg-goiaba-700:hover { background-color: var(--primary-700) !important; }
+  .hover\:bg-goiaba-primary:hover { background-color: var(--goiaba-primary) !important; }
+
+  .hover\:text-goiaba-600:hover { color: var(--primary-600) !important; }
+  .hover\:text-goiaba-700:hover { color: var(--primary-700) !important; }
+
+  .hover\:border-goiaba-600:hover { border-color: var(--primary-600) !important; }
+  .hover\:border-goiaba-700:hover { border-color: var(--primary-700) !important; }
+
+  /* ===== FOCUS VARIANTS ===== */
+  /* Focus states for brand colors */
+  .focus\:bg-goiaba-600:focus { background-color: var(--primary-600) !important; }
+  .focus\:bg-goiaba-700:focus { background-color: var(--primary-700) !important; }
+
+  .focus\:text-goiaba-600:focus { color: var(--primary-600) !important; }
+  .focus\:text-goiaba-700:focus { color: var(--primary-700) !important; }
+
+  .focus\:border-goiaba-primary:focus { border-color: var(--goiaba-primary) !important; }
+  .focus\:ring-goiaba-primary:focus { --tw-ring-color: var(--goiaba-primary) !important; }
+
+  /* ===== LEGACY COMPATIBILITY ===== */
+  /* Direct mappings for commonly used legacy classes */
+
+  /* Text levels (legacy txt1, txt2, etc.) */
+  .text-level-1 { color: var(--ion-text-color) !important; }
+  .text-level-2 { color: var(--ion-text-color-step-600) !important; }
+  .text-level-3 { color: var(--ion-text-color-step-500) !important; }
+  .text-level-4 { color: var(--ion-text-color-step-400) !important; }
+  .text-level-5 { color: var(--ion-text-color-step-300) !important; }
+
+  /* Legacy background colors */
+  .bg-white-2 { background-color: #f1f1f1 !important; }
+  .bg-white-3 { background-color: #e9e9e9 !important; }
+  .bg-black-2 { background-color: #222 !important; }
+  .bg-black-3 { background-color: #333 !important; }
+
+  /* ===== TOUCH-FRIENDLY UTILITIES ===== */
+  /* Minimum touch target size for mobile */
+  .touch-target {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+
+  .touch-target-sm {
+    min-height: 36px !important;
+    min-width: 36px !important;
+  }
+
+  .touch-target-lg {
+    min-height: 56px !important;
+    min-width: 56px !important;
+  }
+
+  /* ===== SAFE AREA UTILITIES ===== */
+  /* iOS safe area support */
+  .safe-top {
+    padding-top: env(safe-area-inset-top) !important;
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom) !important;
+  }
+
+  .safe-left {
+    padding-left: env(safe-area-inset-left) !important;
+  }
+
+  .safe-right {
+    padding-right: env(safe-area-inset-right) !important;
+  }
+
+  .safe-x {
+    padding-left: env(safe-area-inset-left) !important;
+    padding-right: env(safe-area-inset-right) !important;
+  }
+
+  .safe-y {
+    padding-top: env(safe-area-inset-top) !important;
+    padding-bottom: env(safe-area-inset-bottom) !important;
+  }
+
+  /* ===== SCROLLBAR UTILITIES ===== */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.neutral.400') theme('colors.neutral.100');
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: theme('colors.neutral.100');
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: theme('colors.neutral.400');
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.neutral.500');
+  }
+
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* ===== TEXT UTILITIES ===== */
+  /* Multi-line text truncation */
+  .truncate-2 {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  .truncate-3 {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  .truncate-4 {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 4 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  /* ===== ASPECT RATIO UTILITIES ===== */
+  /* Common aspect ratios for images and containers */
+  .aspect-square {
+    aspect-ratio: 1 / 1 !important;
+  }
+
+  .aspect-video {
+    aspect-ratio: 16 / 9 !important;
+  }
+
+  .aspect-photo {
+    aspect-ratio: 4 / 3 !important;
+  }
+
+  .aspect-portrait {
+    aspect-ratio: 3 / 4 !important;
+  }
+
+  .aspect-golden {
+    aspect-ratio: 1.618 / 1 !important;
+  }
+
+  /* ===== ANIMATION UTILITIES ===== */
+  /* Loading skeleton animation */
+  .loading-skeleton {
+    background: linear-gradient(90deg,
+      theme('colors.neutral.200') 25%,
+      theme('colors.neutral.300') 50%,
+      theme('colors.neutral.200') 75%
+    ) !important;
+    background-size: 200% 100% !important;
+    animation: loading-skeleton 1.5s infinite !important;
+  }
+
+  @keyframes loading-skeleton {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Pulse animation for loading states */
+  .pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
+  }
+
+  /* Fade in animation */
+  .fade-in {
+    animation: fadeIn 0.3s ease-in-out !important;
+  }
+
+  /* Animate fade in with slide up effect */
+  .animate-fade-in {
+    animation: fadeInSlideUp 0.5s ease-in-out !important;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fadeInSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ===== GLASS MORPHISM UTILITIES ===== */
+  /* Modern glass effect */
+  .glass {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  }
+
+  .glass-dark {
+    background: rgba(0, 0, 0, 0.1) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+
+  /* ===== GRADIENT UTILITIES ===== */
+  /* Goiaba brand gradients */
+  .bg-gradient-goiaba {
+    background: linear-gradient(135deg, var(--goiaba-primary), var(--goiaba-secondary)) !important;
+  }
+
+  .bg-gradient-goiaba-accent {
+    background: linear-gradient(135deg, var(--goiaba-secondary), var(--goiaba-accent)) !important;
+  }
+
+  .bg-gradient-goiaba-vertical {
+    background: linear-gradient(180deg, var(--goiaba-primary), var(--goiaba-secondary)) !important;
+  }
+
+  /* ===== PRINT UTILITIES ===== */
+  /* Print-specific utilities */
+  .print-hidden {
+    @media print {
+      display: none !important;
+    }
+  }
+
+  .print-visible {
+    @media print {
+      display: block !important;
+    }
+  }
+
+  .print-break-before {
+    @media print {
+      break-before: page !important;
+    }
+  }
+
+  .print-break-after {
+    @media print {
+      break-after: page !important;
+    }
+  }
+
+  .print-break-inside-avoid {
+    @media print {
+      break-inside: avoid !important;
+    }
+  }
+
+  /* ===== ACCESSIBILITY UTILITIES ===== */
+  /* Screen reader only content */
+  .sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  /* Focus visible for keyboard navigation */
+  .focus-visible-ring:focus-visible {
+    outline: 2px solid var(--goiaba-primary) !important;
+    outline-offset: 2px !important;
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .high-contrast-border {
+      border: 2px solid !important;
+    }
+
+    .high-contrast-text {
+      font-weight: 600 !important;
+    }
+  }
+
+  /* ===== REDUCED MOTION SUPPORT ===== */
+  /* Respect user's motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .motion-safe-animate {
+      animation: none !important;
+    }
+
+    .motion-safe-transition {
+      transition: none !important;
+    }
+  }
+}
+
+/**
+ * Dark Mode Variants
+ * -----------------------------------------------------
+ * Dark mode specific utilities
+ */
+
+@media (prefers-color-scheme: dark) {
+  .dark\:glass {
+    background: rgba(0, 0, 0, 0.2) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .dark\:loading-skeleton {
+    background: linear-gradient(90deg,
+      theme('colors.neutral.700') 25%,
+      theme('colors.neutral.600') 50%,
+      theme('colors.neutral.700') 75%
+    ) !important;
+  }
+}
+
+/**
+ * Component-Specific Utilities
+ * -----------------------------------------------------
+ * Utilities specific to Ionic components
+ */
+
+/* Ion-card enhancements */
+.ion-card-modern {
+  --background: theme('colors.white');
+  --color: theme('colors.neutral.900');
+  border-radius: theme('borderRadius.xl') !important;
+  box-shadow: theme('boxShadow.lg') !important;
+  margin: theme('spacing.4') !important;
+  overflow: hidden !important;
+  transition: all 0.3s ease !important;
+}
+
+.ion-card-modern:hover {
+  box-shadow: theme('boxShadow.xl') !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Ion-button enhancements */
+.ion-button-modern {
+  --border-radius: theme('borderRadius.lg');
+  --padding-start: theme('spacing.6');
+  --padding-end: theme('spacing.6');
+  --padding-top: theme('spacing.3');
+  --padding-bottom: theme('spacing.3');
+  font-weight: 500 !important;
+  text-transform: none !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Button variant utility classes */
+.btn-primary {
+  @apply bg-goiaba-primary text-white shadow-md hover:bg-primary-600 hover:shadow-lg active:bg-primary-700 active:shadow-sm;
+  @apply focus:outline-none focus:ring-2 focus:ring-goiaba-primary focus:ring-offset-2;
+  @apply disabled:bg-neutral-300 disabled:text-neutral-500 disabled:shadow-none disabled:opacity-60 disabled:cursor-not-allowed;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-secondary {
+  @apply bg-transparent text-goiaba-primary border-2 border-goiaba-primary;
+  @apply hover:bg-primary-50 hover:border-primary-600 hover:text-primary-600 hover:shadow-sm;
+  @apply active:bg-primary-100 active:border-primary-700 active:text-primary-700;
+  @apply focus:outline-none focus:ring-2 focus:ring-goiaba-primary focus:ring-offset-2;
+  @apply disabled:border-neutral-300 disabled:text-neutral-400 disabled:opacity-60 disabled:cursor-not-allowed;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-ghost {
+  @apply bg-transparent text-goiaba-primary;
+  @apply hover:bg-primary-50 hover:text-primary-600;
+  @apply active:bg-primary-100 active:text-primary-700;
+  @apply focus:outline-none focus:ring-2 focus:ring-goiaba-primary focus:ring-offset-2;
+  @apply disabled:text-neutral-400 disabled:opacity-60 disabled:cursor-not-allowed;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-success {
+  @apply bg-success-500 text-white shadow-md hover:bg-success-600 hover:shadow-lg active:bg-success-700 active:shadow-sm;
+  @apply focus:outline-none focus:ring-2 focus:ring-success-500 focus:ring-offset-2;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-danger {
+  @apply bg-error-500 text-white shadow-md hover:bg-error-600 hover:shadow-lg active:bg-error-700 active:shadow-sm;
+  @apply focus:outline-none focus:ring-2 focus:ring-error-500 focus:ring-offset-2;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Button size variants */
+.btn-small {
+  @apply px-4 py-2 text-xs;
+  min-height: 36px;
+}
+
+.btn-large {
+  @apply px-8 py-4 text-base;
+  min-height: 52px;
+}
+
+/* Button loading state */
+.btn-loading {
+  position: relative;
+  color: transparent !important;
+}
+
+.btn-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Ion-item enhancements */
+.ion-item-modern {
+  --padding-start: theme('spacing.4');
+  --padding-end: theme('spacing.4');
+  --min-height: 56px;
+  --border-color: theme('colors.neutral.200');
+  transition: all 0.2s ease !important;
+}
+
+.ion-item-modern:hover {
+  --background: theme('colors.neutral.50');
+}
+
+/* Modern button component classes */
+.modern-add-to-cart-btn {
+  --background: var(--goiaba-primary);
+  --color: white;
+  --border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  font-weight: var(--font-semibold);
+
+  &:hover {
+    --background: var(--primary-600);
+    box-shadow: var(--shadow-xl);
+    transform: translateY(-1px);
+  }
+}
+
+.modern-cart-btn {
+  --background: var(--goiaba-primary);
+  --color: white;
+  --border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+
+  &:hover {
+    --background: var(--primary-600);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+.modern-retry-btn {
+  --color: var(--goiaba-primary);
+  --border-color: var(--goiaba-primary);
+  --border-width: 2px;
+
+  &:hover {
+    --background: var(--primary-50);
+    --color: var(--primary-600);
+  }
+}
+
+.modern-login-btn,
+.modern-shopping-btn {
+  --background: var(--goiaba-primary);
+  --color: white;
+  --border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+
+  &:hover {
+    --background: var(--primary-600);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-1px);
+  }
+}
+
+/* Button group spacing */
+.button-group {
+  @apply flex gap-3 items-center;
+
+  &.button-group-vertical {
+    @apply flex-col;
+  }
+
+  &.button-group-center {
+    @apply justify-center;
+  }
+
+  &.button-group-end {
+    @apply justify-end;
+  }
+}
+
+/* Responsive button adjustments */
+@media (max-width: 640px) {
+  .btn-responsive {
+    @apply w-full;
+  }
+
+  .button-group-mobile-stack {
+    @apply flex-col w-full;
+
+    ion-button {
+      @apply w-full;
+    }
+  }
+}

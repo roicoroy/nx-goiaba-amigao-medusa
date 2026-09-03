@@ -1,0 +1,253 @@
+/**
+ * Tailwind CSS Imports
+ * -----------------------------------------------------
+ * Import Tailwind's base, components, and utilities
+ * Note: preflight is disabled in tailwind.config.js to avoid conflicts with Ionic
+ */
+
+/* @use rules must come before all other rules (including @tailwind) */
+@use 'custom-utilities' as *;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * Custom Base Styles
+ * -----------------------------------------------------
+ * Custom base styles that work with Ionic
+ */
+
+@layer base {
+  /* Ensure smooth transitions for theme changes */
+  * {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+}
+
+/**
+ * Custom Component Styles
+ * -----------------------------------------------------
+ * Custom component styles using Tailwind utilities
+ */
+
+@layer components {
+  /* Modern Card Component */
+  .card-modern {
+    @apply bg-white rounded-xl shadow-lg border-0 overflow-hidden transition-all duration-300 hover:shadow-xl;
+  }
+
+  .card-modern-header {
+    @apply p-6 border-b border-neutral-100;
+  }
+
+  .card-modern-content {
+    @apply p-6;
+  }
+
+  .card-modern-footer {
+    @apply p-6 border-t border-neutral-100 bg-neutral-50;
+  }
+
+  /* Modern Button Variants */
+  .btn-modern {
+    @apply font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply bg-goiaba-primary hover:bg-goiaba-600 text-white shadow-lg hover:shadow-xl focus:ring-goiaba-500;
+  }
+
+  .btn-secondary {
+    @apply bg-neutral-100 hover:bg-neutral-200 text-neutral-900 shadow-sm hover:shadow-md focus:ring-neutral-500;
+  }
+
+  .btn-outline {
+    @apply border-2 border-goiaba-primary text-goiaba-primary hover:bg-goiaba-primary hover:text-white focus:ring-goiaba-500;
+  }
+
+  .btn-ghost {
+    @apply text-goiaba-primary hover:bg-goiaba-50 focus:ring-goiaba-500;
+  }
+
+  /* Modern Form Components */
+  .input-modern {
+    @apply block w-full rounded-lg border-neutral-300 shadow-sm focus:border-goiaba-500 focus:ring-goiaba-500 transition-colors duration-200;
+  }
+
+  .input-error {
+    @apply border-error-500 focus:border-error-500 focus:ring-error-500;
+  }
+
+  .input-success {
+    @apply border-success-500 focus:border-success-500 focus:ring-success-500;
+  }
+
+  /* Typography Utilities */
+  .text-heading-1 {
+    @apply text-3xl font-bold text-neutral-900 leading-tight;
+  }
+
+  .text-heading-2 {
+    @apply text-2xl font-semibold text-neutral-900 leading-tight;
+  }
+
+  .text-heading-3 {
+    @apply text-xl font-semibold text-neutral-900 leading-snug;
+  }
+
+  .text-body {
+    @apply text-base text-neutral-700 leading-relaxed;
+  }
+
+  .text-body-sm {
+    @apply text-sm text-neutral-600 leading-relaxed;
+  }
+
+  .text-caption {
+    @apply text-xs text-neutral-500 leading-normal;
+  }
+
+  /* Layout Utilities */
+  .container-modern {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-padding {
+    @apply py-12 sm:py-16 lg:py-20;
+  }
+
+  .content-padding {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Interactive States */
+  .interactive {
+    @apply transition-all duration-200 cursor-pointer;
+  }
+
+  .interactive:hover {
+    @apply transform scale-105;
+  }
+
+  .interactive:active {
+    @apply transform scale-95;
+  }
+
+  /* Loading States */
+  .loading-skeleton {
+    @apply animate-pulse bg-neutral-200 rounded;
+  }
+
+  .loading-spinner {
+    @apply animate-spin rounded-full border-2 border-neutral-200 border-t-goiaba-primary;
+  }
+}
+
+/**
+ * Custom Utility Classes
+ * -----------------------------------------------------
+ * Additional utility classes for specific use cases
+ */
+
+@layer utilities {
+  /* Touch-friendly sizing */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  /* Safe area utilities for mobile */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Scrollbar styling */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.neutral.400') theme('colors.neutral.100');
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: theme('colors.neutral.100');
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: theme('colors.neutral.400');
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.neutral.500');
+  }
+
+  /* Text truncation and aspect ratio utilities are defined in custom-utilities.scss */
+}
+
+/**
+ * Dark Mode Support
+ * -----------------------------------------------------
+ * Dark mode styles using CSS custom properties
+ */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tw-prose-body: theme('colors.neutral.300');
+    --tw-prose-headings: theme('colors.neutral.100');
+    --tw-prose-lead: theme('colors.neutral.400');
+    --tw-prose-links: theme('colors.goiaba.400');
+    --tw-prose-bold: theme('colors.neutral.100');
+    --tw-prose-counters: theme('colors.neutral.400');
+    --tw-prose-bullets: theme('colors.neutral.600');
+    --tw-prose-hr: theme('colors.neutral.700');
+    --tw-prose-quotes: theme('colors.neutral.100');
+    --tw-prose-quote-borders: theme('colors.neutral.700');
+    --tw-prose-captions: theme('colors.neutral.400');
+    --tw-prose-code: theme('colors.neutral.100');
+    --tw-prose-pre-code: theme('colors.neutral.300');
+    --tw-prose-pre-bg: theme('colors.neutral.900');
+    --tw-prose-th-borders: theme('colors.neutral.600');
+    --tw-prose-td-borders: theme('colors.neutral.700');
+  }
+}
+
+/**
+ * Print Styles
+ * -----------------------------------------------------
+ * Optimized styles for printing
+ */
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .print-break-before {
+    break-before: page;
+  }
+
+  .print-break-after {
+    break-after: page;
+  }
+
+  .print-break-inside-avoid {
+    break-inside: avoid;
+  }
+}

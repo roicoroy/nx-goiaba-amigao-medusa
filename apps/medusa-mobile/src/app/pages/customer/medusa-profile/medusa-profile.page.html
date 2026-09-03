@@ -1,0 +1,268 @@
+<app-goiaba-header titleKey="profile.title" [showMenuButton]="true" [showBackButton]="false" [showCart]="true"></app-goiaba-header>
+
+<ion-content class="ion-padding-bottom" [scrollY]="true" [fullscreen]="false">
+  <!-- Main View State Subscription -->
+  @if (viewState$ | async; as vs) {
+
+  <!-- Not Logged In State -->
+  @if (!vs.isLoggedIn) {
+  <div class="ion-padding ion-margin-top">
+    <ion-card class="ion-text-center ion-padding-vertical welcome-card">
+      <ion-card-content>
+        <div class="icon-container ion-margin-bottom">
+          <ion-icon name="person-circle-outline" color="primary"></ion-icon>
+        </div>
+        <h2 class="ion-text-bold">Welcome to Goiaba</h2>
+        <p class="ion-color-medium ion-margin-bottom">Log in to track orders, manage addresses, and access your
+          wishlist.</p>
+
+        <ion-button (click)="openLogin()" expand="block" shape="round" class="ion-margin-top">
+          <ion-icon name="log-in-outline" slot="start"></ion-icon>
+          Log In / Sign Up
+        </ion-button>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
+  }
+
+  <!-- Logged In State -->
+  @if (vs.isLoggedIn) {
+
+  <!-- Loading State -->
+  @if (!vs.customer) {
+  <div class="ion-text-center ion-padding ion-margin-top">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p class="ion-color-medium ion-margin-top">Loading your profile...</p>
+    <ion-button (click)="refreshProfile()" fill="clear" size="small">
+      Try Again
+    </ion-button>
+  </div>
+  } @else {
+
+  <!-- Profile Hero Section -->
+  <div class="profile-hero ion-text-center ion-padding-vertical">
+    <div class="avatar-wrapper">
+      <app-image-picker [avatar]="vs.avatar || '/assets/shapes.svg'" (imagePick)="onAvatarSelected($event)">
+      </app-image-picker>
+      @if (vs.avatar) {
+      <ion-button class="remove-avatar-btn" (click)="deleteAvatar()" fill="clear" size="small" color="danger">
+        <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+      }
+    </div>
+
+    <h2 class="ion-margin-top ion-margin-bottom-none">{{ vs.customer.first_name || 'Hello' }} {{ vs.customer.last_name
+      || 'Guest' }}</h2>
+    <p class="ion-color-medium ion-no-margin text-small">{{ vs.customer.email }}</p>
+
+    <div class="ion-margin-top">
+      <ion-chip outline color="medium" class="member-since">
+        <ion-icon name="calendar-outline"></ion-icon>
+        <ion-label>Member since {{ vs.customer.created_at | date:'MMM yyyy' }}</ion-label>
+      </ion-chip>
+    </div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="ion-padding-top sticky-segment">
+    <ion-segment [(ngModel)]="selectedTab" (ionChange)="onSegmentChange($event)" scrollable mode="md">
+      @for(item of tabsList; track item.id){
+      <ion-segment-button [value]="item.id">
+        <ion-label>{{ item.button }}</ion-label>
+      </ion-segment-button>
+      }
+    </ion-segment>
+  </div>
+
+  <!-- Tab Content -->
+  <div class="tab-content ion-padding">
+    @switch (selectedTab) {
+
+    <!-- ADDRESS TAB -->
+    @case ("nav-address-tab") {
+    <div>
+      <div class="section-header">
+        <h3>My Addresses</h3>
+        <ion-button (click)="addNewAddress()" size="small" fill="solid" shape="round">
+          <ion-icon name="add-outline" slot="start"></ion-icon>
+          Add New
+        </ion-button>
+      </div>
+
+      @if (vs.customer) {
+      <app-default-addresses-list [customer]="vs.customer"></app-default-addresses-list>
+      <app-default-addresses-view [customer]="vs.customer"></app-default-addresses-view>
+      }
+    </div>
+    }
+
+    <!-- PROFILE INFO TAB -->
+    @case ('nav-profile-tab') {
+    <div>
+      <ion-card class="info-card">
+        <ion-list lines="full">
+          <ion-item>
+            <ion-icon name="person-outline" slot="start" color="medium"></ion-icon>
+            <ion-label>
+              <p class="label-sm">Full Name</p>
+              <h3>{{ vs.customer.first_name }} {{ vs.customer.last_name }}</h3>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="mail-outline" slot="start" color="medium"></ion-icon>
+            <ion-label>
+              <p class="label-sm">Email</p>
+              <h3>{{ vs.customer.email }}</h3>
+            </ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="call-outline" slot="start" color="medium"></ion-icon>
+            <ion-label>
+              <p class="label-sm">Phone</p>
+              <h3>{{ vs.customer.phone || 'Not provided' }}</h3>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card>
+
+      <ion-button (click)="logout()" expand="block" color="danger" fill="outline" class="ion-margin-top">
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+        Log Out
+      </ion-button>
+    </div>
+    }
+
+    <!-- INFORMATION EDIT TAB -->
+    @case ("nav-information-tab") {
+    <div>
+      @if (vs.customer) {
+      <app-customer-details-form [customer]="vs.customer"></app-customer-details-form>
+      }
+    </div>
+    }
+
+    <!-- NOTIFICATIONS TAB -->
+    @case ("nav-notification-tab") {
+    <div>
+      <ion-card>
+        <ion-list>
+          <ion-list-header>
+            <ion-label>Push Notifications</ion-label>
+          </ion-list-header>
+          
+          @if (fcmRegistered$ | async) {
+          <ion-item>
+            <ion-icon name="checkmark-circle" color="success" slot="start"></ion-icon>
+            <ion-label>
+              <p class="label-sm">Status</p>
+              <h3>Push notifications enabled</h3>
+            </ion-label>
+          </ion-item>
+          } @else {
+          <ion-item>
+            <ion-icon name="alert-circle" color="warning" slot="start"></ion-icon>
+            <ion-label>
+              <p class="label-sm">Status</p>
+              <h3>Push notifications not registered</h3>
+            </ion-label>
+          </ion-item>
+          }
+
+          @if (fcmLoading$ | async) {
+          <ion-item>
+            <ion-spinner name="crescent" slot="start"></ion-spinner>
+            <ion-label>Processing...</ion-label>
+          </ion-item>
+          }
+
+          @if (fcmError$ | async; as error) {
+          <ion-item>
+            <ion-icon name="close-circle" color="danger" slot="start"></ion-icon>
+            <ion-label>
+              <p class="label-sm">Error</p>
+              <h3>{{ error }}</h3>
+            </ion-label>
+          </ion-item>
+          }
+
+          <ion-item>
+            <ion-label>
+              <h3>Order Updates</h3>
+              <p>Get notified about your order status changes</p>
+            </ion-label>
+            <ion-toggle 
+              [checked]="fcmRegistered$ | async" 
+              [disabled]="fcmLoading$ | async"
+              (ionChange)="onOrderUpdatesToggle($event)" 
+              slot="end">
+            </ion-toggle>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label>
+              <h3>Promotions</h3>
+              <p>Receive special offers and discounts</p>
+            </ion-label>
+            <ion-toggle 
+              [checked]="fcmRegistered$ | async" 
+              [disabled]="fcmLoading$ | async"
+              (ionChange)="onPromotionsToggle($event)" 
+              slot="end">
+            </ion-toggle>
+          </ion-item>
+          
+          <ion-item lines="none">
+            <ion-label>
+              <h3>New Arrivals</h3>
+              <p>Be the first to know about new products</p>
+            </ion-label>
+            <ion-toggle 
+              [checked]="fcmRegistered$ | async" 
+              [disabled]="fcmLoading$ | async"
+              (ionChange)="onNewArrivalsToggle($event)" 
+              slot="end">
+            </ion-toggle>
+          </ion-item>
+        </ion-list>
+      </ion-card>
+
+      @if (fcmToken$ | async; as token) {
+      <ion-card class="ion-margin-top">
+        <ion-card-content>
+          <p class="label-sm ion-margin-bottom">Device Token</p>
+          <p style="word-break: break-all; font-size: 0.85rem; color: var(--ion-color-medium);">
+            {{ token }}
+          </p>
+        </ion-card-content>
+      </ion-card>
+      }
+    </div>
+    }
+
+    <!-- PASSWORD TAB -->
+    @case ("nav-password-tab") {
+    <div>
+      <ion-card>
+        <ion-card-content>
+          <form>
+            <ion-input label="Current Password" labelPlacement="stacked" type="password" fill="outline"
+              class="ion-margin-bottom"></ion-input>
+            <ion-input label="New Password" labelPlacement="stacked" type="password" fill="outline"
+              class="ion-margin-bottom"></ion-input>
+            <ion-input label="Confirm New Password" labelPlacement="stacked" type="password" fill="outline"
+              class="ion-margin-bottom"></ion-input>
+            <ion-button expand="block" type="submit">Update Password</ion-button>
+          </form>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    }
+    }
+  </div>
+
+  }
+  }
+  }
+
+</ion-content>

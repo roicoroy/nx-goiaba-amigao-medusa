@@ -1,0 +1,77 @@
+<footer class="footer bg-theme-surface text-theme-secondary py-12 md:py-16">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <!-- Company Info -->
+      <div class="col-span-1 md:col-span-2">
+        <h3 class="text-2xl font-bold text-theme-primary mb-4">{{ 'footer.company_name' | translate }}</h3>
+        <p class="text-theme-tertiary mb-4 leading-relaxed">
+          {{ 'footer.description' | translate }}
+        </p>
+        <div class="flex gap-4">
+          <a href="#" class="w-10 h-10 bg-theme-secondary hover:bg-goiaba-primary rounded-full flex items-center justify-center transition-colors duration-200">
+            <ion-icon name="logo-facebook" class="text-lg"></ion-icon>
+          </a>
+          <a href="#" class="w-10 h-10 bg-theme-secondary hover:bg-goiaba-primary rounded-full flex items-center justify-center transition-colors duration-200">
+            <ion-icon name="logo-twitter" class="text-lg"></ion-icon>
+          </a>
+          <a href="#" class="w-10 h-10 bg-theme-secondary hover:bg-goiaba-primary rounded-full flex items-center justify-center transition-colors duration-200">
+            <ion-icon name="logo-instagram" class="text-lg"></ion-icon>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h4 class="text-theme-primary font-semibold mb-4">{{ 'footer.quick_links' | translate }}</h4>
+        <ul class="space-y-2">
+          <li>
+            <a routerLink="/products/products" class="text-theme-tertiary hover:text-goiaba-primary transition-colors duration-200">
+              {{ 'footer.shop_now' | translate }}
+            </a>
+          </li>
+          <li>
+            <a routerLink="/products/cart" class="text-theme-tertiary hover:text-goiaba-primary transition-colors duration-200">
+              {{ 'footer.shopping_cart' | translate }}
+            </a>
+          </li>
+          <li>
+            <a routerLink="/contact-us" class="text-theme-tertiary hover:text-goiaba-primary transition-colors duration-200">
+              {{ 'footer.contact_us_link' | translate }}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Support -->
+      <div>
+        <h4 class="text-theme-primary font-semibold mb-4">{{ 'footer.support' | translate }}</h4>
+        <ul class="space-y-2">
+          <li>
+            <a href="#" class="text-theme-tertiary hover:text-goiaba-primary transition-colors duration-200">
+              {{ 'footer.help_center' | translate }}
+            </a>
+          </li>
+          <li>
+            <a href="#" class="text-theme-tertiary hover:text-goiaba-primary transition-colors duration-200">
+              {{ 'footer.shipping_info' | translate }}
+            </a>
+          </li>
+          <li>
+            <a href="#" class="text-theme-tertiary hover:text-goiaba-primary transition-colors duration-200">
+              {{ 'footer.returns' | translate }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="border-t border-theme-primary pt-8 text-center">
+      <p class="text-theme-tertiary text-sm">
+        {{ 'footer.copyright' | translate: { year: currentYear } }} |
+        <a href="#" class="hover:text-goiaba-primary transition-colors duration-200">{{ 'footer.privacy_policy' | translate }}</a> |
+        <a href="#" class="hover:text-goiaba-primary transition-colors duration-200">{{ 'footer.terms_of_service' | translate }}</a>
+      </p>
+    </div>
+  </div>
+</footer>

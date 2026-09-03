@@ -1,0 +1,39 @@
+<!-- daisyUI Hero Component -->
+<div class="hero bg-primary min-h-[60vh] py-16 md:py-24">
+  <div class="hero-content flex-col lg:flex-row gap-8 lg:gap-12 w-full max-w-7xl mx-auto px-4">
+    <!-- Hero Image / 3D Logo -->
+    <div class="flex-shrink-0 w-full lg:w-1/2 flex justify-center items-center">
+      <div class="w-64 h-64 flex items-center justify-center">
+        <app-goiaba-3d-banner></app-goiaba-3d-banner>
+      </div>
+    </div>
+
+    <!-- <div class="flex-shrink-0 w-full lg:w-1/2 flex justify-center items-center">
+      <div class="w-64 h-64 flex items-center justify-center">
+        <app-goiaba-3d-logo
+          [backgroundColor]="'#F21D1D'"
+          [modelPath]="'/assets/3D/logo-v5.gltf'">
+        </app-goiaba-3d-logo>
+      </div>
+    </div> -->
+
+    <!-- Hero Content -->
+    <div class="my-hero flex-1 text-center lg:text-left space-y-6">
+      <h1 class="highlighted-text-shadow text-5xl md:text-6xl lg:text-7xl font-black text-base-content leading-tight">
+        {{ 'home.hero.title' | translate }}
+      </h1>
+      <p class="text-2xl md:text-3xl font-bold text-base-content leading-relaxed">
+        {{ 'home.hero.subtitle' | translate }}
+      </p>
+      <p class="text-xl text-base-content/80">
+        {{ 'home.hero.description' | translate }}
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 pt-4">
+        <button class="btn btn-primary btn-lg" (click)="onShopNowClick()">
+          <ion-icon name="storefront-outline" class="text-xl mr-2"></ion-icon>
+          {{ 'home.hero.shop_now' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

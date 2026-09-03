@@ -1,0 +1,61 @@
+<div class="w-full">
+  <!-- Input Container -->
+  <ion-item [class]="containerClasses" [disabled]="disabled">
+    <!-- Start Icon -->
+    @if (iconStart) {
+      <ion-icon [name]="iconStart" slot="start" [class]="iconColor"></ion-icon>
+    }
+
+    <!-- Label -->
+    @if (label) {
+      <ion-label [position]="labelPosition"
+                 class="text-neutral-700 font-medium">
+        {{ label }}
+      </ion-label>
+    }
+
+    <!-- Input -->
+    <ion-input
+      [type]="type"
+      [placeholder]="placeholder"
+      [readonly]="readonly"
+      [clearInput]="clearInput"
+      [disabled]="disabled"
+      [value]="value"
+      [class]="inputClasses"
+      (ionInput)="onInputChange($event)"
+      (ionFocus)="onFocus($event)"
+      (ionBlur)="onBlur($event)"
+      [attr.aria-invalid]="isInErrorState"
+      [attr.aria-describedby]="shouldDisplayErrors ? label + '-error' : null">
+    </ion-input>
+
+    <!-- Validation Icon (End) -->
+    @if (isInErrorState && !iconEnd) {
+      <ion-icon name="alert-circle" slot="end" class="text-error-500 text-lg"></ion-icon>
+    } @else if (isInSuccessState && !iconEnd) {
+      <ion-icon name="checkmark-circle" slot="end" class="text-success-500 text-lg"></ion-icon>
+    } @else if (iconEnd) {
+      <ion-icon [name]="iconEnd" slot="end" [class]="iconColor"></ion-icon>
+    }
+  </ion-item>
+
+  <!-- Error Message -->
+  @if (shouldDisplayErrors) {
+    <div
+      class="text-error-500 text-xs px-3 mt-1"
+      [id]="label + '-error'"
+      role="alert"
+      aria-live="polite">
+      <small>{{ displayErrorMessage }}</small>
+    </div>
+  }
+
+  <!-- Success Message (optional) -->
+  @if (isInSuccessState && !shouldDisplayErrors) {
+    <div class="text-success-500 text-xs px-3 mt-1">
+      <small>✓ Valid</small>
+    </div>
+  }
+</div>
+

@@ -1,0 +1,266 @@
+.loading-container, .loading-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-container {
+  min-height: 200px;
+  gap: 16px;
+}
+
+.loading-section {
+  padding: 24px;
+  gap: 12px;
+}
+
+.checkout-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+
+  @media (min-width: 1024px) {
+    flex-direction: row;
+    align-items: flex-start;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+}
+
+.checkout-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.order-summary {
+  width: 100%;
+
+  @media (min-width: 1024px) {
+    width: 400px;
+    position: sticky;
+    top: 16px;
+  }
+}
+
+.placeholder-text, .same-address-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+
+  ion-icon {
+    font-size: 20px;
+  }
+}
+
+.placeholder-text {
+  background: var(--ion-color-light);
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.same-address-message {
+  margin-top: 12px;
+}
+
+.error-message {
+  padding: 8px 16px;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.shipping-option {
+  width: 100%;
+  padding: 8px 0;
+
+  .option-name {
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .option-details {
+    display: flex;
+    gap: 12px;
+    font-size: 14px;
+
+    .price {
+      font-weight: 600;
+    }
+  }
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  width: 100%;
+
+  .payment-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--ion-color-light);
+    border-radius: 8px;
+  }
+
+  .payment-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .payment-name {
+      font-weight: 500;
+      font-size: 16px;
+    }
+
+    .payment-description {
+      font-size: 13px;
+      line-height: 1.3;
+    }
+  }
+}
+
+.complete-order-section {
+  margin-top: 24px;
+  padding: 16px;
+  background: var(--ion-color-light);
+  border-radius: 8px;
+
+  ion-button {
+    margin-bottom: 12px;
+  }
+
+  .checkout-hint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    justify-content: center;
+  }
+}
+
+.cart-items-list {
+  margin-bottom: 16px;
+
+  .items-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  .cart-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px;
+    margin-bottom: 8px;
+    background: var(--ion-color-light);
+    border-radius: 8px;
+    align-items: center;
+
+    .item-image {
+      width: 60px;
+      height: 60px;
+      flex-shrink: 0;
+      border-radius: 6px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .item-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+
+      .item-title, .item-variant, .item-quantity {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .item-title {
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      .item-variant, .item-quantity {
+        font-size: 12px;
+      }
+    }
+
+    .item-price {
+      font-weight: 600;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.summary-content {
+  margin-top: 16px;
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 14px;
+
+    &.total {
+      font-size: 18px;
+    }
+  }
+
+  .summary-divider {
+    height: 1px;
+    margin: 12px 0;
+    opacity: 0.3;
+    background: var(--ion-color-medium);
+  }
+}
+
+.empty-cart-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px;
+  font-size: 14px;
+}
+
+ion-card ion-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 767px) {
+  .checkout-container {
+    padding: 8px;
+  }
+}
+
+@media (min-width:768px) and (max-width:1023px) {
+  .checkout-container {
+    padding:24px;
+    max-width:768px;
+    margin:0 auto;
+  }
+}

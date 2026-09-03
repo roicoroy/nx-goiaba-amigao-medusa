@@ -1,0 +1,604 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" fill="clear">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title *ngIf="order">
+      Orders / {{ getOrderDisplayId(order) }}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button id="order-actions-trigger">
+        <ion-icon name="ellipsis-horizontal" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-popover trigger="order-actions-trigger" dismissOnSelect="true">
+        <ng-template>
+          <ion-content>
+            <ion-list lines="none">
+              <ion-item button (click)="completeOrder()" [disabled]="order?.status === 'completed'">
+                <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+                <ion-label>Complete Order</ion-label>
+              </ion-item>
+              <ion-item button (click)="cancelOrder()" [disabled]="order?.status === 'canceled'" color="danger">
+                <ion-icon name="close-circle-outline" slot="start"></ion-icon>
+                <ion-label>Cancel Order</ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-content>
+        </ng-template>
+      </ion-popover>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding-vertical">
+  <!-- Loading State -->
+  <div *ngIf="loading$ | async" class="loading-container">
+    <ion-spinner></ion-spinner>
+    <p>Loading order details...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error$ | async as error" class="error-container">
+    <ion-icon name="alert-circle-outline"></ion-icon>
+    <h3>Error Loading Order</h3>
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Order Details -->
+  <div *ngIf="order" class="order-detail-container">
+
+    <!-- Order Header -->
+    <div class="order-header ion-padding-horizontal">
+      <div class="order-title-row">
+        <div class="order-info">
+          <h1>{{ getOrderDisplayId(order) }}</h1>
+          <p class="order-meta">{{ formatDate(order.created_at) }} from Default Sales Channel</p>
+        </div>
+        <div class="order-badges">
+          <ion-badge [color]="getPaymentStatusColor(order.payment_status)" class="status-badge">
+            {{ getPaymentStatusText(order.payment_status) }}
+          </ion-badge>
+          <ion-badge [color]="getFulfillmentStatusColor(order.fulfillment_status)" class="status-badge">
+            {{ getFulfillmentStatusText(order.fulfillment_status) }}
+          </ion-badge>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Layout -->
+    <div class="content-layout">
+
+      <!-- Left Column - Main Content -->
+      <div class="main-column">
+
+        <!-- Summary Section -->
+        <ion-card class="medusa-card summary-card">
+          <ion-card-header>
+            <ion-card-title>Summary</ion-card-title>
+            <ion-button fill="clear" size="small" slot="end">
+              <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-card-header>
+
+          <ion-card-content>
+            <!-- Order Items -->
+            <div class="order-items">
+              <div *ngFor="let item of order.items" class="order-item">
+                <!-- <div class="item-thumbnail">
+                  <img [src]="item.thumbnail || 'assets/placeholder-product.png'" alt="Product thumbnail">
+                </div> -->
+                <div class="item-details">
+                  <div class="item-name-row">
+                    <span class="item-name">{{ item.title }}</span>
+                    <span class="item-price">{{ formatCurrency(item.unit_price, order.currency_code) }}</span>
+                  </div>
+                  <div class="item-variant">{{ $any(item).variant?.title || 'Standard' }}</div>
+                  <div class="item-meta">
+                    <span class="item-sku" *ngIf="$any(item).variant?.sku">SKU: {{ $any(item).variant?.sku }}</span>
+                    <ion-badge color="success" class="mini-badge">Allocated</ion-badge>
+                  </div>
+                </div>
+                <div class="item-quantity">
+                  {{ item.quantity }} x
+                </div>
+                <div class="item-total">
+                  {{ formatCurrency(item.unit_price * item.quantity, order.currency_code) }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Totals -->
+            <div class="order-totals">
+              <div class="total-row">
+                <span>Item Subtotal</span>
+                <span>{{ formatCurrency(orderSummary?.itemSubtotal || 0, order.currency_code) }}</span>
+              </div>
+
+              <div class="total-row expandable" (click)="toggleSection('shipping')">
+                <div class="expand-label">
+                  <span>Shipping Subtotal</span>
+                  <ion-icon
+                    [name]="expandedSections.shipping ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+                </div>
+                <span>{{ formatCurrency(orderSummary?.shippingSubtotal || 0, order.currency_code) }}</span>
+              </div>
+
+              <div class="shipping-details" *ngIf="expandedSections.shipping">
+                <div *ngFor="let method of order.shipping_methods" class="shipping-method">
+                  <span>{{ method.shipping_option?.name || 'Standard Shipping' }}</span>
+                  <span>{{ formatCurrency(method.amount || 0, order.currency_code) }}</span>
+                </div>
+              </div>
+
+              <div class="total-row">
+                <span>Tax Total</span>
+                <span>{{ formatCurrency(orderSummary?.taxTotal || 0, order.currency_code) }}</span>
+              </div>
+
+              <div class="total-row total-highlight">
+                <span>Order Total</span>
+                <span>{{ formatCurrency(orderSummary?.orderTotal || 0, order.currency_code) }}</span>
+              </div>
+
+              <div class="total-row text-muted" *ngIf="orderSummary?.discountTotal">
+                <span>Discount Total</span>
+                <span>-{{ formatCurrency(orderSummary?.discountTotal || 0, order.currency_code) }}</span>
+              </div>
+
+              <div class="total-row text-muted">
+                <span>Paid Total</span>
+                <span>{{ formatCurrency(orderSummary?.paidTotal || 0, order.currency_code) }}</span>
+              </div>
+
+              <div class="total-row text-muted">
+                <span>Outstanding Amount</span>
+                <span [class.negative-amount]="(orderSummary?.outstandingAmount ?? 0) < 0">
+                  {{ formatCurrency(orderSummary?.outstandingAmount || 0, order.currency_code) }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="totals-actions" *ngIf="order">
+              <!-- Receive Items Button -->
+              <ion-button
+                *ngIf="hasRequestedReturns()"
+                expand="block"
+                fill="outline"
+                class="action-button receive-button"
+                (click)="receiveItems()">
+                <ion-icon name="cube-outline" slot="start"></ion-icon>
+                Receive items
+              </ion-button>
+
+              <!-- Refund Button -->
+              <ion-button
+                *ngIf="orderSummary"
+                expand="block"
+                fill="solid"
+                color="medium"
+                class="action-button refund-button"
+                (click)="refundOutstandingAmount()">
+                <ion-icon name="arrow-undo-outline" slot="start"></ion-icon>
+                Refund {{ formatCurrency(getAbsoluteAmount(orderSummary.outstandingAmount), order.currency_code) }} {{ order.currency_code }}
+              </ion-button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Payments Section -->
+        <ion-card class="medusa-card">
+          <ion-card-header>
+            <ion-card-title>Payments</ion-card-title>
+            <ion-badge [color]="getPaymentStatusColor(order.payment_status)" slot="end">
+              {{ getPaymentStatusText(order.payment_status) }}
+            </ion-badge>
+            <!-- Capture Payment Button -->
+            <ion-button *ngIf="order && (order.payment_status === 'authorized' || order.payment_status === 'awaiting')"
+              fill="clear" size="small" (click)="capturePayment()" slot="end" class="capture-btn">
+              Capture Payment
+            </ion-button>
+          </ion-card-header>
+
+          <ion-card-content>
+            <!-- Existing Payments -->
+            <div class="payments-list" *ngIf="order.payment_collections?.length">
+              <div *ngFor="let payment of order.payment_collections" class="payment-item">
+                <div class="payment-info">
+                  <span class="payment-id">{{ payment.id }}</span>
+                  <span class="payment-date">{{ formatDate(payment.created_at) }}</span>
+                </div>
+                <div class="payment-provider">
+                  {{ getPaymentProvider(payment) }}
+                </div>
+                <div class="payment-status">
+                  <ion-badge [color]="getPaymentStatusColor(payment.status)">
+                    {{ getPaymentStatusText(payment.status) }}
+                  </ion-badge>
+                </div>
+                <div class="payment-amount">
+                  {{ formatCurrency(payment.amount, order.currency_code) }}
+                </div>
+                <div class="payment-actions">
+                  <ion-button fill="clear" size="small">
+                    <ion-icon name="ellipsis-horizontal"></ion-icon>
+                  </ion-button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Capture Action -->
+            <div class="payment-action-row" *ngIf="order.payment_status === 'authorized'">
+              <div class="payment-status-text">
+                <ion-icon name="arrow-undo-outline" class="rotate-icon"></ion-icon>
+                <span>Payment is ready to be captured.</span>
+              </div>
+              <ion-button fill="outline" size="small" (click)="capturePayment()">
+                Capture payment
+              </ion-button>
+            </div>
+
+            <!-- Payment Totals -->
+            <div class="payment-totals">
+              <div class="total-row">
+                <span>Total paid by customer</span>
+                <span>{{ formatCurrency(orderSummary?.paidTotal || 0, order.currency_code) }}</span>
+              </div>
+              <div class="total-row">
+                <span>Total pending</span>
+                <span>{{ formatCurrency(orderSummary?.outstandingAmount || 0, order.currency_code) }}</span>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Order Actions Section -->
+        <ion-card class="medusa-card">
+          <ion-card-header>
+            <ion-card-title>Order Actions</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <div class="action-buttons">
+              <!-- Step 1: Payment Actions -->
+              <div *ngIf="canCapturePayment()" class="action-item">
+                <ion-button
+                  expand="block"
+                  fill="solid"
+                  color="success"
+                  (click)="capturePayment()"
+                  class="action-btn">
+                  <ion-icon name="card-outline" slot="start"></ion-icon>
+                  Capture Payment
+                </ion-button>
+                <p class="action-description">Capture the authorized payment to secure funds</p>
+              </div>
+
+              <!-- Step 2: Pack & Prepare (Create Fulfillment) -->
+              <div *ngIf="canCreateFulfillment()" class="action-item">
+                <ion-button
+                  expand="block"
+                  fill="solid"
+                  color="primary"
+                  (click)="openFulfillmentModal()"
+                  class="action-btn">
+                  <ion-icon name="cube-outline" slot="start"></ion-icon>
+                  Pack Items (Create Fulfillment)
+                </ion-button>
+                <p class="action-description">Allocate inventory and prepare items for shipping</p>
+              </div>
+
+              <!-- Step 3: Shipping Actions -->
+              <div *ngIf="canMarkAsShipped()" class="action-item">
+                <ion-button
+                  expand="block"
+                  fill="outline"
+                  color="primary"
+                  (click)="markAsShipped(getShippableFulfillmentId())"
+                  class="action-btn">
+                  <ion-icon name="airplane-outline" slot="start"></ion-icon>
+                  Mark as Shipped
+                </ion-button>
+                <p class="action-description">Items have been handed to carrier</p>
+              </div>
+
+              <!-- Step 4: Delivery Actions -->
+              <div *ngIf="canMarkAsDelivered()" class="action-item">
+                <ion-button
+                  expand="block"
+                  fill="outline"
+                  color="primary"
+                  (click)="markAsDelivered(getDeliverableFulfillmentId())"
+                  class="action-btn">
+                  <ion-icon name="checkmark-done-outline" slot="start"></ion-icon>
+                  Mark as Delivered
+                </ion-button>
+                <p class="action-description">Items have been delivered to customer</p>
+              </div>
+
+              <!-- Step 5: Complete Order -->
+              <div *ngIf="canCompleteOrder()" class="action-item">
+                <ion-button
+                  expand="block"
+                  fill="solid"
+                  color="success"
+                  (click)="completeOrder()"
+                  class="action-btn">
+                  <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+                  Complete Order
+                </ion-button>
+                <p class="action-description">Finalize the order (cannot be undone)</p>
+              </div>
+
+              <!-- Divider for alternative actions -->
+              <ion-item-divider *ngIf="canRefundPayment() || canCancelOrder()" class="actions-divider">
+                <ion-label>Alternative Actions</ion-label>
+              </ion-item-divider>
+
+              <!-- Alternative Actions -->
+              <div *ngIf="canRefundPayment()" class="action-item">
+                <ion-button
+                  expand="block"
+                  fill="outline"
+                  color="warning"
+                  (click)="refundPayment()"
+                  class="action-btn">
+                  <ion-icon name="arrow-undo-outline" slot="start"></ion-icon>
+                  Refund Payment
+                </ion-button>
+                <p class="action-description">Return funds to customer</p>
+              </div>
+
+              <div *ngIf="canCancelOrder()" class="action-item">
+                <ion-button
+                  expand="block"
+                  fill="outline"
+                  color="danger"
+                  (click)="cancelOrder()"
+                  class="action-btn">
+                  <ion-icon name="close-circle-outline" slot="start"></ion-icon>
+                  Cancel Order
+                </ion-button>
+                <p class="action-description">Cancel this order (cannot be undone)</p>
+              </div>
+
+              <!-- Info message if no actions available -->
+              <div *ngIf="!canCreateFulfillment() && !canMarkAsShipped() && !canMarkAsDelivered() &&
+                          !canCapturePayment() && !canRefundPayment() && !canCompleteOrder() && !canCancelOrder()"
+                   class="no-actions-message">
+                <ion-icon name="information-circle-outline"></ion-icon>
+                <p>No actions available for this order at the moment.</p>
+              </div>
+
+              <!-- DEBUG BUTTON -->
+              <ion-button expand="block" fill="outline" color="dark" (click)="debugPaymentData()" style="margin-top: 1rem;">
+                🐛 Debug Payment Data
+              </ion-button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Unfulfilled Items Section -->
+        <ion-card class="medusa-card" *ngIf="unfulfilledItems.length > 0">
+          <ion-card-header>
+            <ion-card-title>Unfulfilled Items</ion-card-title>
+            <div class="header-badges" slot="end">
+              <ion-badge color="danger" *ngIf="unfulfilledItems.length > 0">Requires shipping</ion-badge>
+              <ion-badge color="warning" *ngIf="unfulfilledItems.length > 0">Awaiting fulfillment</ion-badge>
+            </div>
+            <ion-button fill="clear" size="small" slot="end">
+              <ion-icon name="ellipsis-horizontal"></ion-icon>
+            </ion-button>
+          </ion-card-header>
+
+          <ion-card-content>
+            <div class="order-items">
+              <div *ngFor="let item of unfulfilledItems" class="order-item">
+                <!-- <div class="item-thumbnail">
+                  <img [src]="item.thumbnail || 'assets/placeholder-product.png'" alt="Product thumbnail">
+                </div> -->
+                <div class="item-details">
+                  <div class="item-name-row">
+                    <span class="item-name">{{ item.title }}</span>
+                    <span class="item-price">{{ formatCurrency(item.unit_price, order.currency_code) }}</span>
+                  </div>
+                  <div class="item-variant">{{ item.variant?.title || 'Standard' }}</div>
+                </div>
+                <div class="item-quantity">
+                  {{ item.quantity - (item.fulfilled_quantity || 0) }}x
+                </div>
+                <div class="item-total">
+                  {{ formatCurrency(item.unit_price * (item.quantity - (item.fulfilled_quantity || 0)),
+                  order.currency_code) }}
+                </div>
+              </div>
+            </div>
+
+            <div class="card-actions">
+              <ion-button expand="block" fill="outline" (click)="openFulfillmentModal()">
+                Create Fulfillment
+              </ion-button>
+
+              <!-- DEBUG SECTION -->
+              <div
+                style="margin-top: 20px; padding: 10px; background: #f4f4f4; border-radius: 8px; font-size: 10px; font-family: monospace;">
+                <p><strong>DEBUG INFO:</strong></p>
+                <p>Unfulfilled Items Count: {{ unfulfilledItems.length }}</p>
+                <details>
+                  <summary>Unfulfilled Items Data</summary>
+                  <pre>{{ unfulfilledItems | json }}</pre>
+                </details>
+                <details>
+                  <summary>All Order Items (Qty / Fulfilled)</summary>
+                  <div *ngFor="let item of order.items">
+                    {{ item.title }} - Qty: {{ item.quantity }} - Fulfilled: {{ $any(item).fulfilled_quantity }}
+                  </div>
+                </details>
+                <details>
+                  <summary>Fulfillments</summary>
+                  <pre>{{ order.fulfillments | json }}</pre>
+                </details>
+                <ion-button size="small" color="dark" (click)="loadExtendedOrderData(order)">
+                  Force Refresh Data
+                </ion-button>
+              </div>
+              <!-- END DEBUG SECTION -->
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Metadata Section -->
+        <ion-card class="medusa-card">
+          <ion-card-header (click)="toggleSection('metadata')" class="clickable-header">
+            <ion-card-title>Metadata</ion-card-title>
+            <ion-badge color="light" class="count-badge">{{ getMetadataCount(order) }} keys</ion-badge>
+            <ion-icon [name]="expandedSections.metadata ? 'chevron-up-outline' : 'chevron-down-outline'"
+              slot="end"></ion-icon>
+          </ion-card-header>
+
+          <ion-card-content *ngIf="expandedSections.metadata">
+            <div *ngIf="getMetadataCount(order) === 0" class="empty-state">
+              No metadata found
+            </div>
+            <div *ngIf="getMetadataCount(order) > 0" class="metadata-list">
+              <div *ngFor="let item of order.metadata | keyvalue" class="metadata-item">
+                <span class="key">{{ item.key }}</span>
+                <span class="value">{{ item.value }}</span>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- JSON Section -->
+        <ion-card class="medusa-card">
+          <ion-card-header (click)="toggleSection('json')" class="clickable-header">
+            <ion-card-title>JSON</ion-card-title>
+            <ion-badge color="light" class="count-badge">{{ getJSONKeyCount(order) }} keys</ion-badge>
+            <ion-icon [name]="expandedSections.json ? 'chevron-up-outline' : 'chevron-down-outline'"
+              slot="end"></ion-icon>
+          </ion-card-header>
+
+          <ion-card-content *ngIf="expandedSections.json">
+            <pre class="json-viewer">{{ order | json }}</pre>
+          </ion-card-content>
+        </ion-card>
+
+      </div>
+
+      <!-- Right Column - Sidebar -->
+      <div class="sidebar-column">
+
+        <!-- Customer Card -->
+        <ion-card class="medusa-card">
+          <ion-card-header>
+            <ion-card-title>Customer</ion-card-title>
+            <ion-button fill="clear" size="small" slot="end">
+              <ion-icon name="ellipsis-horizontal"></ion-icon>
+            </ion-button>
+          </ion-card-header>
+
+          <ion-card-content>
+            <div class="customer-info-grid">
+              <!-- Customer ID -->
+              <div class="info-row">
+                <div class="label">ID</div>
+                <div class="value-with-copy">
+                  <ion-avatar class="customer-avatar">
+                    {{ (order.customer?.first_name?.charAt(0) || order.email?.charAt(0) || '?').toUpperCase() }}
+                  </ion-avatar>
+                  <span class="text-truncate">{{ getCustomerName(order) }}</span>
+                </div>
+              </div>
+
+              <!-- Contact -->
+              <div class="info-row">
+                <div class="label">Contact</div>
+                <div class="value-group">
+                  <div class="value-with-copy">
+                    <span>{{ order.email }}</span>
+                    <ion-icon name="copy-outline" class="copy-icon"></ion-icon>
+                  </div>
+                  <div class="value-with-copy" *ngIf="order.shipping_address?.phone">
+                    <span>{{ order.shipping_address?.phone }}</span>
+                    <ion-icon name="copy-outline" class="copy-icon"></ion-icon>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Shipping Address -->
+              <div class="info-row">
+                <div class="label">Shipping address</div>
+                <div class="value-group">
+                  <div class="address-block">
+                    <div>{{ order.shipping_address?.first_name }} {{ order.shipping_address?.last_name }}</div>
+                    <div>{{ order.shipping_address?.address_1 }}</div>
+                    <div *ngIf="order.shipping_address?.address_2">{{ order.shipping_address?.address_2 }}</div>
+                    <div>{{ order.shipping_address?.postal_code }} {{ order.shipping_address?.city }}</div>
+                    <div>{{ order.shipping_address?.country_code?.toUpperCase() }}</div>
+                  </div>
+                  <ion-icon name="copy-outline" class="copy-icon absolute-copy"></ion-icon>
+                </div>
+              </div>
+
+              <!-- Billing Address -->
+              <div class="info-row">
+                <div class="label">Billing address</div>
+                <div class="value-group">
+                  <div class="address-block">
+                    <div *ngIf="!order.billing_address">Same as shipping address</div>
+                    <div *ngIf="order.billing_address">
+                      <div>{{ order.billing_address.first_name }} {{ order.billing_address.last_name }}</div>
+                      <div>{{ order.billing_address.address_1 }}</div>
+                      <div *ngIf="order.billing_address.address_2">{{ order.billing_address.address_2 }}</div>
+                      <div>{{ order.billing_address.postal_code }} {{ order.billing_address.city }}</div>
+                      <div>{{ order.billing_address.country_code?.toUpperCase() }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Activity Card -->
+        <ion-card class="medusa-card">
+          <ion-card-header>
+            <ion-card-title>Activity</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <div class="activity-timeline">
+              <div *ngFor="let activity of orderActivity" class="activity-item">
+                <div class="activity-dot"></div>
+                <div class="activity-content">
+                  <div class="activity-message">
+                    {{ activity.message }}
+                    <span *ngIf="activity.amount" class="activity-amount">
+                      {{ formatCurrency(activity.amount, order.currency_code) }}
+                    </span>
+                  </div>
+                  <div class="activity-time">{{ getRelativeTime(activity.timestamp) }}</div>
+                </div>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="medusa-card" *ngIf="orderChanges?.order_changes?.length">
+          <ion-card-header>
+            <ion-card-title>Order Changes</ion-card-title>
+            <ion-badge color="light" class="count-badge">{{ orderChanges.order_changes.length }} change{{ orderChanges.order_changes.length > 1 ? 's' : '' }}</ion-badge>
+          </ion-card-header>
+          <ion-card-content>
+            <app-order-changes-timeline 
+              [orderChanges]="orderChanges.order_changes">
+            </app-order-changes-timeline>
+          </ion-card-content>
+        </ion-card>
+
+      </div>
+    </div>
+  </div>
+</ion-content>

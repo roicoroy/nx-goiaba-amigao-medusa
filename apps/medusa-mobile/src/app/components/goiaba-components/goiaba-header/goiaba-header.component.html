@@ -1,0 +1,63 @@
+<ion-header [translucent]="true" [class]="customClass">
+  <ion-toolbar [class]="toolbarClass || 'shadow-sm'">
+
+    <!-- Menu Button (Start) -->
+    @if (showMenuButton) {
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="toggleMenu()" class="menu-button p-0">
+        <div class="w-14 h-14 flex items-center justify-center">
+          <app-goiaba-3d-logo
+            [modelPath]="'/assets/3D/logo-v5.gltf'"
+            [transparentBackground]="true"
+            [hideLoadingIndicator]="true"
+            class="logo-3d-header">
+          </app-goiaba-3d-logo>
+        </div>
+      </ion-button>
+    </ion-buttons>
+    }
+
+    <!-- Back Button (Start) -->
+    @if (showBackButton) {
+    <ion-buttons slot="start">
+      <app-goiaba-ion-button
+        variant="clear"
+        [iconOnly]="true"
+        iconStart="arrow-back"
+        customClass="text-neutral-700 hover:text-goiaba-primary"
+        (buttonClick)="onBackClick()">
+      </app-goiaba-ion-button>
+    </ion-buttons>
+    }
+
+    <!-- Title -->
+    @if (titleKey) {
+    <ion-title class="font-semibold text-lg md:text-xl">
+      {{ titleKey | translate }}
+    </ion-title>
+    } @else {
+    <ng-content select="[slot=title]"></ng-content>
+    }
+
+    <!-- End Slot Content -->
+    <ion-buttons slot="end" class="flex items-center gap-2">
+      <!-- Cart Button -->
+      @if (showCart) {
+      <app-cart-button></app-cart-button>
+      }
+
+      <!-- Customer Avatar or Login Icon -->
+      @if (showAvatar) {
+      <app-goiaba-avatar
+        [avatarUrl]="avatar$ | async"
+        [customer]="customer$ | async"
+        [isLoggedIn]="isLoggedIn$ | async"
+        (avatarClick)="onAvatarClick()">
+      </app-goiaba-avatar>
+      }
+
+      <!-- Custom End Content -->
+      <ng-content select="[slot=end]"></ng-content>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>

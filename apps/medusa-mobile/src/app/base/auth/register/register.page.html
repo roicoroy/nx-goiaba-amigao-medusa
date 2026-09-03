@@ -1,0 +1,192 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/auth'" text="Back"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" [fullscreen]="true">
+  <div class="max-w-md mx-auto mt-8 mb-8 a ">
+    <ion-card class="bg-white rounded-xl shadow-lg border-0 overflow-hidden">
+      <!-- Gradient Header -->
+      <ion-card-header class="p-6 border-b border-neutral-100 bg-gradient-to-r from-goiaba-primary to-goiaba-secondary">
+        <ion-card-title class="text-white font-semibold text-2xl text-center">Create Account</ion-card-title>
+        <p class="text-white/90 text-sm text-center mt-2">Join Goiaba and start shopping</p>
+      </ion-card-header>
+
+      <ion-card-content class="p-6">
+        <form [formGroup]="registerForm" (ngSubmit)="register()" class="space-y-4">
+          <!-- First Name Input -->
+          <div class="space-y-1">
+            <ion-item class="rounded-3xl shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200"
+                      [class.border-error-500]="registerForm.get('firstName')?.invalid && (registerForm.get('firstName')?.dirty || registerForm.get('firstName')?.touched)">
+              <ion-input formControlName="firstName"
+                        type="text"
+                        label="First Name"
+                        labelPlacement="floating"
+                        placeholder="Enter your first name"
+                        class="text-neutral-900 placeholder:text-neutral-500"></ion-input>
+            </ion-item>
+            @if (registerForm.get('firstName')?.invalid && (registerForm.get('firstName')?.dirty || registerForm.get('firstName')?.touched)) {
+            <div class="text-error-500 text-xs px-3 a ">
+              @if (registerForm.get('firstName')?.errors?.['required']) {
+              <small>First name is required.</small>
+              }
+            </div>
+            }
+          </div>
+
+          <!-- Last Name Input -->
+          <div class="space-y-1">
+            <ion-item class="rounded-3xl shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200"
+                      [class.border-error-500]="registerForm.get('lastName')?.invalid && (registerForm.get('lastName')?.dirty || registerForm.get('lastName')?.touched)">
+              <ion-input formControlName="lastName"
+                        type="text"
+                        label="Last Name"
+                        labelPlacement="floating"
+                        placeholder="Enter your last name"
+                        class="text-neutral-900 placeholder:text-neutral-500"></ion-input>
+            </ion-item>
+            @if (registerForm.get('lastName')?.invalid && (registerForm.get('lastName')?.dirty || registerForm.get('lastName')?.touched)) {
+            <div class="text-error-500 text-xs px-3 a ">
+              @if (registerForm.get('lastName')?.errors?.['required']) {
+              <small>Last name is required.</small>
+              }
+            </div>
+            }
+          </div>
+
+          <!-- Email Input -->
+          <div class="space-y-1">
+            <ion-item class="rounded-3xl shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200"
+                      [class.border-error-500]="registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)">
+              <ion-input formControlName="email"
+                        type="email"
+                        label="Email"
+                        labelPlacement="floating"
+                        placeholder="Enter your email"
+                        class="text-neutral-900 placeholder:text-neutral-500"></ion-input>
+            </ion-item>
+            @if (registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)) {
+            <div class="text-error-500 text-xs px-3 a ">
+              @if (registerForm.get('email')?.errors?.['required']) {
+              <small>Email is required.</small>
+              }
+              @if (registerForm.get('email')?.errors?.['pattern']) {
+              <small>Enter a valid email.</small>
+              }
+            </div>
+            }
+          </div>
+
+          <!-- Password Input -->
+          <div class="space-y-1">
+            <ion-item class="rounded-3xl shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200"
+                      [class.border-error-500]="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)">
+              <ion-input formControlName="password"
+                        type="password"
+                        label="Password"
+                        labelPlacement="floating"
+                        placeholder="Enter your password"
+                        class="text-neutral-900 placeholder:text-neutral-500"></ion-input>
+            </ion-item>
+            @if (registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)) {
+            <div class="text-error-500 text-xs px-3 a ">
+              @if (registerForm.get('password')?.errors?.['required']) {
+              <small>Password is required.</small>
+              }
+              @if (registerForm.get('password')?.errors?.['minlength']) {
+              <small>Password must be at least 5 characters long.</small>
+              }
+            </div>
+            }
+          </div>
+
+          <!-- Confirm Password Input -->
+          <div class="space-y-1">
+            <ion-item class="rounded-3xl shadow-sm bg-neutral-50 border border-neutral-200 focus-within:border-goiaba-primary focus-within:ring-2 focus-within:ring-goiaba-primary/20 transition-all duration-200"
+                      [class.border-error-500]="(registerForm.get('confirmPassword')?.invalid || registerForm.errors?.['areNotEqual']) && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)"
+                      [class.border-success-500]="registerForm.get('confirmPassword')?.valid && registerForm.get('confirmPassword')?.dirty && !registerForm.errors?.['areNotEqual'] && registerForm.get('password')?.value">
+              <ion-input formControlName="confirmPassword"
+                        type="password"
+                        label="Confirm Password"
+                        labelPlacement="floating"
+                        placeholder="Confirm your password"
+                        class="text-neutral-900 placeholder:text-neutral-500"></ion-input>
+            </ion-item>
+            @if (registerForm.get('confirmPassword')?.invalid && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)) {
+            <div class="text-error-500 text-xs px-3 a ">
+              @if (registerForm.get('confirmPassword')?.errors?.['required']) {
+              <small>Confirm password is required.</small>
+              }
+            </div>
+            }
+            @if (registerForm.errors?.['areNotEqual'] && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)) {
+            <div class="text-error-500 text-xs px-3 a ">
+              <small>Passwords do not match.</small>
+            </div>
+            }
+            @if (registerForm.get('confirmPassword')?.valid && registerForm.get('confirmPassword')?.dirty && !registerForm.errors?.['areNotEqual'] && registerForm.get('password')?.value) {
+            <div class="text-success-500 text-xs px-3 a ">
+              <small>Passwords match.</small>
+            </div>
+            }
+          </div>
+
+          <!-- Submit Button -->
+          <ion-button expand="block"
+                      type="submit"
+                      [disabled]="registerForm.invalid || loading"
+                      class="bg-goiaba-primary hover:bg-goiaba-600 text-white font-medium py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 touch-target disabled:opacity-50 disabled:cursor-not-allowed mt-6">
+            @if (loading) {
+            <ion-spinner name="crescent" class="mr-2"></ion-spinner>
+            <span>Creating account...</span>
+            }
+            @if (!loading) {
+            <span>Create Account</span>
+            }
+          </ion-button>
+        </form>
+
+        <!-- Social Login Divider -->
+        <div class="relative my-6">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-neutral-300"></div>
+          </div>
+          <div class="relative flex justify-center text-sm">
+            <span class="px-2 bg-white text-neutral-500">Or continue with</span>
+          </div>
+        </div>
+
+        <!-- Google Login Button (Optional) -->
+        <ion-button expand="block"
+                    [disabled]="loading"
+                    class="bg-white hover:bg-neutral-50 text-neutral-700 font-medium py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 touch-target border border-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed">
+          <ion-icon slot="start" name="logo-google" class="text-xl"></ion-icon>
+          <span>Continue with Google</span>
+        </ion-button>
+
+        <!-- Error Message -->
+        @if (error) {
+        <div class="mt-4 p-4 bg-error-50 border border-error-200 rounded-lg a ">
+          <p class="text-error-700 text-sm text-center m-0">{{ error }}</p>
+        </div>
+        }
+
+        <!-- Sign In Link -->
+        <div class="text-center mt-6 pt-6 border-t border-neutral-200">
+          <p class="text-neutral-600 text-sm m-0">
+            Already have an account?
+            <ion-button fill="clear"
+                        (click)="navigateToLogin()"
+                        class="text-goiaba-primary hover:text-goiaba-600 font-medium p-0 ml-1">
+              Sign in
+            </ion-button>
+          </p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

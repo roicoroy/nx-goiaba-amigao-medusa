@@ -1,0 +1,46 @@
+
+// Cards
+ion-card {
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  ion-card-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--ion-color-light);
+
+    ion-card-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ion-color-dark);
+      margin: 0;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+
+      .status-badge {
+        font-size: 0.75rem;
+        margin-left: 0.5rem;
+        padding: 0.25rem 0.5rem;
+      }
+
+      .card-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-left: auto;
+
+        ion-button {
+          --border-radius: 4px;
+          font-weight: 500;
+          text-transform: none;
+        }
+      }
+    }
+  }
+
+  ion-card-content {
+    padding: 1.25rem;
+  }
+}

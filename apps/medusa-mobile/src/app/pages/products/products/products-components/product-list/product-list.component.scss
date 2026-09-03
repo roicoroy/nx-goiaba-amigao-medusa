@@ -1,0 +1,44 @@
+// Product List Component
+// Most styling is now handled by Tailwind CSS classes in the template.
+
+// Ionic component overrides
+ion-card {
+  --box-shadow: none;
+  
+  img {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+}
+
+ion-item[button] {
+  cursor: pointer;
+  min-height: 120px;
+  
+  @media (max-width: 640px) {
+    min-height: 100px;
+  }
+  
+  &:hover {
+    --background: rgba(0, 0, 0, 0.02);
+  }
+  
+  &:active {
+    --background: rgba(0, 0, 0, 0.04);
+  }
+}
+
+ion-thumbnail {
+  @media (max-width: 768px) {
+    --size: 72px;
+  }
+  
+  @media (max-width: 480px) {
+    --size: 64px;
+  }
+  
+  img {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+}

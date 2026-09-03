@@ -1,0 +1,283 @@
+@if (hasProductData()) {
+  <div class="py-4">
+    
+    <!-- Product Title (ASDA-style with full details) -->
+    @if (medusaProduct?.title) {
+      <h1 class="text-2xl md:text-3xl font-bold text-neutral-900 mb-2 leading-tight">
+        {{ getFullProductTitle() }}
+      </h1>
+    }
+
+    <!-- Product Size/Weight (shown separately if not in title) -->
+    @if (getProductSize() && !hasVariantInTitle()) {
+      <div class="mb-3">
+        <span class="text-sm text-neutral-600">{{ getProductSize() }}</span>
+      </div>
+    }
+
+    <!-- Star Rating (Mock data for now) -->
+    <div class="flex items-center gap-2 mb-4">
+      <div class="flex gap-0.5">
+        @for (i of [1,2,3,4,5]; track i) {
+          <ion-icon name="star" class="text-warning-400 text-lg"></ion-icon>
+        }
+      </div>
+      <span class="text-sm text-neutral-600 font-medium">(167)</span>
+    </div>
+
+    <!-- Pricing Section -->
+    <div class="mb-6">
+      <!-- Original Price (with strikethrough if discounted) -->
+      @if (hasDiscount()) {
+        <div class="flex items-baseline gap-2 mb-1">
+          <span class="text-base text-neutral-500 line-through">{{ getOriginalPrice() | medusaCurrency:getCurrencyCode() }}</span>
+        </div>
+      }
+      
+      <!-- Current Price -->
+      <div class="flex items-baseline gap-2 mb-1">
+        <span class="text-3xl md:text-4xl font-bold text-neutral-900">{{ getCurrentPrice() | medusaCurrency:getCurrencyCode() }}</span>
+      </div>
+
+      <!-- Unit Price -->
+      @if (getUnitPrice()) {
+        <div class="mb-3">
+          <span class="text-sm text-neutral-600">({{ getUnitPrice() }})</span>
+        </div>
+      }
+
+      <!-- ROLLBACK Badge -->
+      @if (hasDiscount()) {
+        <div class="inline-flex items-center gap-1.5 bg-warning-400 px-3 py-1.5 rounded mt-2">
+          <ion-icon name="arrow-redo-circle" class="text-goiaba-primary text-lg"></ion-icon>
+          <span class="text-sm font-bold text-neutral-900 tracking-wide">ROLLBACK</span>
+        </div>
+      }
+    </div>
+
+    <!-- Quick Product Info -->
+    @if (hasQuickInfo()) {
+      <div class="my-6 p-4 bg-neutral-50 rounded-lg">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          @if (medusaProduct?.weight) {
+            <div class="flex items-center gap-3">
+              <ion-icon name="scale-outline" class="text-goiaba-primary text-2xl flex-shrink-0"></ion-icon>
+              <div class="flex flex-col gap-0.5 min-w-0">
+                <span class="text-xs text-neutral-500 uppercase tracking-wide">Weight</span>
+                <span class="text-sm font-semibold text-neutral-900 truncate">{{ medusaProduct!.weight }}g</span>
+              </div>
+            </div>
+          }
+          @if (medusaProduct?.length || medusaProduct?.width || medusaProduct?.height) {
+            <div class="flex items-center gap-3">
+              <ion-icon name="resize-outline" class="text-goiaba-primary text-2xl flex-shrink-0"></ion-icon>
+              <div class="flex flex-col gap-0.5 min-w-0">
+                <span class="text-xs text-neutral-500 uppercase tracking-wide">Dimensions</span>
+                <span class="text-sm font-semibold text-neutral-900 truncate">{{ getDimensions() }}</span>
+              </div>
+            </div>
+          }
+          @if (medusaProduct?.type) {
+            <div class="flex items-center gap-3">
+              <ion-icon name="pricetag-outline" class="text-goiaba-primary text-2xl flex-shrink-0"></ion-icon>
+              <div class="flex flex-col gap-0.5 min-w-0">
+                <span class="text-xs text-neutral-500 uppercase tracking-wide">Type</span>
+                <span class="text-sm font-semibold text-neutral-900 truncate">{{ medusaProduct!.type!.value }}</span>
+              </div>
+            </div>
+          }
+          @if (medusaProduct?.origin_country) {
+            <div class="flex items-center gap-3">
+              <ion-icon name="flag-outline" class="text-goiaba-primary text-2xl flex-shrink-0"></ion-icon>
+              <div class="flex flex-col gap-0.5 min-w-0">
+                <span class="text-xs text-neutral-500 uppercase tracking-wide">Origin</span>
+                <span class="text-sm font-semibold text-neutral-900 truncate">{{ getOriginCountryName(medusaProduct!.origin_country) }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Product Description (Collapsible) -->
+    @if (medusaProduct?.description) {
+      <div class="mb-8">
+        <p [class.line-clamp-3]="!textMore" class="text-neutral-600 leading-relaxed mb-4 text-base">{{ getShortDescription() }}</p>
+        @if (medusaProduct!.description!.length > 120) {
+          <app-goiaba-ion-button 
+            variant="clear" 
+            size="small" 
+            (click)="handleTextToggle()"
+            [iconStart]="textMore ? 'chevron-up' : 'chevron-down'"
+            customClass="!p-0 !m-0 text-goiaba-primary hover:text-goiaba-600">
+            {{ textMore ? 'See less' : 'See more' }}
+          </app-goiaba-ion-button>
+        }
+      </div>
+    }
+
+    <!-- Product Variants Grid (Always visible when variants exist) -->
+    @if (hasVariants()) {
+      <div class="my-6">
+        @if (variantsWithWishlistStatus$ | async; as variants) {
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            @for (variant of variants; track trackByVariantId($index, variant)) {
+              <div class="relative">
+                <!-- Wishlist Heart Button (Overlay) - Only show when logged in -->
+                @if (isLoggedIn$ | async) {
+                  <app-goiaba-ion-button
+                    (click)="toggleVariantWishlist(variant); $event.stopPropagation()"
+                    variant="clear"
+                    size="small"
+                    [iconOnly]="true"
+                    [iconStart]="variant.isInWishlist ? 'heart' : 'heart-outline'"
+                    [customClass]="variant.isInWishlist 
+                      ? '!absolute !top-2 !right-2 !z-10 !w-9 !h-9 !rounded-full !bg-white/90 shadow-md !text-error-500 hover:!bg-error-50 transition-all duration-200'
+                      : '!absolute !top-2 !right-2 !z-10 !w-9 !h-9 !rounded-full !bg-white/90 shadow-md !text-neutral-600 hover:!bg-neutral-100 transition-all duration-200'">
+                  </app-goiaba-ion-button>
+                }
+                
+                <!-- Variant Button -->
+                <app-goiaba-ion-button
+                  expand="block"
+                  variant="outline"
+                  (click)="setSelectedVariant(variant.id); addVariantToCart(variant)"
+                  [customClass]="selectedVariantId === variant.id 
+                    ? '!border-2 !border-goiaba-primary !bg-goiaba-primary/5 hover:!bg-goiaba-primary/10'
+                    : '!border-2 !border-success-500 hover:!bg-success-50'"
+                  customClass="!h-auto !py-4 !px-3 !text-left !justify-start">
+                  <div class="flex flex-col items-start w-full gap-1">
+                    <span class="text-sm font-semibold text-neutral-900">{{ getVariantTitle(variant) }}</span>
+                    <span class="text-base font-bold text-goiaba-primary">
+                      {{ getVariantPrice(variant) | medusaCurrency:getVariantCurrency(variant) }}
+                    </span>
+                  </div>
+                </app-goiaba-ion-button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Product Details Accordion (Hidden by default, can be expanded) -->
+    @if (hasAccordionContent()) {
+      <ion-accordion-group 
+        class="mt-8"
+        [multiple]="false">
+
+        <!-- Product Options -->
+        @if (hasProductOptions()) {
+          <ion-accordion value="options" class="mb-2 rounded-lg overflow-hidden shadow-sm">
+            <ion-item slot="header" class="bg-neutral-50 hover:bg-neutral-100 transition-colors duration-200">
+              <ion-icon name="list-outline" slot="start" class="text-goiaba-primary text-xl mr-2"></ion-icon>
+              <ion-label class="text-neutral-900 font-medium">Product Options</ion-label>
+            </ion-item>
+            <div class="p-4 bg-neutral-50" slot="content">
+              @for (option of medusaProduct?.options; track option?.title) {
+                <div class="mb-4 last:mb-0">
+                  <h4 class="text-base font-semibold text-neutral-900 mb-2">{{ option?.title }}</h4>
+                  <div class="flex flex-wrap gap-2">
+                    @for (value of option?.values; track value?.value) {
+                      <ion-chip 
+                        color="secondary" 
+                        outline
+                        class="text-sm">
+                        {{ value?.value }}
+                      </ion-chip>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          </ion-accordion>
+        }
+
+        <!-- Product Specifications -->
+        @if (hasSpecifications()) {
+          <ion-accordion value="specifications" class="mb-2 rounded-lg overflow-hidden shadow-sm">
+            <ion-item slot="header" class="bg-neutral-50 hover:bg-neutral-100 transition-colors duration-200">
+              <ion-icon name="information-circle-outline" slot="start" class="text-goiaba-primary text-xl mr-2"></ion-icon>
+              <ion-label class="text-neutral-900 font-medium">Specifications</ion-label>
+            </ion-item>
+            <div class="p-4 bg-neutral-50" slot="content">
+              <div class="flex flex-col gap-4">
+                @if (medusaProduct?.weight) {
+                  <div class="pb-4 border-b border-neutral-200 last:border-b-0 last:pb-0">
+                    <h3 class="text-sm font-semibold text-neutral-900 mb-1">Weight</h3>
+                    <p class="text-sm text-neutral-600 m-0">{{ medusaProduct!.weight }}g</p>
+                  </div>
+                }
+                @if (medusaProduct?.length || medusaProduct?.width || medusaProduct?.height) {
+                  <div class="pb-4 border-b border-neutral-200 last:border-b-0 last:pb-0">
+                    <h3 class="text-sm font-semibold text-neutral-900 mb-1">Dimensions</h3>
+                    <p class="text-sm text-neutral-600 m-0">{{ getDimensions() }}</p>
+                  </div>
+                }
+                @if (medusaProduct?.material) {
+                  <div class="pb-4 border-b border-neutral-200 last:border-b-0 last:pb-0">
+                    <h3 class="text-sm font-semibold text-neutral-900 mb-1">Material</h3>
+                    <p class="text-sm text-neutral-600 m-0">{{ medusaProduct!.material }}</p>
+                  </div>
+                }
+                @if (medusaProduct?.origin_country) {
+                  <div class="pb-4 border-b border-neutral-200 last:border-b-0 last:pb-0">
+                    <h3 class="text-sm font-semibold text-neutral-900 mb-1">Origin Country</h3>
+                    <p class="text-sm text-neutral-600 m-0">{{ getOriginCountryName(medusaProduct!.origin_country) }}</p>
+                  </div>
+                }
+                @if (medusaProduct?.type) {
+                  <div class="pb-4 border-b border-neutral-200 last:border-b-0 last:pb-0">
+                    <h3 class="text-sm font-semibold text-neutral-900 mb-1">Product Type</h3>
+                    <p class="text-sm text-neutral-600 m-0">{{ medusaProduct!.type!.value }}</p>
+                  </div>
+                }
+                @if (medusaProduct?.collection) {
+                  <div class="pb-4 border-b border-neutral-200 last:border-b-0 last:pb-0">
+                    <h3 class="text-sm font-semibold text-neutral-900 mb-1">Collection</h3>
+                    <p class="text-sm text-neutral-600 m-0">{{ medusaProduct!.collection!.title }}</p>
+                  </div>
+                }
+                @if (medusaProduct?.tags && (medusaProduct!.tags?.length || 0) > 0) {
+                  <div class="pb-4 border-b border-neutral-200 last:border-b-0 last:pb-0">
+                    <h3 class="text-sm font-semibold text-neutral-900 mb-1">Tags</h3>
+                    <div class="flex flex-wrap gap-2 mt-2">
+                      @for (tag of medusaProduct!.tags!; track tag.value) {
+                        <ion-chip 
+                          color="secondary" 
+                          outline
+                          class="text-sm h-7">
+                          {{ tag.value }}
+                        </ion-chip>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          </ion-accordion>
+        }
+      </ion-accordion-group>
+    }
+
+        <!-- Add to Cart Button (below variants grid) -->
+        <div class="mt-6">
+          <app-goiaba-ion-button 
+            expand="block" 
+            (click)="addToCart()"
+            variant="primary"
+            iconStart="cart-outline"
+            customClass="!py-4 !text-base !font-semibold">
+            Add to Cart
+          </app-goiaba-ion-button>
+        </div>
+  </div>
+}
+
+<!-- Loading State -->
+@if (!hasProductData()) {
+  <div class="flex flex-col items-center justify-center min-h-[200px] p-8 text-center">
+    <ion-spinner name="crescent" class="text-goiaba-primary mb-4"></ion-spinner>
+    <p class="text-neutral-600 text-base m-0">Loading product details...</p>
+  </div>
+}

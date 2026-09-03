@@ -1,0 +1,218 @@
+<app-goiaba-header titleKey="returns.create_return" [showBackButton]="true"></app-goiaba-header>
+
+<ion-content [fullscreen]="true" class="create-return-content">
+  <form [formGroup]="returnForm" [ngxsForm]="formPath" (ngSubmit)="submitReturn()">
+    <div class="container mx-auto px-4 py-4">
+      <!-- Loading State -->
+      @if (loading$ | async) {
+      <div class="ion-text-center ion-padding">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p>Loading...</p>
+      </div>
+      }
+
+      <!-- Error State -->
+      @if (error$ | async; as error) {
+      <div class="ion-text-center ion-padding">
+        <ion-icon name="alert-circle" color="danger" size="large"></ion-icon>
+        <p>{{ error }}</p>
+      </div>
+      }
+
+      <!-- Order Items -->
+      @if (!(loading$ | async) && !(error$ | async) && (order$ | async); as order) {
+      @if (selectedItems$ | async; as selectedItems) {
+      <div>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Select Items to Return</ion-card-title>
+            <p>Order #{{ order.display_id }}</p>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list>
+              @for (item of order.items; track item.id) {
+              <ion-item class="order-item">
+                <ion-checkbox slot="start" [checked]="selectedItems[item.id]?.selected" [disabled]="!canReturnItem(item)"
+                  (ionChange)="toggleItemSelection(item.id)">
+                </ion-checkbox>
+
+                <ion-thumbnail slot="start">
+                  <ion-img [src]="item.thumbnail || 'assets/images/placeholder-product.jpg'"
+                    (ionError)="$event.target.src = 'assets/images/placeholder-product.jpg'">
+                  </ion-img>
+                </ion-thumbnail>
+
+                <ion-label>
+                  <h3>{{ item.title }}</h3>
+                  <p>{{ item.variant_title }}</p>
+                  <p><strong>Price:</strong> {{ item.unit_price | medusaCurrency }}</p>
+                  <p><strong>Original Quantity:</strong> {{ item.quantity }}</p>
+                  <p><strong>Fulfilled Quantity:</strong>
+                    <ion-text [color]="getFulfilledQuantity(item) > 0 ? 'success' : 'danger'">
+                      {{ getFulfilledQuantity(item) }}
+                    </ion-text>
+                  </p>
+
+                  <!-- Return Status Information -->
+                  <div class="return-status-info">
+                    @if (item.detail?.return_requested_quantity > 0) {
+                    <p>
+                      <strong>Already Requested:</strong> {{ item.detail.return_requested_quantity }}
+                    </p>
+                    }
+                    @if (canReturnItem(item)) {
+                    <p>
+                      <strong>Available to Return:</strong>
+                      <ion-text color="success">{{ getAvailableReturnQuantity(item) }}</ion-text>
+                    </p>
+                    }
+                    @if (!canReturnItem(item) && getFulfilledQuantity(item) === 0) {
+                    <p>
+                      <ion-text color="danger">
+                        <strong>Cannot Return:</strong> Item not fulfilled/shipped
+                      </ion-text>
+                    </p>
+                    }
+                    @if (!canReturnItem(item) && getFulfilledQuantity(item) > 0) {
+                    <p>
+                      <ion-text color="danger">
+                        <strong>Cannot Return:</strong> All fulfilled items already returned
+                      </ion-text>
+                    </p>
+                    }
+                  </div>
+
+                </ion-label>
+
+                <!-- Return Status Badge -->
+                <ion-badge slot="end" [color]="getReturnStatusColor(getReturnStatus(item))">
+                  {{ getReturnStatusText(getReturnStatus(item)) }}
+                </ion-badge>
+              </ion-item>
+              }
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Selected Items Details -->
+        @if ((selectedItemsCount$ | async)! > 0) {
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Return Details</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            @for (item of order.items; track item.id) {
+            @if (selectedItems[item.id]?.selected) {
+            <div class="return-item-details">
+                <h4>{{ item.title }}</h4>
+
+                <ion-item>
+                  <ion-label position="stacked">Return Quantity</ion-label>
+                  <ion-select [value]="selectedItems[item.id].quantity"
+                    (ionChange)="updateItemQuantity(item.id, $event)" placeholder="Select quantity">
+                    @for (qty of [1,2,3,4,5,6,7,8,9,10]; track qty) {
+                    <ion-select-option [value]="qty"
+                      [disabled]="qty > getAvailableReturnQuantity(item)">
+                      {{ qty }} (max available: {{ getAvailableReturnQuantity(item) }})
+                    </ion-select-option>
+                    }
+                  </ion-select>
+                </ion-item>
+
+                <!-- Return Status Info for Selected Item -->
+                @if (item.detail?.return_requested_quantity > 0) {
+                <ion-item>
+                  <ion-label>
+                    <ion-text color="warning">
+                      <p><strong>⚠️ Previous Return Activity:</strong></p>
+                      <p>• Requested: {{ item.detail.return_requested_quantity }}</p>
+                      <p>• Received: {{ item.detail.return_received_quantity || 0 }}</p>
+                      <p>• Available: {{ getAvailableReturnQuantity(item) }}</p>
+                    </ion-text>
+                  </ion-label>
+                </ion-item>
+                }
+
+                <ion-item>
+                  <ion-label position="stacked">Return Reason *</ion-label>
+                  <ion-select [value]="selectedItems[item.id].reason_id" (ionChange)="updateItemReason(item.id, $event)"
+                    placeholder="Select a reason for return" interface="popover">
+                    @for (reason of returnReasons$ | async; track reason.id) {
+                    <ion-select-option [value]="reason.id">
+                      <div>
+                        <strong>{{ reason.label }}</strong>
+                        <br>
+                        <small>{{ reason.description }}</small>
+                      </div>
+                    </ion-select-option>
+                    }
+                  </ion-select>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label position="stacked">Additional Notes</ion-label>
+                  <ion-textarea [value]="selectedItems[item.id].note" (ionInput)="updateItemNote(item.id, $event)"
+                    placeholder="Optional notes about this item" rows="2">
+                  </ion-textarea>
+                </ion-item>
+            </div>
+            }
+            }
+          </ion-card-content>
+        </ion-card>
+        }
+
+        <!-- Return Shipping -->
+        @if (availableShippingOptions$ | async; as availableShippingOptions) {
+        <ion-card formGroupName="return_shipping">
+          <ion-card-header>
+            <ion-card-title>Return Shipping</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item>
+              <ion-label position="stacked">Shipping Option *</ion-label>
+              <ion-select formControlName="option_id" placeholder="Select shipping option">
+                @for (option of availableShippingOptions; track option.id) {
+                <ion-select-option [value]="option.id">
+                  {{ option.name }}
+                  @if (option.price > 0) {
+                  <span>({{ option.price | medusaCurrency }})</span>
+                  }
+                </ion-select-option>
+                }
+              </ion-select>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+        }
+
+        <!-- Summary -->
+        @if ((selectedItemsCount$ | async)! > 0) {
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Return Summary</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p><strong>Items to return:</strong> {{ selectedItemsCount$ | async }}</p>
+            <p><strong>Estimated refund:</strong> {{ totalRefundAmount$ | async | medusaCurrency }}</p>
+          </ion-card-content>
+        </ion-card>
+        }
+      </div>
+      }
+      }
+    </div>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="block" (click)="submitReturn()" [disabled]="!(isFormValid$ | async) || (loading$ | async)"
+      class="submit-button">
+      @if (loading$ | async) {
+      <ion-spinner name="crescent"></ion-spinner>
+      }
+      {{ (loading$ | async) ? 'Creating Return...' : 'Submit Return' }}
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,27 @@
+<div [class]="'w-full max-w-[30rem] h-[20rem] max-h-[30vh] border-2 border-goiaba-primary rounded-lg mx-auto flex items-center justify-center ' + (avatar ? 'w-full h-full rounded-full max-w-none max-h-none' : '')">
+  @if (selectedImage) {
+    <ion-img role="button" 
+             [class]="'w-full h-full object-cover cursor-pointer transition-opacity duration-200 hover:opacity-80 ' + (avatar ? 'rounded-full' : 'rounded-lg')"
+             (click)="onPickImage()" 
+             [src]="selectedImage"></ion-img>
+  } @else {
+    <ion-button color="primary" 
+                (click)="onPickImage()"
+                [class]="avatar ? 'w-full h-full rounded-full m-0' : ''"
+                class="bg-goiaba-primary hover:bg-goiaba-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200">
+      <ion-icon color="light" name="camera" slot="start"></ion-icon>
+      <ion-label color="light" [class]="avatar ? 'text-xs text-center leading-tight whitespace-normal' : ''">
+        {{ 'get_image' | translate }}
+      </ion-label>
+    </ion-button>
+  }
+
+  <!-- Hidden file input for web file picker -->
+  <input
+    #filePicker
+    type="file"
+    accept="image/*"
+    class="hidden"
+    (change)="onFileChosen($event)"
+  />
+</div>

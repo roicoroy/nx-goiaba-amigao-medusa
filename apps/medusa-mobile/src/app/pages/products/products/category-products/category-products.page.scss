@@ -1,0 +1,134 @@
+.category-products-content {
+  --background: #ffffff;
+}
+
+.category-header {
+  padding: 24px 16px;
+  background: #f5f5f5;
+  border-bottom: 1px solid #e0e0e0;
+
+  h1 {
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #000000;
+  }
+
+  .category-description {
+    margin: 0;
+    font-size: 14px;
+    color: #666666;
+    line-height: 1.5;
+  }
+}
+
+.loading-container,
+.error-container,
+.empty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  padding: 32px;
+
+  ion-icon {
+    font-size: 64px;
+    color: #999999;
+    margin-bottom: 16px;
+  }
+
+  p {
+    color: #666666;
+    font-size: 16px;
+    text-align: center;
+    margin: 0 0 16px 0;
+  }
+}
+
+.error-container {
+  ion-icon {
+    color: #eb445a;
+  }
+}
+
+.products-container {
+  padding: 16px;
+}
+
+.product-card {
+  margin: 0 0 16px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.product-image-container {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+ion-card-content {
+  padding: 12px;
+
+  .product-title {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000000;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .product-price {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #68a51c;
+  }
+}
+
+.load-more-container {
+  padding: 24px 16px;
+  max-width: 400px;
+  margin: 0 auto;
+
+  ion-button {
+    --border-radius: 8px;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+    font-weight: 600;
+  }
+}
+
+// Responsive adjustments
+@media (min-width: 768px) {
+  .products-container {
+    padding: 24px;
+  }
+
+  .product-image-container {
+    height: 250px;
+  }
+}
+

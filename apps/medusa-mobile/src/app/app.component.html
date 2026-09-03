@@ -1,0 +1,96 @@
+<ion-app>
+  <ion-menu type="overlay" contentId="main-content" class="menu-drawer">
+    <ion-header>
+      <ion-toolbar class="bg-base-100">
+        <ion-title class="text-base-content font-bold">Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="bg-base-100">
+      <div class="menu-content">
+        <!-- Account Section -->
+        <div class="menu-section">
+          <h3 class="menu-section-title">ACCOUNT</h3>
+          <ul class="menu-list">
+            <!-- Profile - Always visible, redirects to login if not authenticated -->
+            <li>
+              <ion-menu-toggle>
+                <a routerLink="/customer/profile" class="menu-item">
+                  <ion-icon name="person-outline" class="menu-icon"></ion-icon>
+                  <span class="menu-label">Profile</span>
+                </a>
+              </ion-menu-toggle>
+            </li>
+
+            @if (isLoggedIn$ | async) {
+              <li>
+                <ion-menu-toggle>
+                  <a routerLink="/customer/orders" class="menu-item">
+                    <ion-icon name="bag-outline" class="menu-icon"></ion-icon>
+                    <span class="menu-label">Orders</span>
+                  </a>
+                </ion-menu-toggle>
+              </li>
+              <li>
+                <ion-menu-toggle>
+                  <a routerLink="/manage-address" class="menu-item">
+                    <ion-icon name="location-outline" class="menu-icon"></ion-icon>
+                    <span class="menu-label">Manage Addresses</span>
+                  </a>
+                </ion-menu-toggle>
+              </li>
+            }
+          </ul>
+        </div>
+
+        <!-- Navigation Section -->
+        <div class="menu-section">
+          <h3 class="menu-section-title">NAVIGATION</h3>
+          <ul class="menu-list">
+            <li>
+              <ion-menu-toggle>
+                <a routerLink="/tabs/home" class="menu-item">
+                  <ion-icon name="home-outline" class="menu-icon"></ion-icon>
+                  <span class="menu-label">Home</span>
+                </a>
+              </ion-menu-toggle>
+            </li>
+            <li>
+              <ion-menu-toggle>
+                <a routerLink="/products/products-daisy" class="menu-item">
+                  <ion-icon name="grid-outline" class="menu-icon"></ion-icon>
+                  <span class="menu-label">Products</span>
+                </a>
+              </ion-menu-toggle>
+            </li>
+            <li>
+              <ion-menu-toggle>
+                <a routerLink="/tabs/find-us" class="menu-item">
+                  <ion-icon name="location-outline" class="menu-icon"></ion-icon>
+                  <span class="menu-label">Find Us</span>
+                </a>
+              </ion-menu-toggle>
+            </li>
+            <li>
+              <ion-menu-toggle>
+                <a routerLink="/tabs/contact-us" class="menu-item">
+                  <ion-icon name="mail-outline" class="menu-icon"></ion-icon>
+                  <span class="menu-label">Contact Us</span>
+                </a>
+              </ion-menu-toggle>
+            </li>
+            <li>
+              <ion-menu-toggle>
+                <a routerLink="/tabs/settings" class="menu-item">
+                  <ion-icon name="settings-outline" class="menu-icon"></ion-icon>
+                  <span class="menu-label">Settings</span>
+                </a>
+              </ion-menu-toggle>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+</ion-app>

@@ -1,0 +1,412 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-button slot="start" fill="clear" (click)="goBack()">
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-button>
+    <ion-title>Checkout</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Checkout</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Loading State -->
+  @if (isInitializing()) {
+  <div class="loading-container ion-padding">
+    <ion-spinner name="crescent"></ion-spinner>
+    <ion-text color="medium">
+      <p>Loading checkout...</p>
+    </ion-text>
+  </div>
+  }
+
+  <!-- Error State -->
+  @if (initializationError() && !isInitializing()) {
+  <div class="ion-padding">
+    <ion-card color="danger">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          Checkout Error
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{ initializationError() }}</p>
+        <ion-button expand="block" class="ion-margin-top" (click)="goToCart()">
+          <ion-icon name="cart-outline" slot="start"></ion-icon>
+          Go to Cart
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  }
+
+  <!-- Checkout Content -->
+  @if (!isInitializing() && !initializationError()) {
+  <div class="checkout-container">
+    <!-- Main Checkout Form Area -->
+    <div class="checkout-form">
+
+      <!-- Section 1: Customer Email (Guest Only) -->
+      @if (isGuestFlow()) {
+      <div id="section-email">
+        <app-checkout-section title="Customer Information" icon="person-outline"
+          [isCompleted]="isEmailSectionComplete()" [hasError]="hasEmailError()">
+          <ion-item [class.ion-invalid]="hasEmailError()">
+            <ion-label position="stacked">Email Address *</ion-label>
+            <ion-input type="email" placeholder="your@email.com" [value]="guestEmail()"
+              (ionInput)="onEmailChange($event)" required>
+            </ion-input>
+          </ion-item>
+          @if (hasEmailError()) {
+          <ion-text color="danger">
+            <p class="error-message">Please enter a valid email address</p>
+          </ion-text>
+          }
+        </app-checkout-section>
+      </div>
+      }
+
+      <!-- Section 2: Shipping Address -->
+      <div id="section-shipping">
+        <app-checkout-section title="Shipping Address" icon="location-outline"
+          [isCompleted]="isShippingAddressComplete()" [hasError]="hasShippingAddressError()">
+
+          @if (isLoggedInFlow()) {
+          <!-- Logged-in: Show saved address summary -->
+          @if (selectedShippingAddress()) {
+          <app-address-summary [address]="selectedShippingAddress()!" addressType="shipping" [isSelected]="true"
+            (edit)="onEditAddress('shipping')">
+          </app-address-summary>
+          } @else {
+          <ion-text color="medium">
+            <p class="placeholder-text">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              No saved addresses found. Please add a shipping address.
+            </p>
+          </ion-text>
+          <ion-button expand="block" fill="outline" (click)="onEditAddress('shipping')">
+            <ion-icon name="add-outline" slot="start"></ion-icon>
+            Add Shipping Address
+          </ion-button>
+          }
+          }
+
+          @if (isGuestFlow()) {
+          <!-- Guest: Show address form -->
+          <app-address-form addressType="shipping" [required]="true" [showEmail]="false" [showCompany]="true"
+            [initialData]="shippingAddressData() || undefined" (formData)="onShippingAddressChange($event)"
+            (formValid)="onShippingAddressValidityChange($event)">
+          </app-address-form>
+          }
+        </app-checkout-section>
+      </div>
+
+      <!-- Section 3: Billing Address -->
+      <div id="section-billing">
+        <app-checkout-section title="Billing Address" icon="card-outline" [isCompleted]="isBillingAddressComplete()"
+          [hasError]="hasBillingAddressError()">
+
+          <!-- Same as Shipping Toggle -->
+          <ion-item>
+            <ion-label>Use same address for billing</ion-label>
+            <ion-toggle [checked]="useSameAddressForBilling()" (ionChange)="onSameAddressToggle($event)">
+            </ion-toggle>
+          </ion-item>
+
+          @if (!useSameAddressForBilling()) {
+          @if (isLoggedInFlow()) {
+          <!-- Logged-in: Show saved address summary -->
+          @if (selectedBillingAddress()) {
+          <app-address-summary [address]="selectedBillingAddress()!" addressType="billing" [isSelected]="true"
+            (edit)="onEditAddress('billing')">
+          </app-address-summary>
+          } @else {
+          <ion-text color="medium">
+            <p class="placeholder-text">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              No saved addresses found. Please add a billing address.
+            </p>
+          </ion-text>
+          <ion-button expand="block" fill="outline" (click)="onEditAddress('billing')">
+            <ion-icon name="add-outline" slot="start"></ion-icon>
+            Add Billing Address
+          </ion-button>
+          }
+          }
+
+          @if (isGuestFlow()) {
+          <!-- Guest: Show address form -->
+          <app-address-form addressType="billing" [required]="true" [showEmail]="false" [showCompany]="true"
+            [initialData]="billingAddressData() || undefined" (formData)="onBillingAddressChange($event)"
+            (formValid)="onBillingAddressValidityChange($event)">
+          </app-address-form>
+          }
+          } @else {
+          <ion-text color="success">
+            <p class="same-address-message">
+              <ion-icon name="checkmark-circle-outline"></ion-icon>
+              Billing address will be the same as shipping address
+            </p>
+          </ion-text>
+          }
+        </app-checkout-section>
+      </div>
+
+      <!-- Section 4: Shipping Method -->
+      <div id="section-shipping-method">
+        <app-checkout-section title="Shipping Method" icon="rocket-outline" [isCompleted]="isShippingMethodSelected()"
+          [hasError]="hasShippingMethodError()">
+
+          <!-- Loading State -->
+          @if (isLoadingShippingOptions()) {
+          <div class="loading-section">
+            <ion-spinner name="crescent"></ion-spinner>
+            <ion-text color="medium">
+              <p>Loading shipping options...</p>
+            </ion-text>
+          </div>
+          }
+
+          <!-- Error State -->
+          @if (shippingOptionsError() && !isLoadingShippingOptions()) {
+          <ion-text color="danger">
+            <p class="error-message">
+              <ion-icon name="alert-circle-outline"></ion-icon>
+              {{ shippingOptionsError() }}
+            </p>
+          </ion-text>
+          }
+
+          <!-- No Shipping Address Yet -->
+          @if (!isShippingAddressComplete() && !isLoadingShippingOptions() && !shippingOptionsError()) {
+          <ion-text color="medium">
+            <p class="placeholder-text">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              Please complete the shipping address to see available shipping options
+            </p>
+          </ion-text>
+          }
+
+          <!-- Shipping Options List -->
+          @if (shippingOptions().length > 0 && !isLoadingShippingOptions()) {
+          <ion-radio-group [value]="selectedShippingOption()?.id" (ionChange)="onShippingMethodSelect($event)">
+            <ion-list>
+              @for (option of shippingOptions(); track option.id) {
+              <ion-item>
+                <ion-radio [value]="option.id" labelPlacement="end">
+                  <div class="shipping-option">
+                    <div class="option-name">{{ option.name }}</div>
+                    <div class="option-details">
+                      <span class="price">
+                        @if ((option.calculated_amount ?? option.amount ?? 0) === 0) {
+                          Free
+                        } @else if (option.price_type === 'calculated' && !option.calculated_amount && option.calculation_error) {
+                          Price unavailable
+                        } @else {
+                          {{ (option.calculated_amount ?? option.amount ?? 0) | medusaCurrency: (viewState?.cart?.region?.currency_code) }}
+                        }
+                      </span>
+                      <span class="delivery-time">{{ getEstimatedDelivery(option) }}</span>
+                    </div>
+                  </div>
+                </ion-radio>
+              </ion-item>
+              }
+            </ion-list>
+          </ion-radio-group>
+          }
+
+          @if (hasShippingMethodError()) {
+          <ion-text color="danger">
+            <p class="error-message">Failed to add shipping method. Please try again.</p>
+          </ion-text>
+          }
+        </app-checkout-section>
+      </div>
+
+      <!-- Section 5: Payment Method -->
+      <div id="section-payment">
+        <app-checkout-section title="Payment Method" icon="wallet-outline" [isCompleted]="isPaymentMethodSelected()"
+          [hasError]="hasPaymentMethodError()">
+
+          <!-- No Shipping Method Selected Yet -->
+          @if (!isShippingMethodSelected() && paymentProviders().length === 0) {
+          <ion-text color="medium">
+            <p class="placeholder-text">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              Please select a shipping method to see available payment options
+            </p>
+          </ion-text>
+          }
+
+          <!-- No Payment Providers Available -->
+          @if (isShippingMethodSelected() && paymentProviders().length === 0) {
+          <ion-text color="medium">
+            <p class="placeholder-text">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              No payment providers available. Please ensure your cart has valid items and addresses.
+            </p>
+          </ion-text>
+          }
+
+          <!-- Payment Providers List -->
+          @if (paymentProviders().length > 0) {
+          <ion-radio-group [value]="selectedPaymentProvider()" (ionChange)="onPaymentMethodSelect($event)">
+            <ion-list>
+              @for (provider of paymentProviders(); track provider.id) {
+              <ion-item>
+                <ion-radio [value]="provider.id" labelPlacement="end">
+                  <div class="payment-option">
+                    <div class="payment-icon">
+                      @if (provider.id === 'stripe' || provider.id === 'pp_stripe_stripe') {
+                      <ion-icon name="card-outline"></ion-icon>
+                      } @else if (provider.id === 'paypal') {
+                      <ion-icon name="logo-paypal"></ion-icon>
+                      } @else {
+                      <ion-icon name="wallet-outline"></ion-icon>
+                      }
+                    </div>
+                    <div class="payment-details">
+                      <div class="payment-name">{{ getPaymentProviderName(provider.id) }}</div>
+                      <div class="payment-description">{{ getPaymentProviderDescription(provider.id) }}</div>
+                    </div>
+                  </div>
+                </ion-radio>
+              </ion-item>
+              }
+            </ion-list>
+          </ion-radio-group>
+          }
+
+          @if (hasPaymentMethodError()) {
+          <ion-text color="danger">
+            <p class="error-message">
+              <ion-icon name="alert-circle-outline"></ion-icon>
+              Failed to set payment method. Please try again.
+            </p>
+          </ion-text>
+          }
+        </app-checkout-section>
+      </div>
+
+      <!-- Complete Order Button -->
+      <div class="complete-order-section">
+        <ion-button expand="block" size="large" [disabled]="!isCheckoutReady() || isCompletingCheckout()"
+          (click)="completeCheckout()">
+          @if (isCompletingCheckout()) {
+          <ion-spinner name="crescent" slot="start"></ion-spinner>
+          Processing...
+          } @else {
+          <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+          Complete Order
+          }
+        </ion-button>
+
+        @if (checkoutError()) {
+        <ion-text color="danger">
+          <p class="error-message">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            {{ checkoutError() }}
+          </p>
+        </ion-text>
+        }
+
+        @if (!isCheckoutReady() && !checkoutError()) {
+        <ion-text color="medium">
+          <p class="checkout-hint">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            Complete all sections above to proceed with checkout
+          </p>
+        </ion-text>
+        }
+      </div>
+    </div>
+
+    <!-- Order Summary (Sticky on Desktop) -->
+    <div class="order-summary">
+      <app-checkout-section title="Order Summary" icon="receipt-outline" [isCompleted]="false" [hasError]="false">
+
+        <!-- Cart Items -->
+        @if (cartItems().length > 0) {
+        <div class="cart-items-list">
+          <ion-text color="medium">
+            <p class="items-header">
+              <ion-icon name="cart-outline"></ion-icon>
+              {{ cartItemsCount() }} {{ cartItemsCount() === 1 ? 'Item' : 'Items' }}
+            </p>
+          </ion-text>
+
+          @for (item of cartItems(); track item.id) {
+          <div class="cart-item">
+            <div class="item-image">
+              <img [src]="getProductImageUrl(item)" [alt]="getProductTitle(item)" />
+            </div>
+            <div class="item-details">
+              <div class="item-title">{{ getProductTitle(item) }}</div>
+              @if (getVariantTitle(item)) {
+              <div class="item-variant">{{ getVariantTitle(item) }}</div>
+              }
+              <div class="item-quantity">Qty: {{ item.quantity }}</div>
+            </div>
+            <div class="item-price">
+              
+              {{ (item.total || 0) | medusaCurrency: (viewState?.cart?.region?.currency_code) }} <br/>
+              {{ 1000 | medusaCurrency: viewState?.cart?.region?.currency_code }}
+
+              {{ viewState?.cart?.region?.currency_code | json }}
+              <br/>
+              {{ item.total | json }}
+            </div>
+          </div>
+          }
+        </div>
+
+        <div class="summary-divider"></div>
+        }
+
+        <!-- Order Summary Totals -->
+        <div class="summary-content">
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span>{{ cartSubtotal() | medusaCurrency: (viewState?.cart?.region?.currency_code) }}</span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span>
+              @if (isShippingMethodSelected()) {
+              {{ cartShippingTotal() | medusaCurrency: (viewState?.cart?.region?.currency_code) }}
+              } @else {
+              <ion-text color="medium">Not selected</ion-text>
+              }
+            </span>
+          </div>
+          <div class="summary-row">
+            <span>Tax</span>
+            <span>{{ cartTaxTotal() | medusaCurrency: (viewState?.cart?.region?.currency_code) }}</span>
+          </div>
+          <div class="summary-divider"></div>
+          <div class="summary-row total">
+            <span><strong>Total</strong></span>
+            {{ cartTotal() | json }}
+            <span><strong>{{ cartTotal() | medusaCurrency: (viewState?.cart?.region?.currency_code) }}</strong></span>
+          </div>
+        </div>
+
+        @if (cartItems().length === 0) {
+        <ion-text color="medium">
+          <p class="empty-cart-message">
+            <ion-icon name="cart-outline"></ion-icon>
+            Your cart is empty
+          </p>
+        </ion-text>
+        }
+      </app-checkout-section>
+    </div>
+  </div>
+  }
+</ion-content>

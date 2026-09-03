@@ -1,0 +1,76 @@
+{
+  "name": "medusa-documents",
+  "version": "0.2.11",
+  "description": "Generate documents from Medusa",
+  "author": "RSC Labs (https://rsoftcon.com)",
+  "license": "MIT",
+  "main": "./.medusa/server/src/index.js",
+  "files": [
+    ".medusa/server"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RSC-Labs/medusa-documents"
+  },
+  "keywords": [
+    "medusa-plugin",
+    "medusa-v2",
+    "medusa-plugin-documents",
+    "documents",
+    "invoice",
+    "pdf"
+  ],
+  "scripts": {
+    "build": "medusa plugin:build && npm run copy-assets",
+    "copy-assets": "cp -r src/modules/documents/assets .medusa/server/src/modules/documents/ 2>/dev/null || true",
+    "dev": "medusa plugin:develop",
+    "prepublishOnly": "sh -c 'if [ -n \"$SKIP_PREPUBLISH\" ]; then exit 0; else medusa plugin:build && npm run copy-assets; fi'",
+    "deploy": "npm run build && SKIP_PREPUBLISH=1 yalc publish",
+    "publish:yalc": "npx yalc publish"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^6.4.1",
+    "clsx": "^2.1.1",
+    "i18next": "23.15.1",
+    "lodash": "4.17.21",
+    "moment": "^2.30.1",
+    "pdfkit": "0.15.0",
+    "react-hook-form": "^7.49.2",
+    "react-table": "^7.8.0"
+  },
+  "peerDependencies": {
+    "@medusajs/admin-sdk": "^2.12.3",
+    "@medusajs/cli": "^2.12.3",
+    "@medusajs/framework": "^2.12.3",
+    "@medusajs/icons": "^2.12.0",
+    "@medusajs/medusa": "^2.12.3",
+    "@medusajs/test-utils": "^2.12.3",
+    "@medusajs/ui": "^4.0.12",
+    "@mikro-orm/cli": "6.4.3",
+    "@mikro-orm/core": "6.4.3",
+    "@mikro-orm/knex": "6.4.3",
+    "@mikro-orm/migrations": "6.4.3",
+    "@mikro-orm/postgresql": "6.4.3",
+    "awilix": "^8.0.1",
+    "pg": "^8.13.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    "./workflows": "./.medusa/server/src/workflows/index.js",
+    "./.medusa/server/src/modules/*": "./.medusa/server/src/modules/*/index.js",
+    "./modules/*": "./.medusa/server/src/modules/*/index.js",
+    "./providers/*": "./.medusa/server/src/providers/*/index.js",
+    "./*": "./.medusa/server/src/*.js",
+    "./admin": {
+      "import": "./.medusa/server/src/admin/index.mjs",
+      "require": "./.medusa/server/src/admin/index.js",
+      "default": "./.medusa/server/src/admin/index.js"
+    }
+  },
+  "yalcSig": "5a33baa7fd07710457d4c9bad3dddae9"
+}

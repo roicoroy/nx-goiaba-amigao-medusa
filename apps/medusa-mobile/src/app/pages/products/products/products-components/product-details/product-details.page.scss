@@ -1,0 +1,16 @@
+// Product Details Page
+// Most styling is now handled by Tailwind CSS classes in the template.
+
+// Ionic component overrides
+ion-content {
+  --padding-top: var(--ion-safe-area-top);
+  --padding-bottom: var(--ion-safe-area-bottom);
+}
+
+ion-grid {
+  --padding: 0;
+}
+
+ion-card {
+  --box-shadow: none;
+}

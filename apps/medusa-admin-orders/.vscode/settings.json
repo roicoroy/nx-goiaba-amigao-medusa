@@ -1,0 +1,27 @@
+{
+  "typescript.preferences.autoImportFileExcludePatterns": [
+    "@ionic/angular/common",
+    "@ionic/angular"
+  ],
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#efa5cc",
+    "activityBar.background": "#efa5cc",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#538718",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "commandCenter.border": "#15202b99",
+    "sash.hoverBorder": "#efa5cc",
+    "statusBar.background": "#e879b3",
+    "statusBar.foreground": "#15202b",
+    "statusBarItem.hoverBackground": "#e14d9a",
+    "statusBarItem.remoteBackground": "#e879b3",
+    "statusBarItem.remoteForeground": "#15202b",
+    "titleBar.activeBackground": "#e879b3",
+    "titleBar.activeForeground": "#15202b",
+    "titleBar.inactiveBackground": "#e879b399",
+    "titleBar.inactiveForeground": "#15202b99"
+  },
+  "peacock.color": "#e879b3",
+  "html.autoClosingTags": false
+}

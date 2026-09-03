@@ -1,0 +1,16 @@
+/**
+ * Order Review Page Styles
+ * Aligned with home page structure
+ */
+
+// iOS Safari specific fixes
+@supports (-webkit-touch-callout: none) {
+  .order-review-content {
+    -webkit-overflow-scrolling: touch;
+    background-color: white;
+  }
+  
+  .order-review-content::part(scroll) {
+    background-color: white;
+  }
+}

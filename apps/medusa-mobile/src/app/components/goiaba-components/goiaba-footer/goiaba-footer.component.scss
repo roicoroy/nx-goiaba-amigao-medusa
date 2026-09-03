@@ -1,0 +1,19 @@
+/**
+ * Goiaba Footer Component Styles
+ * Component-level styles for reusable footer across all pages
+ */
+
+// Component host styles
+:host {
+  display: block;
+  width: 100%;
+}
+
+.footer {
+  // Add bottom safe area padding for home indicator
+  padding-bottom: calc(3rem + var(--ion-safe-area-bottom, env(safe-area-inset-bottom)));
+  
+  @media (min-width: 768px) {
+    padding-bottom: calc(4rem + var(--ion-safe-area-bottom, env(safe-area-inset-bottom)));
+  }
+}

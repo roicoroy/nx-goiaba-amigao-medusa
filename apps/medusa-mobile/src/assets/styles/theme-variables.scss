@@ -1,0 +1,318 @@
+/**
+ * Theme Variables
+ * CSS Custom Properties for dynamic theming
+ * These variables are updated by the ThemeService when themes change
+ */
+
+:root {
+  /* Primary Color Scale */
+  --goiaba-color-primary-50: #FFF7F3;
+  --goiaba-color-primary-100: #FFEDE6;
+  --goiaba-color-primary-200: #FFD4C2;
+  --goiaba-color-primary-300: #FFBB9E;
+  --goiaba-color-primary-400: #FF8956;
+  --goiaba-color-primary-500: #FF6B35;
+  --goiaba-color-primary-600: #E55A2B;
+  --goiaba-color-primary-700: #CC4A21;
+  --goiaba-color-primary-800: #B23A17;
+  --goiaba-color-primary-900: #992A0D;
+  --goiaba-color-primary-950: #7A1F08;
+
+  /* Background Colors */
+  --goiaba-color-background-primary: #F9FAFB;
+  --goiaba-color-background-secondary: #F3F4F6;
+  --goiaba-color-background-tertiary: #E5E7EB;
+
+  /* Text Colors */
+  --goiaba-color-text-primary: #111827;
+  --goiaba-color-text-secondary: #374151;
+  --goiaba-color-text-tertiary: #6B7280;
+  --goiaba-color-text-inverse: #F9FAFB;
+
+  /* Surface Colors */
+  --goiaba-color-surface-primary: #FFFFFF;
+  --goiaba-color-surface-secondary: #F9FAFB;
+  --goiaba-color-surface-tertiary: #F3F4F6;
+  --goiaba-color-surface-elevated: #FFFFFF;
+
+  /* Border Colors */
+  --goiaba-color-border-primary: #E5E7EB;
+  --goiaba-color-border-secondary: #D1D5DB;
+  --goiaba-color-border-focus: #FF6B35;
+
+  /* Semantic Colors */
+  --goiaba-color-success: #22C55E;
+  --goiaba-color-warning: #F59E0B;
+  --goiaba-color-error: #EF4444;
+  --goiaba-color-info: #3B82F6;
+
+  /* Typography */
+  --goiaba-font-family-sans: Inter, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif;
+  --goiaba-font-family-mono: SF Mono, Monaco, Inconsolata, Roboto Mono, monospace;
+
+  /* Spacing Scale */
+  --goiaba-spacing-1: 0.25rem;    /* 4px */
+  --goiaba-spacing-2: 0.5rem;     /* 8px */
+  --goiaba-spacing-3: 0.75rem;    /* 12px */
+  --goiaba-spacing-4: 1rem;       /* 16px */
+  --goiaba-spacing-6: 1.5rem;     /* 24px */
+  --goiaba-spacing-8: 2rem;       /* 32px */
+  --goiaba-spacing-12: 3rem;      /* 48px */
+  --goiaba-spacing-16: 4rem;      /* 64px */
+  --goiaba-spacing-20: 5rem;      /* 80px */
+  --goiaba-spacing-24: 6rem;      /* 96px */
+
+  /* Shadow Scale */
+  --goiaba-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --goiaba-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --goiaba-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --goiaba-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  /* Border Radius Scale */
+  --goiaba-border-radius-sm: 0.125rem;   /* 2px */
+  --goiaba-border-radius-md: 0.375rem;   /* 6px */
+  --goiaba-border-radius-lg: 0.5rem;     /* 8px */
+  --goiaba-border-radius-xl: 0.75rem;    /* 12px */
+}
+
+/* Dark theme overrides (applied by ThemeService) */
+/* CSS variables MUST be on html element for Ionic */
+html.ion-palette-dark,
+html:has(body.dark) {
+  /* Background Colors - Dark (improved hierarchy and contrast) */
+  --goiaba-color-background-primary: #0A0A0A;        /* Deeper black for main bg */
+  --goiaba-color-background-secondary: #121212;      /* App-dark color */
+  --goiaba-color-background-tertiary: #1A1A1A;       /* Lighter raised surfaces */
+
+  /* Text Colors - Dark (better contrast ratios) */
+  --goiaba-color-text-primary: #FAFAFA;              /* Brighter white for headings */
+  --goiaba-color-text-secondary: #E5E5E5;            /* Light gray for body text */
+  --goiaba-color-text-tertiary: #A3A3A3;             /* Muted for less important text */
+  --goiaba-color-text-inverse: #0A0A0A;              /* For text on light backgrounds */
+
+  /* Surface Colors - Dark (clear elevation hierarchy) */
+  --goiaba-color-surface-primary: #171717;           /* Cards and containers */
+  --goiaba-color-surface-secondary: #1F1F1F;         /* Elevated cards */
+  --goiaba-color-surface-tertiary: #262626;          /* Highest elevation */
+  --goiaba-color-surface-elevated: #2A2A2A;          /* Modals, popups */
+
+  /* Border Colors - Dark (subtle but visible) */
+  --goiaba-color-border-primary: #2A2A2A;            /* Subtle borders */
+  --goiaba-color-border-secondary: #404040;          /* More prominent borders */
+  --goiaba-color-border-focus: #FF8956;              /* Orange for focus states */
+
+  /* Enhanced shadows for dark mode depth */
+  --goiaba-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --goiaba-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+  --goiaba-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.5);
+  --goiaba-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 10px 10px -5px rgba(0, 0, 0, 0.6);
+}
+
+/**
+ * Theme-aware utility classes
+ * These classes use the CSS custom properties for dynamic theming
+ */
+
+/* Background utilities */
+.bg-theme-primary {
+  background-color: var(--goiaba-color-background-primary);
+}
+
+.bg-theme-secondary {
+  background-color: var(--goiaba-color-background-secondary);
+}
+
+.bg-theme-surface {
+  background-color: var(--goiaba-color-surface-primary);
+}
+
+.bg-theme-surface-elevated {
+  background-color: var(--goiaba-color-surface-elevated);
+}
+
+/* Text utilities */
+.text-theme-primary {
+  color: var(--goiaba-color-text-primary);
+}
+
+.text-theme-secondary {
+  color: var(--goiaba-color-text-secondary);
+}
+
+.text-theme-tertiary {
+  color: var(--goiaba-color-text-tertiary);
+}
+
+/* Border utilities */
+.border-theme-primary {
+  border-color: var(--goiaba-color-border-primary);
+}
+
+.border-theme-secondary {
+  border-color: var(--goiaba-color-border-secondary);
+}
+
+.border-theme-focus {
+  border-color: var(--goiaba-color-border-focus);
+}
+
+/* Shadow utilities */
+.shadow-theme-sm {
+  box-shadow: var(--goiaba-shadow-sm);
+}
+
+.shadow-theme-md {
+  box-shadow: var(--goiaba-shadow-md);
+}
+
+.shadow-theme-lg {
+  box-shadow: var(--goiaba-shadow-lg);
+}
+
+.shadow-theme-xl {
+  box-shadow: var(--goiaba-shadow-xl);
+}
+
+/* Spacing utilities using theme variables */
+.p-theme-1 {
+  padding: var(--goiaba-spacing-1);
+}
+
+.p-theme-2 {
+  padding: var(--goiaba-spacing-2);
+}
+
+.p-theme-3 {
+  padding: var(--goiaba-spacing-3);
+}
+
+.p-theme-4 {
+  padding: var(--goiaba-spacing-4);
+}
+
+.m-theme-1 {
+  margin: var(--goiaba-spacing-1);
+}
+
+.m-theme-2 {
+  margin: var(--goiaba-spacing-2);
+}
+
+.m-theme-3 {
+  margin: var(--goiaba-spacing-3);
+}
+
+.m-theme-4 {
+  margin: var(--goiaba-spacing-4);
+}
+
+/* Border radius utilities */
+.rounded-theme-sm {
+  border-radius: var(--goiaba-border-radius-sm);
+}
+
+.rounded-theme-md {
+  border-radius: var(--goiaba-border-radius-md);
+}
+
+.rounded-theme-lg {
+  border-radius: var(--goiaba-border-radius-lg);
+}
+
+.rounded-theme-xl {
+  border-radius: var(--goiaba-border-radius-xl);
+}
+
+/**
+ * Component-specific theme utilities
+ */
+
+/* Card theming */
+.card-theme {
+  background-color: var(--goiaba-color-surface-primary);
+  border: 1px solid var(--goiaba-color-border-primary);
+  box-shadow: var(--goiaba-shadow-sm);
+  border-radius: var(--goiaba-border-radius-lg);
+  color: var(--goiaba-color-text-primary);
+}
+
+.card-theme-elevated {
+  background-color: var(--goiaba-color-surface-elevated);
+  box-shadow: var(--goiaba-shadow-md);
+}
+
+/* Button theming */
+.btn-theme-primary {
+  background-color: var(--goiaba-color-primary-500);
+  color: white;
+  border: none;
+  border-radius: var(--goiaba-border-radius-md);
+  padding: var(--goiaba-spacing-2) var(--goiaba-spacing-4);
+  font-family: var(--goiaba-font-family-sans);
+  transition: background-color 0.2s ease;
+}
+
+.btn-theme-primary:hover {
+  background-color: var(--goiaba-color-primary-600);
+}
+
+.btn-theme-secondary {
+  background-color: var(--goiaba-color-surface-secondary);
+  color: var(--goiaba-color-text-primary);
+  border: 1px solid var(--goiaba-color-border-primary);
+  border-radius: var(--goiaba-border-radius-md);
+  padding: var(--goiaba-spacing-2) var(--goiaba-spacing-4);
+  font-family: var(--goiaba-font-family-sans);
+  transition: all 0.2s ease;
+}
+
+.btn-theme-secondary:hover {
+  background-color: var(--goiaba-color-surface-tertiary);
+  border-color: var(--goiaba-color-border-secondary);
+}
+
+/* Input theming */
+.input-theme {
+  background-color: var(--goiaba-color-surface-primary);
+  border: 1px solid var(--goiaba-color-border-primary);
+  border-radius: var(--goiaba-border-radius-md);
+  color: var(--goiaba-color-text-primary);
+  padding: var(--goiaba-spacing-2) var(--goiaba-spacing-3);
+  font-family: var(--goiaba-font-family-sans);
+  transition: border-color 0.2s ease;
+}
+
+.input-theme:focus {
+  outline: none;
+  border-color: var(--goiaba-color-border-focus);
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+/* Navigation theming */
+.nav-theme {
+  background-color: var(--goiaba-color-surface-primary);
+  border-bottom: 1px solid var(--goiaba-color-border-primary);
+  box-shadow: var(--goiaba-shadow-sm);
+}
+
+/* List theming */
+.list-theme {
+  background-color: var(--goiaba-color-surface-primary);
+  border: 1px solid var(--goiaba-color-border-primary);
+  border-radius: var(--goiaba-border-radius-lg);
+}
+
+.list-item-theme {
+  color: var(--goiaba-color-text-primary);
+  border-bottom: 1px solid var(--goiaba-color-border-primary);
+  padding: var(--goiaba-spacing-3) var(--goiaba-spacing-4);
+  transition: background-color 0.2s ease;
+}
+
+.list-item-theme:hover {
+  background-color: var(--goiaba-color-surface-secondary);
+}
+
+.list-item-theme:last-child {
+  border-bottom: none;
+}

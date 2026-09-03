@@ -1,0 +1,38 @@
+<app-goiaba-header titleKey="orders.my_orders" [showMenuButton]="true" [showBackButton]="false"></app-goiaba-header>
+
+<ion-content [fullscreen]="true" class="customer-orders-content">
+  <div class="container mx-auto px-4 py-4">
+    @if (loading) {
+      <div class="loading-container">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p>Loading orders...</p>
+      </div>
+    } @else if (error) {
+      <div class="error-state">
+        <p>{{ error }}</p>
+      </div>
+    } @else if (storeOrders.length === 0) {
+      <div class="empty-state">
+        <p>No orders found</p>
+      </div>
+    } @else {
+      <ion-list>
+        <ion-list-header>
+          <ion-label>Orders</ion-label>
+        </ion-list-header>
+        @for (order of storeOrders; track order.id) {
+          <ion-item button (click)="navigateOrderDetails(order)">
+            <ion-label>
+              <h3>Order #{{ order.display_id }}</h3>
+              <p>{{ order.created_at | date:'mediumDate' }}</p>
+              <p><strong>Status:</strong> {{ order.status }}</p>
+            </ion-label>
+            <ion-label slot="end" color="secondary">
+              {{ order.total | shortNumber | medusaCurrency:order.currency_code }}
+            </ion-label>
+          </ion-item>
+        }
+      </ion-list>
+    }
+  </div>
+</ion-content>

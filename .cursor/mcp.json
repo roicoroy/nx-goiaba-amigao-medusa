@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "nx-mcp": {
+      "command": "npx",
+      "args": [
+        "nx",
+        "mcp"
+      ]
+    },
+    "medusa": {
+      "url": "https://docs.medusajs.com/mcp"
+    },
+    "awesome-ionic-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "awesome-ionic-mcp@latest"
+      ]
+    }
+  }
+}

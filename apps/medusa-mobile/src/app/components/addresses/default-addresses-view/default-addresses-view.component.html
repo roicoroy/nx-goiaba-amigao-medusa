@@ -1,0 +1,35 @@
+<div class="address-view-container">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="6" *ngIf="shippingAddress">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Default Shipping</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <app-address-view [address]="shippingAddress"></app-address-view>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="12" size-md="6" *ngIf="billingAddress">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Default Billing</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <app-address-view [address]="billingAddress"></app-address-view>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div *ngIf="!hasAddresses" class="no-addresses">
+    <p>No addresses found. Please add addresses to continue with checkout.</p>
+  </div>
+
+  <div *ngIf="hasAddresses && !shippingAddress && !billingAddress" class="no-default-address">
+    <p>No default addresses have been set. Please set default shipping and billing addresses.</p>
+  </div>
+</div>

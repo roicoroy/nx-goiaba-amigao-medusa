@@ -1,0 +1,26 @@
+// Product Categories Component
+// Most styling is now handled by Tailwind CSS classes in the template.
+
+// Ionic component overrides
+ion-toolbar {
+  --background: transparent;
+  --border-width: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --min-height: auto;
+}
+
+ion-segment {
+  --background: transparent;
+}
+
+ion-card {
+  --box-shadow: none;
+  
+  img {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+}

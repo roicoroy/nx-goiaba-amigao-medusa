@@ -1,0 +1,22 @@
+<ion-content class="ion-padding">
+  <div class="callback-container">
+    @if (isProcessing) {
+      <div class="processing-state">
+        <ion-spinner name="crescent" color="primary"></ion-spinner>
+        <h2>Completing Google Sign-In...</h2>
+        <p>Please wait while we verify your account</p>
+      </div>
+    }
+    
+    @if (error) {
+      <div class="error-state">
+        <ion-icon name="alert-circle" color="danger"></ion-icon>
+        <h2>Authentication Failed</h2>
+        <ion-text color="danger">
+          <p>{{ error }}</p>
+        </ion-text>
+        <p class="redirect-message">Redirecting you back...</p>
+      </div>
+    }
+  </div>
+</ion-content>

@@ -1,0 +1,203 @@
+<!-- Products Section -->
+<div class="products-container px-4 py-2 max-w-7xl mx-auto">
+  <!-- View Toggle -->
+  <div class="flex justify-center mb-6">
+    <ion-segment [(ngModel)]="viewMode" (ionChange)="onViewModeChange($event)"
+                 class="bg-neutral-100 rounded-2xl p-1 max-w-xs shadow-sm">
+      <ion-segment-button value="grid" class="rounded-xl transition-all duration-200">
+        <ion-icon name="grid-outline" class="mb-1"></ion-icon>
+        <ion-label class="text-sm font-medium">Grid</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="list" class="rounded-xl transition-all duration-200">
+        <ion-icon name="list-outline" class="mb-1"></ion-icon>
+        <ion-label class="text-sm font-medium">List</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <!-- Grid View -->
+  @if (viewMode === 'grid') {
+    <ion-grid class="p-0 max-w-none">
+      <ion-row class="m-0 gap-y-4 sm:gap-y-6">
+        @for (product of productsWithWishlistStatus$ | async; track product.id) {
+          <ion-col size="12" size-sm="6" size-md="4" size-lg="3" size-xl="3" class="px-2 sm:px-3">
+          <ion-card class="product-card bg-white rounded-2xl shadow-lg border-0 overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer h-full" button (click)="detailsPage(product)">
+            <!-- Product Badge -->
+            @if (product.tags?.length) {
+              <div class="absolute top-3 left-3 z-10 flex flex-col gap-2">
+                @if (hasTag(product, 'hot')) {
+                  <ion-badge class="bg-error-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">Hot</ion-badge>
+                }
+                @if (hasTag(product, 'trending')) {
+                  <ion-badge class="bg-warning-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">Trending</ion-badge>
+                }
+                @if (hasTag(product, 'offer')) {
+                  <ion-badge class="bg-success-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">Offer</ion-badge>
+                }
+              </div>
+            }
+
+            <!-- Product Image -->
+            <div class="relative overflow-hidden bg-neutral-50 group">
+              <img [src]="getProductImageUrl(product)"
+                   [alt]="product.title"
+                   class="w-full h-48 sm:h-52 md:h-48 lg:h-52 object-cover transition-transform duration-500 group-hover:scale-110">
+
+              <!-- Quick Actions -->
+              <div class="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <app-goiaba-ion-button
+                  (click)="quickView(product, $event)"
+                  variant="clear"
+                  size="small"
+                  [iconOnly]="true"
+                  iconStart="eye-outline"
+                  customClass="!bg-white/90 backdrop-blur-sm !rounded-full !w-10 !h-10 shadow-lg hover:!bg-goiaba-primary hover:!text-white transition-all duration-200">
+                </app-goiaba-ion-button>
+                <app-goiaba-ion-button
+                  (click)="addToWishlist(product, $event)"
+                  variant="clear"
+                  size="small"
+                  [iconOnly]="true"
+                  [iconStart]="product.isInWishlist ? 'heart' : 'heart-outline'"
+                  [customClass]="product.isInWishlist 
+                    ? '!bg-white/90 backdrop-blur-sm !rounded-full !w-10 !h-10 shadow-lg !text-error-500 hover:!bg-error-500 hover:!text-white transition-all duration-200'
+                    : '!bg-white/90 backdrop-blur-sm !rounded-full !w-10 !h-10 shadow-lg !text-neutral-600 hover:!bg-goiaba-primary hover:!text-white transition-all duration-200'">
+                </app-goiaba-ion-button>
+              </div>
+
+              <!-- Mobile Actions (Always Visible) -->
+              <div class="absolute top-3 right-3 flex flex-col gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
+                <app-goiaba-ion-button
+                  (click)="quickView(product, $event)"
+                  variant="clear"
+                  size="small"
+                  [iconOnly]="true"
+                  iconStart="eye-outline"
+                  customClass="!bg-white/90 backdrop-blur-sm !rounded-full !w-9 !h-9 shadow-lg hover:!bg-goiaba-primary hover:!text-white transition-all duration-200 sm:hidden">
+                </app-goiaba-ion-button>
+                <app-goiaba-ion-button
+                  (click)="addToWishlist(product, $event)"
+                  variant="clear"
+                  size="small"
+                  [iconOnly]="true"
+                  [iconStart]="product.isInWishlist ? 'heart' : 'heart-outline'"
+                  [customClass]="product.isInWishlist 
+                    ? '!bg-white/90 backdrop-blur-sm !rounded-full !w-9 !h-9 shadow-lg !text-error-500 hover:!bg-error-500 hover:!text-white transition-all duration-200 sm:hidden'
+                    : '!bg-white/90 backdrop-blur-sm !rounded-full !w-9 !h-9 shadow-lg !text-neutral-600 hover:!bg-goiaba-primary hover:!text-white transition-all duration-200 sm:hidden'">
+                </app-goiaba-ion-button>
+              </div>
+            </div>
+
+            <!-- Product Content -->
+            <ion-card-content class="p-4 sm:p-5">
+              <!-- Category -->
+              @if (product.collection?.title) {
+                <p class="text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2">
+                  {{ product.collection?.title }}
+                </p>
+              }
+
+              <!-- Title -->
+              <h3 class="text-base sm:text-lg font-semibold text-neutral-900 mb-3 line-clamp-2 leading-tight">{{ product.title }}</h3>
+
+              <!-- Rating -->
+              <div class="flex items-center justify-center gap-2 mb-4">
+                <div class="flex gap-0.5">
+                  <ion-icon name="star" class="text-warning-400 text-sm"></ion-icon>
+                  <ion-icon name="star" class="text-warning-400 text-sm"></ion-icon>
+                  <ion-icon name="star" class="text-warning-400 text-sm"></ion-icon>
+                  <ion-icon name="star" class="text-warning-400 text-sm"></ion-icon>
+                  <ion-icon name="star" class="text-warning-400 text-sm"></ion-icon>
+                </div>
+                <span class="text-sm text-neutral-500 font-medium">(4.5)</span>
+              </div>
+
+              <!-- Price -->
+              <div class="flex items-center justify-center">
+                @if (getProductPrice(product) > 0) {
+                  <span class="text-xl font-bold text-primary-600">
+                    {{ getProductPrice(product) | medusaCurrency }}
+                  </span>
+                }
+              </div>
+            </ion-card-content>
+          </ion-card>
+          </ion-col>
+        }
+      </ion-row>
+    </ion-grid>
+  }
+
+  <!-- List View -->
+  @if (viewMode === 'list') {
+    <div class="space-y-4">
+      @for (product of productsWithWishlistStatus$ | async; track product.id) {
+        <ion-card class="product-list-card bg-white rounded-2xl shadow-md border-0 overflow-hidden hover:shadow-lg transition-all duration-300">
+        <ion-item button (click)="detailsPage(product)" class="--padding-start: 0; --padding-end: 0; --border-color: transparent; --min-height: 120px;">
+          <ion-thumbnail slot="start" class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden ml-4 mr-4 my-4 flex-shrink-0">
+            <img [src]="product.thumbnail || (product.images?.[0]?.url || 'assets/placeholder-product.png')"
+                 [alt]="product.title"
+                 class="w-full h-full object-cover">
+          </ion-thumbnail>
+
+          <ion-label class="py-4">
+            <div class="product-list-content space-y-2">
+              <!-- Category -->
+              @if (product.collection?.title) {
+                <p class="text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                  {{ product.collection?.title }}
+                </p>
+              }
+
+              <!-- Title -->
+              <h2 class="text-lg sm:text-xl font-semibold text-neutral-900 line-clamp-2 leading-tight">{{ product.title }}</h2>
+
+              <!-- Rating -->
+              <div class="flex items-center gap-2">
+                <div class="flex gap-0.5">
+                  <ion-icon name="star" class="text-warning-400 text-xs"></ion-icon>
+                  <ion-icon name="star" class="text-warning-400 text-xs"></ion-icon>
+                  <ion-icon name="star" class="text-warning-400 text-xs"></ion-icon>
+                  <ion-icon name="star" class="text-warning-400 text-xs"></ion-icon>
+                  <ion-icon name="star" class="text-warning-400 text-xs"></ion-icon>
+                </div>
+                <span class="text-xs text-neutral-500 font-medium">(4.5)</span>
+              </div>
+
+              <!-- Description -->
+              @if (product.description) {
+                <p class="text-sm text-neutral-600 leading-relaxed line-clamp-2">
+                  {{ product.description | slice:0:120 }}...
+                </p>
+              }
+
+              <!-- Price -->
+              <div class="flex items-center pt-1">
+                @if (getProductPrice(product) > 0) {
+                  <span class="text-lg sm:text-xl font-bold text-primary-600">
+                    {{ getProductPrice(product) | medusaCurrency }}
+                  </span>
+                }
+              </div>
+            </div>
+          </ion-label>
+
+          <!-- Actions -->
+          <div slot="end" class="flex flex-col items-center justify-center mr-4">
+            <app-goiaba-ion-button
+              (click)="addToWishlist(product, $event)"
+              variant="clear"
+              size="small"
+              [iconOnly]="true"
+              [iconStart]="product.isInWishlist ? 'heart' : 'heart-outline'"
+              [customClass]="product.isInWishlist 
+                ? '!rounded-full !w-12 !h-12 shadow-sm !text-error-500 !bg-error-50 hover:!bg-error-100 transition-all duration-200'
+                : '!rounded-full !w-12 !h-12 shadow-sm !text-neutral-500 !bg-neutral-50 hover:!bg-neutral-100 transition-all duration-200'">
+            </app-goiaba-ion-button>
+          </div>
+        </ion-item>
+        </ion-card>
+      }
+    </div>
+  }
+</div>

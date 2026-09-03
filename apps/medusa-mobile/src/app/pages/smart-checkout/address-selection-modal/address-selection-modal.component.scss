@@ -1,0 +1,126 @@
+.add-address-section {
+  margin-bottom: 20px;
+
+  .add-address-button {
+    --border-radius: 12px;
+    font-weight: 600;
+    height: 48px;
+  }
+}
+
+.address-list {
+  ion-list {
+    background: transparent;
+  }
+
+  .address-item-wrapper {
+    position: relative;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    cursor: pointer;
+    overflow: hidden;
+
+    &.selected {
+      border-color: var(--ion-color-primary);
+      box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.2);
+
+      ::ng-deep app-address-view {
+        ion-item {
+          --background: var(--ion-color-primary-tint);
+        }
+      }
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    ::ng-deep app-address-view {
+      display: block;
+
+      ion-item {
+        --background: var(--ion-card-background, #fff);
+        --border-radius: 12px;
+        --padding-start: 16px;
+        --padding-end: 16px;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+      }
+    }
+
+    .selected-icon {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 28px;
+      z-index: 1;
+      pointer-events: none;
+    }
+  }
+}
+
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  padding: 40px 20px;
+
+  .empty-content {
+    text-align: center;
+    max-width: 320px;
+
+    .empty-icon {
+      font-size: 80px;
+      color: var(--ion-color-medium);
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0 0 12px 0;
+      color: var(--ion-text-color);
+    }
+
+    p {
+      font-size: 14px;
+      color: var(--ion-color-medium);
+      line-height: 1.5;
+      margin: 0 0 24px 0;
+    }
+
+    .add-first-address {
+      --border-radius: 12px;
+      font-weight: 600;
+      height: 48px;
+    }
+  }
+}
+
+// Dark mode adjustments
+@media (prefers-color-scheme: dark) {
+  .address-item-wrapper {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+    &.selected {
+      box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.3);
+    }
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    ::ng-deep app-address-view {
+      ion-item {
+        --background: var(--ion-card-background, #1e1e1e);
+      }
+    }
+  }
+}

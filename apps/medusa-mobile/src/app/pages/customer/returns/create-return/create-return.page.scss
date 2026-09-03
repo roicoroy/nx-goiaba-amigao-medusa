@@ -1,0 +1,130 @@
+.order-item {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  margin-bottom: 8px;
+  --background: transparent;
+  --border: none;
+}
+
+.order-item ion-thumbnail {
+  --size: 60px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.order-item ion-label h3 {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.order-item ion-label p {
+  margin: 2px 0;
+  font-size: 14px;
+  color: var(--ion-color-medium);
+}
+
+.return-item-details {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: var(--ion-color-light);
+  border-radius: 8px;
+}
+
+.return-item-details h4 {
+  margin: 0 0 12px 0;
+  font-weight: 600;
+  color: var(--ion-color-dark);
+}
+
+.return-item-details ion-item {
+  --background: transparent;
+  --border: none;
+  --padding-start: 0;
+  --padding-end: 0;
+  margin-bottom: 12px;
+}
+
+.submit-button {
+  margin: 16px;
+  --border-radius: 8px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  font-weight: 600;
+}
+
+ion-card {
+  margin-bottom: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+ion-card-header {
+  padding: 16px 16px 8px 16px;
+}
+
+ion-card-content {
+  padding: 8px 16px 16px 16px;
+}
+
+ion-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/**
+ * Create Return Page Styles
+ * Aligned with home page structure
+ */
+
+// iOS Safe Area Support for ion-content
+// .create-return-content {
+//   --background: white;
+//   --padding-top: 0;
+//   --padding-bottom: 0;
+//   --padding-start: 0;
+//   --padding-end: 0;
+// }
+
+// iOS Safari specific fixes
+@supports (-webkit-touch-callout: none) {
+  .create-return-content {
+    -webkit-overflow-scrolling: touch;
+    background-color: white;
+  }
+  
+  .create-return-content::part(scroll) {
+    background-color: white;
+  }
+}
+
+ion-list {
+  background: transparent;
+  padding: 0;
+}
+
+ion-footer {
+  background: var(--ion-color-light);
+}
+
+ion-toolbar {
+  --background: var(--ion-color-light);
+}
+
+ion-checkbox {
+  --size: 20px;
+  --checkbox-background-checked: var(--ion-color-primary);
+  --border-color-checked: var(--ion-color-primary);
+}
+
+ion-select {
+  --placeholder-color: var(--ion-color-medium);
+  --placeholder-opacity: 1;
+}
+
+ion-textarea {
+  --placeholder-color: var(--ion-color-medium);
+  --placeholder-opacity: 1;
+} 

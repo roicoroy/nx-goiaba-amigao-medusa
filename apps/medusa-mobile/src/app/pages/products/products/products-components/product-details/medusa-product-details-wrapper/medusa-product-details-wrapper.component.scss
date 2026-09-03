@@ -1,0 +1,31 @@
+// Medusa Product Details Wrapper Component
+// Most styling is now handled by Tailwind CSS classes in the template.
+
+// Ionic component overrides
+ion-accordion-group {
+  width: 100%;
+}
+
+ion-accordion {
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  
+  ion-item[slot="header"] {
+    --background: transparent;
+    --padding-start: 1rem;
+    --padding-end: 1rem;
+    --padding-top: 0.75rem;
+    --padding-bottom: 0.75rem;
+    --min-height: auto;
+  }
+}
+
+ion-chip {
+  font-size: 0.875rem;
+  height: 28px;
+}
+
+ion-spinner {
+  --color: var(--goiaba-color-primary-500);
+}
