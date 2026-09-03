@@ -1,4 +1,4 @@
-import { type WorkflowData, WorkflowResponse, createWorkflow } from '@medusajs/workflows-sdk';
+import { type WorkflowData, WorkflowResponse, createWorkflow } from '@medusajs/framework/workflows-sdk';
 import { createMissingProductReviewStatsStep } from './steps/create-missing-product-review-stats';
 import { recalculateProductReviewStatsStep } from './steps/recalculate-product-review-stats';
 

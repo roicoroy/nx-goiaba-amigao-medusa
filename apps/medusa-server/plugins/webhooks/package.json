@@ -43,13 +43,13 @@
     "resolve:aliases": "tsc --showConfig -p tsconfig.json > tsconfig.resolved.json && tsc-alias -p tsconfig.resolved.json && rimraf tsconfig.resolved.json"
   },
   "devDependencies": {
-    "@medusajs/admin-sdk": "2.7.0",
-    "@medusajs/cli": "2.7.0",
-    "@medusajs/framework": "2.7.0",
-    "@medusajs/icons": "2.7.0",
-    "@medusajs/medusa": "2.7.0",
-    "@medusajs/test-utils": "2.7.0",
-    "@medusajs/ui": "4.0.4",
+    "@medusajs/admin-sdk": "2.12.3",
+    "@medusajs/cli": "2.12.3",
+    "@medusajs/framework": "2.12.3",
+    "@medusajs/icons": "2.12.3",
+    "@medusajs/medusa": "2.12.3",
+    "@medusajs/test-utils": "2.12.3",
+    "@medusajs/ui": "4.0.12",
     "@mikro-orm/cli": "6.4.3",
     "@mikro-orm/core": "6.4.3",
     "@mikro-orm/knex": "6.4.3",
@@ -63,9 +63,8 @@
     "awilix": "^8.0.1",
     "pg": "^8.13.0",
     "prop-types": "^15.8.1",
-    "react": "^19.0.0",
+    "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.10",
     "typescript": "^5.6.2",
@@ -73,13 +72,13 @@
     "yalc": "^1.0.0-pre.53"
   },
   "peerDependencies": {
-    "@medusajs/admin-sdk": "2.7.0",
-    "@medusajs/cli": "2.7.0",
-    "@medusajs/framework": "2.7.0",
-    "@medusajs/icons": "2.7.0",
-    "@medusajs/medusa": "2.7.0",
-    "@medusajs/test-utils": "2.7.0",
-    "@medusajs/ui": "4.0.3",
+    "@medusajs/admin-sdk": "2.12.3",
+    "@medusajs/cli": "2.12.3",
+    "@medusajs/framework": "2.12.3",
+    "@medusajs/icons": "2.12.3",
+    "@medusajs/medusa": "2.12.3",
+    "@medusajs/test-utils": "2.12.3",
+    "@medusajs/ui": "4.0.12",
     "@mikro-orm/cli": "6.4.3",
     "@mikro-orm/core": "6.4.3",
     "@mikro-orm/knex": "6.4.3",
@@ -96,6 +95,7 @@
     "@tanstack/react-table": "^8.21.2",
     "clsx": "^2.1.1",
     "react-hook-form": "^7.54.2",
-    "react-json-view-lite": "^2.3.0"
+    "react-json-view-lite": "^2.3.0",
+    "zod": "^3.23.8"
   }
 }

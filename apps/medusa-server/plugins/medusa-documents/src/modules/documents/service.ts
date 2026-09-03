@@ -10,9 +10,7 @@
  * limitations under the License.
  */
 
-import { MedusaError, MedusaErrorTypes } from "@medusajs/utils"
-import { MedusaService } from "@medusajs/framework/utils"
-import { ModulesSdkUtils } from "@medusajs/framework/utils"
+import { MedusaError, MedusaService, ModulesSdkUtils } from "@medusajs/framework/utils"
 import { Logger, OrderDTO } from "@medusajs/framework/types"
 import DocumentInvoice from "./models/document-invoice";
 import DocumentPackingSlip from "./models/document-packing-slip";

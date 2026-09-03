@@ -1,4 +1,4 @@
-import {  MedusaRequest, MedusaResponse } from '@medusajs/framework/http';
+import { MedusaRequest, MedusaResponse } from '@medusajs/framework/http';
 import { uploadFilesWorkflow } from '@medusajs/medusa/core-flows';
 import { MedusaError } from '@medusajs/framework/utils';
 import { AdminUploadFile } from '@medusajs/framework/types';

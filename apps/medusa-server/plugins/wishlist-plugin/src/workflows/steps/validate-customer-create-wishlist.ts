@@ -1,4 +1,4 @@
-import { MedusaError } from "@medusajs/framework/utils"
+import { MedusaError, ContainerRegistrationKeys } from "@medusajs/framework/utils"
 import { createStep } from "@medusajs/framework/workflows-sdk"
 
 type ValidateCustomerCreateWishlistStepInput = {
@@ -8,7 +8,7 @@ type ValidateCustomerCreateWishlistStepInput = {
 export const validateCustomerCreateWishlistStep = createStep(
   "validate-customer-create-wishlist",
   async ({ customer_id }: ValidateCustomerCreateWishlistStepInput, { container }) => {
-    const query = container.resolve("query")
+    const query: any = container.resolve(ContainerRegistrationKeys.QUERY)
 
     const { data } = await query.graph({
       entity: "wishlist",

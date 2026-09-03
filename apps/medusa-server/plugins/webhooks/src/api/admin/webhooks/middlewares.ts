@@ -22,11 +22,11 @@ export const adminWebhooksRoutesMiddlewares: MiddlewareRoute[] = [
   {
     matcher: "/admin/webhooks",
     method: "POST",
-    middlewares: [validateAndTransformBody(createWebhookDTOSchema)],
+    middlewares: [validateAndTransformBody(createWebhookDTOSchema as any)],
   },
   {
     matcher: "/admin/webhooks/:id",
     method: "PUT",
-    middlewares: [validateAndTransformBody(updateWebhookDTOSchema)],
+    middlewares: [validateAndTransformBody(updateWebhookDTOSchema as any)],
   },
 ];

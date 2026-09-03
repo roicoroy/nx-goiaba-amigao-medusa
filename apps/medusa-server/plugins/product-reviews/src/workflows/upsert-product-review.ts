@@ -1,11 +1,11 @@
-import { transform } from "@medusajs/framework/workflows-sdk";
-import { useQueryGraphStep } from "@medusajs/medusa/core-flows";
 import {
   type WorkflowData,
   WorkflowResponse,
   createWorkflow,
+  transform,
   when,
-} from "@medusajs/workflows-sdk";
+} from "@medusajs/framework/workflows-sdk";
+import { useQueryGraphStep } from "@medusajs/medusa/core-flows";
 import type { ProductReview } from "../modules/product-review/types/common";
 import { createProductReviewsWorkflow } from "./create-product-reviews";
 import { updateProductReviewsWorkflow } from "./update-product-reviews";

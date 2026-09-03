@@ -1,4 +1,4 @@
-import { StepResponse, createStep } from '@medusajs/workflows-sdk';
+import { StepResponse, createStep } from '@medusajs/framework/workflows-sdk';
 import { PRODUCT_REVIEW_MODULE } from '../../modules/product-review';
 import type ProductReviewResponseService from '../../modules/product-review/service';
 import type { CreateProductReviewResponseInput } from '../../modules/product-review/types/mutations';

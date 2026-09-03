@@ -582,7 +582,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
   ];
 
   // Check for existing products by handle
-  const productHandles = ["t-shirt", "sweatshirt", "pants", "merch"];
+  const productHandles = ["t-shirt", "sweatshirt", "sweatpants", "shorts"];
   const { data: existingProducts } = await query.graph({
     entity: "product",
     fields: ["id", "handle"],
@@ -1116,24 +1116,34 @@ export default async function seedDemoData({ container }: ExecArgs) {
 
   const { data: inventoryItems } = await query.graph({
     entity: "inventory_item",
-    fields: ["id"],
+    fields: ["id", "location_levels.*"],
   });
 
   const inventoryLevels: CreateInventoryLevelInput[] = [];
   for (const inventoryItem of inventoryItems) {
-    const inventoryLevel = {
-      location_id: stockLocation.id,
-      stocked_quantity: 1000000,
-      inventory_item_id: inventoryItem.id,
-    };
-    inventoryLevels.push(inventoryLevel);
+    const hasLevel = inventoryItem.location_levels?.some(
+      (l: any) => l.location_id === stockLocation.id
+    );
+    if (!hasLevel) {
+      const inventoryLevel = {
+        location_id: stockLocation.id,
+        stocked_quantity: 1000000,
+        inventory_item_id: inventoryItem.id,
+      };
+      inventoryLevels.push(inventoryLevel);
+    }
   }
 
-  await createInventoryLevelsWorkflow(container).run({
-    input: {
-      inventory_levels: inventoryLevels,
-    },
-  });
+  if (inventoryLevels.length > 0) {
+    await createInventoryLevelsWorkflow(container).run({
+      input: {
+        inventory_levels: inventoryLevels,
+      },
+    });
+    logger.info(`Created ${inventoryLevels.length} new inventory level(s).`);
+  } else {
+    logger.info("All inventory levels already exist, skipping creation.");
+  }
 
   logger.info("Finished seeding inventory levels data.");
 }

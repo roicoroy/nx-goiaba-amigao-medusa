@@ -1,4 +1,5 @@
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
+import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
 import { WISHLIST_MODULE } from "../../modules/wishlist"
 import WishlistModuleService from "../../modules/wishlist/service"
 
@@ -10,7 +11,7 @@ type GetOrCreateWishlistStepInput = {
 export const getOrCreateWishlistStep = createStep(
   "get-or-create-wishlist",
   async (input: GetOrCreateWishlistStepInput, { container }) => {
-    const query = container.resolve("query")
+    const query: any = container.resolve(ContainerRegistrationKeys.QUERY)
     const wishlistModuleService: WishlistModuleService = 
       container.resolve(WISHLIST_MODULE)
 

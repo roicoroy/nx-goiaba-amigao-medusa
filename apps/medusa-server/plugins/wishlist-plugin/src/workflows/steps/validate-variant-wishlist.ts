@@ -1,7 +1,7 @@
 import { InferTypeOf } from "@medusajs/framework/types"
 import { Wishlist } from "../../modules/wishlist/models/wishlist"
 import { createStep } from "@medusajs/framework/workflows-sdk"
-import { MedusaError } from "@medusajs/framework/utils"
+import { MedusaError, ContainerRegistrationKeys } from "@medusajs/framework/utils"
 
 type ValidateVariantWishlistStepInput = {
   variant_id: string
@@ -27,7 +27,7 @@ export const validateVariantWishlistStep = createStep(
     }
 
     // validate that the variant is available in the specified sales channel
-    const query = container.resolve("query")
+    const query: any = container.resolve(ContainerRegistrationKeys.QUERY)
     const { data } = await query.graph({
       entity: "variant",
       fields: ["product.sales_channels.*"],
