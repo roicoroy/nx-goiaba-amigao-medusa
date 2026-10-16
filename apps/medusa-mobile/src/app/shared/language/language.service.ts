@@ -138,13 +138,12 @@ export class LanguageService {
   }
 
   async initTranslate() {
+    this.translate.setDefaultLang('en');
     const savedLanguage = this.store.selectSnapshot<any>((state: any) => state.language);
+    const targetLang = savedLanguage?.language || this.translate.getFallbackLang() || 'en';
+    this.translate.use(targetLang);
     if (!savedLanguage?.language) {
-      const fallbackLang = this.translate.getFallbackLang() || 'en';
-      this.translate.use(fallbackLang);
-      this.store.dispatch(new LanguageActions.SetLanguage(fallbackLang));
-    } else {
-      this.translate.use(savedLanguage.language);
+      this.store.dispatch(new LanguageActions.SetLanguage(targetLang));
     }
 
     // Initialize Medusa locale after setting language

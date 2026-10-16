@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonItem, IonLabel, IonInput, IonButton } from '@ionic/angular/standalone';
 import { Store } from '@ngxs/store';
 import { MedusaCartActions } from 'src/app/store/medusa-cart/medusa-cart.actions';
 
@@ -10,7 +10,7 @@ import { MedusaCartActions } from 'src/app/store/medusa-cart/medusa-cart.actions
   templateUrl: './apply-discount.component.html',
   styleUrls: ['./apply-discount.component.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, IonItem, IonLabel, IonInput, IonButton]
 })
 export class ApplyDiscountComponent {
   private store = inject(Store);

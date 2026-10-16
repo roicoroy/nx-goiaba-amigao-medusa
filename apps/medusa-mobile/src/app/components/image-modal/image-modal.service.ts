@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular/standalone';
 import { ImageModalComponent } from 'src/app/components/image-modal/image-modal.component';
 
 @Injectable({

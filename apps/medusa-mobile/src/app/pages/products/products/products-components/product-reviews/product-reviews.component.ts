@@ -12,7 +12,7 @@ import { OrdersState } from 'src/app/store/orders/orders.state';
 import { OrdersActions } from 'src/app/store/orders/orders.actions';
 import { OrdersFacade } from 'src/app/store/orders/orders.facade';
 import { CreateReviewPayload, MedusaProductReview, MedusaOrder } from 'src/app/shared/interfaces';
-import { AlertController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-product-reviews',

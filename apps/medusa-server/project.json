@@ -100,7 +100,7 @@
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "jest",
+        "command": "NODE_OPTIONS=--experimental-vm-modules jest",
         "cwd": "apps/medusa-server"
       },
       "cache": true,

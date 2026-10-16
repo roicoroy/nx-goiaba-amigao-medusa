@@ -7,6 +7,7 @@ module.exports = {
       "@swc/jest",
       {
         jsc: {
+          target: "es2022",
           parser: { syntax: "typescript", decorators: true },
         },
       },

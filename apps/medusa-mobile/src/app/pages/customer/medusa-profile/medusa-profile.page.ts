@@ -1,14 +1,13 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonButton, IonIcon, IonSegment, IonSegmentButton, IonLabel, IonList, IonItem, IonChip, IonToggle, IonInput, IonCardContent, IonCard, IonSpinner, IonListHeader } from '@ionic/angular/standalone';
+import { IonContent, IonButton, IonIcon, IonSegment, IonSegmentButton, IonLabel, IonList, IonItem, IonChip, IonToggle, IonInput, IonCardContent, IonCard, IonSpinner, IonListHeader, ToastController } from '@ionic/angular/standalone';
 import { Observable, Subject, of } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { takeUntil, take, catchError } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { CustomerDetailsFormComponent } from '../customer-address/customer-details-form/customer-details-form.component';
 import { DefaultAddressesListComponent, DefaultAddressesViewComponent } from 'src/app/components/addresses';
-import { ToastController } from '@ionic/angular';
 import { AuthActions } from 'src/app/store/auth/auth.actions';
 import { ImagePickerComponent } from 'src/app/components/image-picker/image-picker.component';
 import { NavigationService } from 'src/app/shared/navigation/navigation.service';

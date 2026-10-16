@@ -176,7 +176,15 @@
       "@medusajs/orchestration": "2.12.3",
       "@medusajs/test-utils": "2.12.3",
       "@medusajs/types": "2.12.3",
-      "@medusajs/utils": "2.12.3"
+      "@medusajs/utils": "2.12.3",
+      "@medusajs/promotion": "2.12.3",
+      "@medusajs/deps": "2.12.3",
+      "@medusajs/modules-sdk": "2.12.3",
+      "@mikro-orm/core": "6.4.16",
+      "@mikro-orm/knex": "6.4.16",
+      "@mikro-orm/postgresql": "6.4.16",
+      "@mikro-orm/migrations": "6.4.16",
+      "@mikro-orm/cli": "6.4.16"
     }
   }
 }

@@ -69,7 +69,10 @@
     "react-player": "^3.3.3",
     "recharts": "^2.13.3",
     "socket.io": "^4.8.1",
-    "wishlist-plugin": "workspace:*"
+    "wishlist-plugin": "workspace:*",
+    "pg": "^8.16.3",
+    "@mikro-orm/core": "6.4.16",
+    "@mikro-orm/migrations": "6.4.16"
   },
   "devDependencies": {
     "@medusajs/test-utils": "2.12.3",
@@ -84,6 +87,7 @@
     "@types/jest": "^29.5.13",
     "@types/multer": "^2.0.0",
     "@types/node": "^20.0.0",
+    "@types/pg": "^8.11.11",
     "@types/react": "^18.3.2",
     "@types/react-dom": "^18.2.25",
     "@types/socket.io": "^3.0.2",

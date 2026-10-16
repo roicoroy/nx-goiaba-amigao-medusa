@@ -193,7 +193,7 @@
           }
 
           <!-- Shipping Options List -->
-          @if (shippingOptions().length > 0 && !isLoadingShippingOptions()) {
+          @if ((shippingOptions()?.length || 0) > 0 && !isLoadingShippingOptions()) {
           <ion-radio-group [value]="selectedShippingOption()?.id" (ionChange)="onShippingMethodSelect($event)">
             <ion-list>
               @for (option of shippingOptions(); track option.id) {
@@ -235,7 +235,7 @@
           [hasError]="hasPaymentMethodError()">
 
           <!-- No Shipping Method Selected Yet -->
-          @if (!isShippingMethodSelected() && paymentProviders().length === 0) {
+          @if (!isShippingMethodSelected() && (paymentProviders()?.length || 0) === 0) {
           <ion-text color="medium">
             <p class="placeholder-text">
               <ion-icon name="information-circle-outline"></ion-icon>
@@ -245,7 +245,7 @@
           }
 
           <!-- No Payment Providers Available -->
-          @if (isShippingMethodSelected() && paymentProviders().length === 0) {
+          @if (isShippingMethodSelected() && (paymentProviders()?.length || 0) === 0) {
           <ion-text color="medium">
             <p class="placeholder-text">
               <ion-icon name="information-circle-outline"></ion-icon>
@@ -255,7 +255,7 @@
           }
 
           <!-- Payment Providers List -->
-          @if (paymentProviders().length > 0) {
+          @if ((paymentProviders()?.length || 0) > 0) {
           <ion-radio-group [value]="selectedPaymentProvider()" (ionChange)="onPaymentMethodSelect($event)">
             <ion-list>
               @for (provider of paymentProviders(); track provider.id) {
@@ -332,7 +332,7 @@
       <app-checkout-section title="Order Summary" icon="receipt-outline" [isCompleted]="false" [hasError]="false">
 
         <!-- Cart Items -->
-        @if (cartItems().length > 0) {
+        @if ((cartItems()?.length || 0) > 0) {
         <div class="cart-items-list">
           <ion-text color="medium">
             <p class="items-header">
@@ -397,7 +397,7 @@
           </div>
         </div>
 
-        @if (cartItems().length === 0) {
+        @if ((cartItems()?.length || 0) === 0) {
         <ion-text color="medium">
           <p class="empty-cart-message">
             <ion-icon name="cart-outline"></ion-icon>

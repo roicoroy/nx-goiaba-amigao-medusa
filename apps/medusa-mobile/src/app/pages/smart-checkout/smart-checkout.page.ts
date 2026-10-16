@@ -41,6 +41,7 @@ import { CardPaymentModal } from './card-payment-modal/card-payment-modal';
 import { CheckoutSectionComponent } from './checkout-section';
 import { AddressSelectionModalComponent } from './address-selection-modal/address-selection-modal.component';
 import { MedusaCurrency } from '../../shared/pipes/medusa-currency/medusa-currency.pipe';
+import { TranslateModule } from '@ngx-translate/core';
 
 /**
  * SmartCheckoutPage
@@ -61,6 +62,7 @@ export type CheckoutFlowType = 'logged-in' | 'guest';
   standalone: true,
   imports: [
     CommonModule,
+    TranslateModule,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -187,7 +189,7 @@ export class SmartCheckoutPage implements OnInit, OnDestroy {
       this.viewState = state;
 
       // Update payment providers signal from state
-      this.paymentProviders.set(state.paymentProviders);
+      this.paymentProviders.set(state.paymentProviders || []);
 
       // React to cart loading completion - use state instead of redundant queries
       if (this.isInitializing() && state.cart && state.cart.id === this.cartId() && !state.cartLoading) {
@@ -205,11 +207,12 @@ export class SmartCheckoutPage implements OnInit, OnDestroy {
     this.store.select(CheckoutState.getShippingOptions)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(options => {
-        this.shippingOptions.set(options);
+        const opts = options || [];
+        this.shippingOptions.set(opts);
         
         // Check if any options have calculation errors
-        const hasErrors = options.some(opt => opt.calculation_error);
-        if (options.length === 0 && !hasErrors) {
+        const hasErrors = opts.some(opt => opt.calculation_error);
+        if (opts.length === 0 && !hasErrors) {
           this.shippingOptionsError.set('No shipping options available for your address');
         } else if (hasErrors) {
           this.shippingOptionsError.set('Some shipping prices could not be calculated');

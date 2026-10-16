@@ -7,7 +7,7 @@ export const environment = {
   production: false,
   // SECURITY: These values are replaced at build time by scripts/set-env.js
   // For local development, fallback values are used below
-  MEDUSA_PUBLISHABLE_KEY: "pk_13a55fc2e9bf8a99ee5266b05855c46761e41ad0c62996175014628c1ee3fb51",
+  MEDUSA_PUBLISHABLE_KEY: "pk_638b7ed0834ed541daf24ca5d859c8336e0f430766f1ecfb221c422f9d0f0d19",
   MEDUSA_API_BASE_PATH: "http://localhost:9000",
   MEDUSA_BACKEND_URL: "http://localhost:9000",
   // MEDUSA_API_BASE_PATH: "https://fine-currently-gazelle.ngrok-free.app",

@@ -78,8 +78,8 @@ h6,
  */
 
 
-// Import Leaflet CSS from local assets (before main.scss to ensure proper loading)
-@import 'assets/leaflet/dist/leaflet.css';
+// Import Leaflet CSS
+@import 'leaflet/dist/leaflet.css';
 
 // @tailwind base;
 // @tailwind components;

@@ -11,7 +11,7 @@ import { ProductReviewsFacade, IProductReviewsFacadeState } from 'src/app/store/
 import { OrdersFacade } from 'src/app/store/orders/orders.facade';
 import { AuthState } from 'src/app/store/auth/auth.state';
 import { CreateReviewPayload, MedusaProductReview } from 'src/app/shared/interfaces';
-import { AlertController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-goiaba-review',

@@ -9,7 +9,7 @@ import {
   PushNotifications,
   Token,
 } from '@capacitor/push-notifications';
-import { ToastController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular/standalone';
 import { firstValueFrom } from 'rxjs';
 import { MedusaService } from '../api/medusa.service';
 import { AuthState } from '../../store/auth/auth.state';

@@ -30,7 +30,7 @@
         <ion-input
           formControlName="first_name"
           type="text"
-          placeholder="First name"
+          [placeholder]="'address.placeholders.first_name' | translate"
           [clearInput]="true"
           class="text-neutral-900 placeholder:text-neutral-500">
         </ion-input>
@@ -139,7 +139,7 @@
         <ion-input
           formControlName="postal_code"
           type="text"
-          placeholder="Postal code"
+          [placeholder]="'address.placeholders.postal_code' | translate"
           [clearInput]="true"
           class="text-neutral-900 placeholder:text-neutral-500">
         </ion-input>

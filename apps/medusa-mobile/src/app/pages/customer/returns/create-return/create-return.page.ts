@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { IonContent, IonSpinner, IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonList, IonItem, IonCheckbox, IonThumbnail, IonImg, IonLabel, IonText, IonBadge, IonSelect, IonSelectOption, IonTextarea, IonFooter, IonToolbar, IonButton } from '@ionic/angular/standalone';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
@@ -19,7 +19,34 @@ import { GoiabaHeaderComponent } from 'src/app/components/goiaba-components/goia
   templateUrl: './create-return.page.html',
   styleUrls: ['./create-return.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, ReactiveFormsModule, NgxsFormPluginModule, MedusaCurrency, GoiabaHeaderComponent]
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    NgxsFormPluginModule,
+    MedusaCurrency,
+    GoiabaHeaderComponent,
+    IonContent,
+    IonSpinner,
+    IonIcon,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
+    IonList,
+    IonItem,
+    IonCheckbox,
+    IonThumbnail,
+    IonImg,
+    IonLabel,
+    IonText,
+    IonBadge,
+    IonSelect,
+    IonSelectOption,
+    IonTextarea,
+    IonFooter,
+    IonToolbar,
+    IonButton
+  ]
 })
 export class CreateReturnPage implements OnInit, OnDestroy {
   returnForm: FormGroup;

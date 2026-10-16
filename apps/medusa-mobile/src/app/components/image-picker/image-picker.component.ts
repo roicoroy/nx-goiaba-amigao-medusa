@@ -12,10 +12,9 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Capacitor } from '@capacitor/core';
-import { Platform, ActionSheetController } from '@ionic/angular';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
-import { IonImg, IonButton, IonIcon, IonLabel } from '@ionic/angular/standalone';
+import { IonImg, IonButton, IonIcon, IonLabel, Platform, ActionSheetController } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({

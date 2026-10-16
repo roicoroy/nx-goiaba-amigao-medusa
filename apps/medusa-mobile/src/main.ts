@@ -1,7 +1,7 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { RouteReuseStrategy, provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
-import { ModalController } from '@ionic/angular';
+import { LocationStrategy, PathLocationStrategy, IMAGE_CONFIG } from '@angular/common';
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -16,7 +16,6 @@ import { withNgxsRouterPlugin } from '@ngxs/router-plugin';
 import { STATES_MODULES, OPTIONS_CONFIG, STORAGE_MODULES, LOGGER_CONFIG } from './app/store/store.config';
 
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { IMAGE_CONFIG } from '@angular/common';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ErrorInterceptor } from './app/shared/errors/errors.interceptor';
@@ -35,6 +34,15 @@ register();
 
 bootstrapApplication(AppComponent, {
   providers: [
+    // Provide LocationStrategy explicitly to ensure standalone injection context is available for Ionic and Angular location helpers
+    { provide: LocationStrategy, useClass: PathLocationStrategy },
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    provideRouter(routes, withPreloading(PreloadAllModules)),
+    provideIonicAngular({
+      mode: "md",
+      _forceStatusbarPadding: true,
+      swipeBackEnabled: true,
+    }),
     // NGXS Store - using functional API for Angular 21 standalone compatibility
     // Temporarily disabling devtools to test if it's causing injection issues
     provideStore(
@@ -59,30 +67,19 @@ bootstrapApplication(AppComponent, {
     { provide: HTTP_INTERCEPTORS, useClass: MedusaInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideIonicAngular({
-      mode: "md",
-      _forceStatusbarPadding: true,
-      swipeBackEnabled: true,
-      // animated: false,
-    }),
-    provideRouter(routes, withPreloading(PreloadAllModules)),
+    provideAnimations(),
     provideHttpClient(
       withInterceptorsFromDi(),
     ),
-    provideAnimations(),
-    ModalController,
-    IconsService,
-    ThemeService,
     importProvidersFrom(
       SharedModule,
       NgxStripeModule.forRoot(environment.STRIPE_PUBLISHABLE_KEY),
     ),
+    ...provideTranslateHttpLoader({
+      prefix: './assets/i18n/',
+      suffix: '.json',
+    }),
     provideTranslateService({
-      loader: provideTranslateHttpLoader({
-        prefix: './assets/i18n/',
-        suffix: '.json',
-      }),
       fallbackLang: 'en',
     })
   ],

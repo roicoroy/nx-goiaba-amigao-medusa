@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, ViewChild, inject } from '@angular/core';
-import { ModalController } from '@ionic/angular/standalone';
-import { IonicModule } from '@ionic/angular';
+import { ModalController, IonHeader, IonToolbar, IonButtons, IonButton, IonContent, IonRow, IonCol, IonSpinner, IonFooter, IonIcon, IonLabel } from '@ionic/angular/standalone';
 import { NgxStripeModule, StripePaymentElementComponent, StripeService } from 'ngx-stripe';
 import { lastValueFrom, Subject } from 'rxjs';
 import { Router } from '@angular/router';
@@ -15,9 +14,19 @@ import { MedusaCartActions } from 'src/app/store/medusa-cart/medusa-cart.actions
   selector: 'card-payment-modal',
   standalone: true,
   imports: [
-    IonicModule,
     CommonModule,
     NgxStripeModule,
+    IonHeader,
+    IonToolbar,
+    IonButtons,
+    IonButton,
+    IonContent,
+    IonRow,
+    IonCol,
+    IonSpinner,
+    IonFooter,
+    IonIcon,
+    IonLabel
   ],
   templateUrl: './card-payment-modal.html',
   styleUrls: ['./card-payment-modal.scss'],
